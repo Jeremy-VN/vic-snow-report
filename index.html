@@ -133,7 +133,7 @@ tr.past td { opacity: 0.45; }
 <div class="wrap">
   <div class="head">
     <h1>❄️ Victoria Snow Report</h1>
-    <div class="sub">Falls Creek · Mount Hotham · Mount Buller &nbsp;—&nbsp; 15-day forecast + live conditions</div>
+    <div class="sub">Falls Creek · Mount Hotham · Mount Buller &nbsp;—&nbsp; 14-day forecast + live conditions</div>
     <div class="stamp" id="globalstamp"></div>
   </div>
 
@@ -571,8 +571,8 @@ function render(key){
   const _today = new Date(); _today.setHours(0,0,0,0);
   const _MON = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
   const _dayDate = (ds)=>{ const p=String(ds).trim().split(/\s+/); let dt=new Date(_today.getFullYear(), _MON[p[2]], parseInt(p[1],10)); if((dt-_today)/86400000 < -180){ dt=new Date(_today.getFullYear()+1, _MON[p[2]], parseInt(p[1],10)); } return dt; };
-  let _days = m.days.filter(r=> _dayDate(r.d) >= _today);
-  if(!_days.length) _days = m.days; // safety: never blank the table
+  let _days = m.days.filter(r=> _dayDate(r.d) >= _today).slice(0,14);
+  if(!_days.length) _days = m.days.slice(0,14); // safety: never blank the table
   const rows = _days.map(r=>{
     const p = pill[r.lk];
     const z = r.cm.trim().startsWith("0 cm") || r.cm.trim()==="0–1 cm" ? " " : "";
@@ -602,20 +602,20 @@ function render(key){
       <div class="card"><div class="lbl">Next 10 days</div><div class="val">${m.p10.replace(' cm','')}<span class="unit"> cm</span></div></div>
       <div class="card"><div class="lbl">Next 15 days</div><div class="val">${m.p15.replace(' cm','')}<span class="unit"> cm</span></div></div>
     </div>
-    <h2>15-day forecast</h2>
+    <h2>14-day forecast</h2>
     <table>
       <thead><tr><th>Day</th><th>Conditions (AM › Mid › Night)</th><th>Snow</th><th>Snow level</th><th>Likelihood</th><th>Snowmaking</th><th>Wind</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
     <div class="legend">
       <span><i class="sw" style="background:#2e8b57"></i> Days 1–7: firm confidence</span>
-      <span><i class="sw" style="background:#d6a417"></i> Days 8–15: outlook only</span>
+      <span><i class="sw" style="background:#d6a417"></i> Days 8–14: outlook only</span>
       <span><i class="pill p-likely">Likely</i> snow expected</span>
       <span><i class="pill p-possible">Possible</i> chance only</span>
     </div>
     <div class="foot">
       <h3>Sources &amp; method</h3>
-      <p>Forecast: <a href="https://www.snowatch.com.au/15-day-forecasts/${key==='buller'?'mt-buller':key}/" target="_blank" rel="noopener">Snowatch 15-day</a> (Pete "The Frog" Taylor; temp &amp; model data from the <a href="http://www.bom.gov.au/" target="_blank" rel="noopener">BOM</a>). Current conditions: official resort report where auto-readable, otherwise linked above.</p>
+      <p>Forecast: <a href="https://www.snowatch.com.au/15-day-forecasts/${key==='buller'?'mt-buller':key}/" target="_blank" rel="noopener">Snowatch</a> (Pete "The Frog" Taylor; temp &amp; model data from the <a href="http://www.bom.gov.au/" target="_blank" rel="noopener">BOM</a>). Current conditions: official resort report where auto-readable, otherwise linked above.</p>
       <p><strong>Likelihood</strong> graded from Snowatch wording, not invented percentages: <em>High</em> = sustained snow 5 cm+; <em>Likely</em> = light-snow with measurable cm; <em>Possible</em> = "chance"/trace; <em>None</em> = fine/cloudy, 0 cm. <strong>Snowmaking</strong> is Snowatch's daily call (temp/humidity window), not a guarantee guns run. Days 1–7 reliable; 8–15 indicative direction only.</p>
     </div>`;
 }
