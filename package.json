@@ -1,0 +1,7 @@
+{
+  "name": "vic-snow-reports",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Server-side rendered Victorian snow reports (Falls Creek, Hotham, Buller) from Snowatch.",
+  "engines": { "node": ">=18" }
+}

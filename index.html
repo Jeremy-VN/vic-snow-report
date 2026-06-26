@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Victoria Snow Report</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #f4f6f8; color: #16202b; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.45; }
+.wrap { max-width: 1060px; margin: 0 auto; padding: 18px 18px 48px; }
+
+/* Header */
+.head { background: linear-gradient(135deg, #0d3b66 0%, #1b6ca8 100%); color: #fff; border-radius: 14px; padding: 18px 22px; }
+.head h1 { margin: 0 0 3px; font-size: 23px; letter-spacing: -0.3px; }
+.head .sub { font-size: 13px; opacity: 0.92; }
+
+/* Tabs + update row */
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 16px 0 6px; }
+.tabs { display: inline-flex; flex-wrap: wrap; background: #e7edf3; border-radius: 11px; padding: 4px; gap: 3px; }
+.tab { appearance: none; border: 0; background: transparent; color: #45576a; font-weight: 600; font-size: 14px; padding: 8px 16px; border-radius: 8px; cursor: pointer; transition: background .12s, color .12s; }
+.tab:hover { color: #16202b; }
+.tab.active { background: #fff; color: #0d3b66; box-shadow: 0 1px 3px rgba(13,59,102,.18); }
+.spacer { flex: 1 1 auto; }
+.updbtn { appearance: none; border: 1px solid #1b6ca8; background: #1b6ca8; color: #fff; font-weight: 600; font-size: 13.5px; padding: 9px 16px; border-radius: 9px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; }
+.updbtn:hover { background: #15598c; }
+.updbtn:disabled { opacity: .6; cursor: default; }
+.updstatus { font-size: 12.5px; color: #51606e; margin: 2px 2px 0; min-height: 16px; }
+.updstatus.ok { color: #1d6b2a; }
+.updstatus.err { color: #b23b3b; }
+
+/* Stamp + stale */
+.stamp { margin-top: 14px; font-size: 12.5px; color: #51606e; }
+.stamp strong { color: #16202b; }
+#globalstamp { color: #eaf1f8; font-size: 13px; line-height: 1.5; }
+#globalstamp strong { color: #ffffff; font-weight: 700; }
+.stale { background: #ffe6a8; color: #6a4a00; border-radius: 9px; padding: 9px 13px; font-size: 13px; margin: 12px 0 0; border: 1px solid #f0c64c; }
+
+/* Conditions strip */
+.cond { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin: 14px 0 4px; }
+.cbox { background: #fff; border: 1px solid #e3e8ee; border-radius: 11px; padding: 12px 13px; }
+.cbox .lbl { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.5px; color: #6b7785; font-weight: 700; }
+.cbox .val { font-size: 19px; font-weight: 700; margin-top: 3px; color: #0d3b66; line-height: 1.15; }
+.cbox .val small { font-size: 12px; color: #6b7785; font-weight: 600; }
+.cbox .val.muted { color: #9aa6b2; font-weight: 600; font-size: 15px; }
+.condnote { font-size: 12px; color: #6b7785; margin: 8px 2px 0; }
+.condnote a { color: #1b6ca8; }
+
+/* Predicted cards */
+.cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 11px; margin: 14px 0; }
+.card { background: #fff; border: 1px solid #e3e8ee; border-radius: 11px; padding: 13px 14px; }
+.card .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #6b7785; font-weight: 700; }
+.card .val { font-size: 21px; font-weight: 700; margin-top: 3px; color: #0d3b66; }
+.card .unit { font-size: 12.5px; color: #6b7785; font-weight: 500; }
+
+h2 { font-size: 15px; margin: 20px 0 9px; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #e3e8ee; font-size: 13px; }
+th { background: #eef2f6; text-align: left; padding: 9px 10px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; color: #51606e; border-bottom: 1px solid #e3e8ee; }
+td { padding: 9px 10px; border-bottom: 1px solid #eef1f4; vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+tr.firm td:first-child { border-left: 4px solid #2e8b57; }
+tr.low td:first-child { border-left: 4px solid #d6a417; }
+tr.low { background: #fcfaf3; }
+tr.past td { opacity: 0.45; }
+.daycell { font-weight: 600; white-space: nowrap; }
+.daycell small { display: block; font-weight: 400; color: #8693a0; font-size: 10.5px; }
+.snowcm { font-weight: 700; white-space: nowrap; }
+.snowcm.zero { color: #9aa6b2; font-weight: 500; }
+.pill { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.p-high { background: #cdeccd; color: #1d6b2a; }
+.p-likely { background: #d9ecfb; color: #155a8a; }
+.p-possible { background: #f3e7c6; color: #7a5a08; }
+.p-none { background: #eceff2; color: #8693a0; }
+.sm { font-size: 12px; white-space: nowrap; }
+.sm-likely { color: #155a8a; font-weight: 600; }
+.sm-possible { color: #7a5a08; }
+.sm-unlikely { color: #9aa6b2; }
+.lvl { white-space: normal; }
+.lvl.dash { color: #b5bec8; }
+.legend { display: flex; flex-wrap: wrap; gap: 15px; margin: 11px 2px 0; font-size: 12px; color: #51606e; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 13px; height: 13px; border-radius: 3px; display: inline-block; }
+.foot { margin-top: 22px; font-size: 12px; color: #6b7785; }
+.foot a { color: #1b6ca8; }
+.foot h3 { font-size: 12.5px; color: #16202b; margin: 14px 0 6px; }
+.hidden { display: none; }
+/* History tab */
+.hwrap { margin-top: 6px; }
+.hlead { font-size: 13px; color: #45576a; margin: 4px 2px 12px; }
+.hkpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 11px; margin: 10px 0 16px; }
+.hkpi { background: #fff; border: 1px solid #e3e8ee; border-radius: 11px; padding: 12px 13px; }
+.hkpi .lbl { font-size: 10.5px; text-transform: uppercase; letter-spacing: .5px; color: #6b7785; font-weight: 700; }
+.hkpi .val { font-size: 20px; font-weight: 700; margin-top: 3px; color: #0d3b66; line-height: 1.12; }
+.hkpi .val small { font-size: 12px; color: #6b7785; font-weight: 600; }
+.hcard { background: #fff; border: 1px solid #e3e8ee; border-radius: 12px; padding: 14px 15px; margin: 14px 0; }
+.hcard h3 { margin: 0 0 3px; font-size: 14.5px; color: #16202b; }
+.hcard .cap { font-size: 12px; color: #6b7785; margin: 0 0 10px; }
+.hsvg { width: 100%; height: auto; display: block; }
+.hlegend { display: flex; flex-wrap: wrap; gap: 14px; margin: 10px 2px 0; font-size: 12px; color: #51606e; }
+.hlegend span { display: inline-flex; align-items: center; gap: 6px; }
+.hln { width: 16px; height: 0; border-top: 3px solid; display: inline-block; }
+.hgroups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px; margin: 12px 0 6px; }
+.hgrp { border: 1px solid #e3e8ee; border-radius: 11px; padding: 12px 13px; }
+.hgrp .gname { font-weight: 700; font-size: 13px; }
+.hgrp .gmean { font-size: 22px; font-weight: 700; margin: 4px 0 2px; }
+.hgrp .gyears { font-size: 11.5px; color: #6b7785; line-height: 1.5; }
+.hgrp.en { background: #fbeceb; border-color: #f1c3bf; } .hgrp.en .gname, .hgrp.en .gmean { color: #b23529; }
+.hgrp.ln { background: #e9f2fb; border-color: #c3dcf3; } .hgrp.ln .gname, .hgrp.ln .gmean { color: #1f5fa0; }
+.hgrp.ne { background: #f1f4f7; border-color: #dde4ea; } .hgrp.ne .gname, .hgrp.ne .gmean { color: #51606e; }
+.htable { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 4px; }
+.htable th { background: #eef2f6; text-align: left; padding: 7px 9px; font-size: 10.5px; text-transform: uppercase; letter-spacing: .4px; color: #51606e; }
+.htable td { padding: 7px 9px; border-bottom: 1px solid #eef1f4; }
+.hbadge { display: inline-block; padding: 1px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.hbadge.en { background: #f4cdc9; color: #93271c; } .hbadge.ln { background: #cfe2f6; color: #18548f; } .hbadge.ne { background: #e4e9ee; color: #5a6772; }
+.hnote { background: #eef4fb; border: 1px solid #cfe0f2; border-radius: 10px; padding: 10px 13px; font-size: 12.5px; color: #2a4760; margin: 14px 0; }
+.hpending { background: #fff7e6; border: 1px solid #f0d79a; border-radius: 10px; padding: 10px 13px; font-size: 12.5px; color: #6a4a00; margin: 14px 0; }
+.hchartwrap { position: relative; }
+.hchartwrap2 { position: relative; }
+.wbar { cursor: crosshair; }
+.wbar:hover { opacity: 0.85; }
+.hhit { cursor: crosshair; }
+.htip { position: absolute; transform: translate(-50%, -100%); background: #16202b; color: #fff; font-size: 11.5px; line-height: 1.3; padding: 4px 9px; border-radius: 6px; white-space: nowrap; pointer-events: none; z-index: 6; box-shadow: 0 2px 7px rgba(0,0,0,.28); margin-top: -4px; }
+.htip[hidden] { display: none; }
+.htoggle { display: inline-flex; background: #e7edf3; border-radius: 9px; padding: 3px; gap: 2px; margin: 2px 0 12px; flex-wrap: wrap; }
+.htoggle button { appearance: none; border: 0; background: transparent; color: #45576a; font-weight: 600; font-size: 12px; padding: 5px 12px; border-radius: 7px; cursor: pointer; }
+.htoggle button.active { background: #fff; color: #0d3b66; box-shadow: 0 1px 2px rgba(13,59,102,.18); }
+@media (max-width: 820px){ .hkpis { grid-template-columns: repeat(2,1fr); } .hgroups { grid-template-columns: 1fr; } .cond { grid-template-columns: repeat(3, 1fr); } .cards { grid-template-columns: repeat(2, 1fr); } table { font-size: 12px; } th, td { padding: 8px 7px; } }
+@media (max-width: 480px){ .cond { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>❄️ Victoria Snow Report</h1>
+    <div class="sub">Falls Creek · Mount Hotham · Mount Buller &nbsp;—&nbsp; 15-day forecast + live conditions</div>
+    <div class="stamp" id="globalstamp"></div>
+  </div>
+
+  <div class="controls">
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-m="falls">Falls Creek</button>
+      <button class="tab" data-m="falls-h">Falls history</button>
+      <button class="tab" data-m="hotham">Mt Hotham</button>
+      <button class="tab" data-m="hotham-h">Hotham history</button>
+      <button class="tab" data-m="buller">Mt Buller</button>
+      <button class="tab" data-m="buller-h">Buller history</button>
+    </div>
+    <div class="spacer"></div>
+    <button class="updbtn" id="updbtn" title="Re-run the data fetch now">⟳ Update now</button>
+  </div>
+  <div class="updstatus" id="updstatus"></div>
+
+  <div id="panel"></div>
+</div>
+
+<script>
+const ISSUED_GLOBAL = "24 June 2026"; // build date
+const BUILT = "24 June 2026, 4:25 PM AEST";
+
+const M = {
+  falls: {
+    name: "Falls Creek",
+    sub: "Village 1600 m · Summit 1842 m · 14 lifts",
+    issued: "23 Jun 2026, 6:40 AM",
+    stale: true,
+    staleNote: "Snowatch last refreshed this Falls Creek forecast on 23 Jun — 1 day old. Elapsed days are dropped so the table starts on today's date. (The on-mountain conditions strip below is current, read this run.) The nightly task always pulls the newest available.",
+    liveTemp: "−0.4°C",
+    p5: "0–1 cm", p10: "0–1 cm", p15: "6–19 cm",
+    cond: {
+      auto: true, source: "skifalls.com.au", sourceUrl: "https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report",
+      asAt: "23 Jun, 7:42 AM", depthAsAt: null,
+      base: "0 cm", last24: "0 cm", last7: "0 cm", season: "44 cm",
+      lifts: "1 <small>scenic only</small>", trails: "0 open / 0 groomed",
+      snowmaking: "On — guns firing",
+      note: "Snow report dated 23 Jun: a light dusting in resort yesterday and snowmaking is back ON, guns firing at −2.8°C — but not enough to get skiing/boarding operational the next few days. Halley's Comet (Slalom Plaza) open daily 10am–3pm for scenic chairlift rides and Cloud 9 access. Weather −0.4°C / wind 13 km/h S, late shower (WeatherZone, 24 Jun 6:00 AM). Terrain status 24 Jun 6:08 AM: 1 lift expected to open, 0 trails open/groomed."
+    },
+    days: [
+      {d:"Tue 23 Jun", c:"Fine › Part cloud › Fine", cm:"0 cm", lvl:"—", lk:"none", w:"SW–WSW, light", smk:"likely", conf:"firm", past:true},
+      {d:"Wed 24 Jun", c:"Fine › Part cloud › Part cloud", cm:"0 cm", lvl:"—", lk:"none", w:"SW–S, light", smk:"possible", conf:"firm"},
+      {d:"Thu 25 Jun", c:"Part cloud all day", cm:"0 cm", lvl:"—", lk:"none", w:"ENE–N, light", smk:"possible", conf:"firm"},
+      {d:"Fri 26 Jun", c:"Fine › Light snow › Part cloud", cm:"0–1 cm", lvl:"Chance flurries above 1600 m PM", lk:"possible", w:"NW–SE, light", smk:"possible", conf:"firm"},
+      {d:"Sat 27 Jun", c:"Fine › Part cloud › Fine", cm:"0 cm", lvl:"—", lk:"none", w:"ENE–NE, light", smk:"possible", conf:"firm"},
+      {d:"Sun 28 Jun", c:"Fine › Fine › Part cloud", cm:"0 cm", lvl:"—", lk:"none", w:"NE, light→mod", smk:"possible", conf:"firm"},
+      {d:"Mon 29 Jun", c:"Part cloud › Cloudy › Cloudy", cm:"0 cm", lvl:"—", lk:"none", w:"NNE–N, mod→strong", smk:"unlikely", conf:"firm"},
+      {d:"Tue 30 Jun", c:"Cloudy all day", cm:"0 cm", lvl:"—", lk:"none", w:"N–NNW, mod", smk:"unlikely", conf:"low"},
+      {d:"Wed 1 Jul", c:"Showers › Showers › Cloudy", cm:"0 cm", lvl:"—", lk:"none", w:"W, mod", smk:"unlikely", conf:"low"},
+      {d:"Thu 2 Jul", c:"Cloudy › Showers › Rain", cm:"0 cm", lvl:"—", lk:"none", w:"NNW–N, mod→strong", smk:"unlikely", conf:"low"},
+      {d:"Fri 3 Jul", c:"Rain › Showers › Showers", cm:"0 cm", lvl:"—", lk:"none", w:"N–NNW, strong", smk:"unlikely", conf:"low"},
+      {d:"Sat 4 Jul", c:"Cloudy › Snow › Snow", cm:"1–3 cm", lvl:"Above ~1600 m", lk:"likely", w:"NW–WNW, mod", smk:"possible", conf:"low"},
+      {d:"Sun 5 Jul", c:"Snow all day", cm:"2–5 cm", lvl:"Above ~1400 m", lk:"likely", w:"NW, mod", smk:"likely", conf:"low"},
+      {d:"Mon 6 Jul", c:"Snow all day", cm:"2–7 cm", lvl:"Above 1200 m", lk:"likely", w:"SW–S, strong", smk:"likely", conf:"low"},
+      {d:"Tue 7 Jul", c:"Snow › Snow › Part cloud", cm:"1–3 cm", lvl:"Above 1200 m, easing later", lk:"likely", w:"Light", smk:"likely", conf:"low"}
+    ]
+  },
+  hotham: {
+    name: "Mount Hotham",
+    sub: "Village 1750 m · Summit 1861 m · 13 lifts (incl. Dinner Plain)",
+    issued: "24 Jun 2026, 6:47 AM",
+    stale: false,
+    staleNote: "",
+    liveTemp: "1.2°C",
+    p5: "0 cm", p10: "0–3 cm", p15: "8–26 cm",
+    cond: {
+      auto: true, source: "mthotham.com.au", sourceUrl: "https://www.mthotham.com.au/mountain/conditions/snow-reports",
+      asAt: "23 Jun, 10:25 AM", depthAsAt: null,
+      base: "2 cm", last24: "2 cm", last7: "2 cm", season: "33 cm",
+      lifts: "Not operational", trails: "—",
+      snowmaking: "On standby",
+      note: "Snow report issued 23 Jun 10:25 AM: not operational for skiing the next few days — team on standby, ready to make snow at every opportunity. Backcountry cover very thin and marginal; only higher elevations just skiable, take care on south-facing/shaded slopes. Natural snow — 24 h 2 cm, 7 d 2 cm, season 33 cm, depth 2 cm. Current −0.3°C / wind 19 km/h S (WeatherZone, 24 Jun 6:00 AM)."
+    },
+    days: [
+      {d:"Wed 24 Jun", c:"Fine › Part cloud › Part cloud", cm:"0 cm", lvl:"—", lk:"none", w:"SW–SE, light", smk:"unlikely", conf:"firm"},
+      {d:"Thu 25 Jun", c:"Fine › Part cloud › Fine", cm:"0 cm", lvl:"—", lk:"none", w:"ENE–NNE, light", smk:"unlikely", conf:"firm"},
+      {d:"Fri 26 Jun", c:"Fine › Cloudy › Fine", cm:"0 cm", lvl:"Chance flurries above 1600 m PM", lk:"possible", w:"ENE–SE, light", smk:"possible", conf:"firm"},
+      {d:"Sat 27 Jun", c:"Fine › Part cloud › Fine", cm:"0 cm", lvl:"—", lk:"none", w:"E–NE, light", smk:"possible", conf:"firm"},
+      {d:"Sun 28 Jun", c:"Fine › Fine › Cloudy", cm:"0 cm", lvl:"—", lk:"none", w:"NE–NNE, mod", smk:"unlikely", conf:"firm"},
+      {d:"Mon 29 Jun", c:"Cloudy all day", cm:"0 cm", lvl:"—", lk:"none", w:"NNE–N, strong", smk:"unlikely", conf:"firm"},
+      {d:"Tue 30 Jun", c:"Cloudy › Cloudy › Showers", cm:"0 cm", lvl:"—", lk:"none", w:"N–NNW, strong (gale o/night)", smk:"unlikely", conf:"firm"},
+      {d:"Wed 1 Jul", c:"Showers › Rain › Rain", cm:"0 cm", lvl:"Poss. light snow peaks early Thu", lk:"possible", w:"N–NNW, destructive >100 km/h", smk:"unlikely", conf:"low"},
+      {d:"Thu 2 Jul", c:"Cloudy all day", cm:"0 cm", lvl:"Poss. flurries about peaks", lk:"possible", w:"NW–NNW, strong", smk:"unlikely", conf:"low"},
+      {d:"Fri 3 Jul", c:"Cloudy › Cloudy › Snow", cm:"0–3 cm", lvl:"Falling as snow above ~1400 m later", lk:"likely", w:"NW–WNW, strong", smk:"unlikely", conf:"low"},
+      {d:"Sat 4 Jul", c:"Snow all day", cm:"5–10 cm", lvl:"Lowering to ~1100 m; gale peaks", lk:"high", w:"NW–WNW, strong", smk:"likely", conf:"low"},
+      {d:"Sun 5 Jul", c:"Snow all day", cm:"3–7 cm", lvl:"Above 1200 m", lk:"likely", w:"WNW, strong", smk:"likely", conf:"low"},
+      {d:"Mon 6 Jul", c:"Snow › Snow › Cloudy", cm:"0–2 cm", lvl:"Chance above 1300 m", lk:"possible", w:"WSW–SW, strong→mod", smk:"likely", conf:"low"},
+      {d:"Tue 7 Jul", c:"Cloudy all day", cm:"0 cm", lvl:"Poss. flurries", lk:"possible", w:"NNW, strong", smk:"likely", conf:"low"},
+      {d:"Wed 8 Jul", c:"Cloudy › Cloudy › Snow", cm:"0–4 cm", lvl:"Snowfalls developing later", lk:"likely", w:"NNW–NW, mod", smk:"likely", conf:"low"}
+    ]
+  },
+  buller: {
+    name: "Mount Buller",
+    sub: "Village 1600 m · Summit 1805 m · 22 lifts",
+    issued: "22 Jun 2026, 6:26 AM",
+    stale: true,
+    staleNote: "Snowatch last refreshed this Mt Buller forecast on 22 Jun — 2 days old. Elapsed days are dropped so the table starts on today's date. (The on-mountain conditions strip below is current, read this run.) The nightly task always pulls the newest available.",
+    liveTemp: "−0.8°C",
+    p5: "0 cm", p10: "0 cm", p15: "4–10 cm",
+    cond: {
+      auto: true, source: "mtbuller.com.au", sourceUrl: "https://www.mtbuller.com.au/winter/snow-weather/snow-report",
+      asAt: "23 Jun, 7:05 AM", depthAsAt: null,
+      base: "0 cm", last24: "0 cm", last7: "—", season: "37 cm <small>made</small>",
+      lifts: "Limited cover <small>not operational</small>", trails: "—",
+      snowmaking: "—",
+      note: "Resort cover: Limited. Average natural 0 cm on the ground; 37 cm machine-made season-to-date (the 'made' figure, NOT snow currently on the ground). Snow last 24 h 0 cm; last snowfall 4 Jun. Ski Patrol (23 Jun 7:05 AM): day 18 of sliding, Bourke St soft and fun; cooler snap overnight firms early then softens — good for beginners. Live on-mountain temp/wind didn't render on the official page this run; Snowatch live temp −0.8°C (BOM)."
+    },
+    days: [
+      {d:"Mon 22 Jun", c:"Part cloud › Cloudy › Part cloud", cm:"0 cm", lvl:"Chance flurries PM", lk:"possible", w:"W–WSW, light", smk:"possible", conf:"firm", past:true},
+      {d:"Tue 23 Jun", c:"Fine › Part cloud › Part cloud", cm:"0 cm", lvl:"—", lk:"none", w:"SW–WSW, light", smk:"likely", conf:"firm", past:true},
+      {d:"Wed 24 Jun", c:"Fine › Part cloud › Part cloud", cm:"0 cm", lvl:"—", lk:"none", w:"SW–S, light", smk:"possible", conf:"firm"},
+      {d:"Thu 25 Jun", c:"Part cloud all day", cm:"0 cm", lvl:"—", lk:"none", w:"SE–ESE, light", smk:"possible", conf:"firm"},
+      {d:"Fri 26 Jun", c:"Part cloud all day", cm:"0 cm", lvl:"—", lk:"none", w:"NW–SE, light", smk:"possible", conf:"firm"},
+      {d:"Sat 27 Jun", c:"Fine › Part cloud › Fine", cm:"0 cm", lvl:"—", lk:"none", w:"NE–ENE, light", smk:"possible", conf:"firm"},
+      {d:"Sun 28 Jun", c:"Fine › Part cloud › Part cloud", cm:"0 cm", lvl:"—", lk:"none", w:"NE, mod", smk:"unlikely", conf:"firm"},
+      {d:"Mon 29 Jun", c:"Cloudy › Showers › Cloudy", cm:"0 cm", lvl:"—", lk:"none", w:"NE–NNE, mod", smk:"unlikely", conf:"low"},
+      {d:"Tue 30 Jun", c:"Part cloud › Part cloud › Cloudy", cm:"0 cm", lvl:"—", lk:"none", w:"N–NNW, light→mod", smk:"unlikely", conf:"low"},
+      {d:"Wed 1 Jul", c:"Cloudy › Cloudy › Showers", cm:"0 cm", lvl:"—", lk:"none", w:"W, mod", smk:"unlikely", conf:"low"},
+      {d:"Thu 2 Jul", c:"Showers › Cloudy › Cloudy", cm:"0 cm", lvl:"—", lk:"none", w:"W, mod", smk:"unlikely", conf:"low"},
+      {d:"Fri 3 Jul", c:"Cloudy all day", cm:"0 cm", lvl:"Poss. late flurries", lk:"possible", w:"W, mod", smk:"unlikely", conf:"low"},
+      {d:"Sat 4 Jul", c:"Cloudy › Snow › Snow", cm:"1–3 cm", lvl:"Above ~1500 m", lk:"likely", w:"WSW, mod", smk:"likely", conf:"low"},
+      {d:"Sun 5 Jul", c:"Snow › Cloudy › Cloudy", cm:"1–2 cm", lvl:"Above ~1400 m", lk:"likely", w:"WSW–SW, mod", smk:"likely", conf:"low"},
+      {d:"Mon 6 Jul", c:"Snow all day", cm:"2–5 cm", lvl:"Above 1200 m", lk:"likely", w:"SW, mod→strong", smk:"likely", conf:"low"}
+    ]
+  }
+};
+
+// ================= SNOW HISTORY (real Alpine Resorts Victoria resort data) =================
+// Weekly natural snow depth (cm), mean per 7-day bin, from ARV daily records (CC-BY).
+// One series per resort; coverage differs by file. ENSO = NOAA austral-winter ONI.
+// HSM = snow-making-area depth (machine-assisted) — a DIFFERENT metric, Hotham only,
+// shown to cover the years where ARV stopped reporting natural depth (post-2017).
+const HENSO = {
+  2014:{cls:"neutral",lab:"Neutral",oni:"+0.1"}, 2015:{cls:"en",lab:"El Niño (strong)",oni:"+1.6"},
+  2016:{cls:"ln",lab:"La Niña (weak)",oni:"−0.3"}, 2017:{cls:"neutral",lab:"Neutral",oni:"+0.2"},
+  2018:{cls:"neutral",lab:"Neutral",oni:"+0.1"}, 2019:{cls:"neutral",lab:"Neutral",oni:"+0.3"},
+  2020:{cls:"ln",lab:"La Niña (developing)",oni:"−0.4"}, 2021:{cls:"ln",lab:"La Niña",oni:"−0.4"},
+  2022:{cls:"ln",lab:"La Niña (moderate)",oni:"−0.8"}, 2023:{cls:"en",lab:"El Niño (developing)",oni:"+1.1"},
+  2024:{cls:"neutral",lab:"Neutral",oni:"+0.1"}, 2025:{cls:"neutral",lab:"Neutral (cool)",oni:"−0.1"}
+};
+const HSERIES_ALL = { falls: {"2014":[["06-19",40],["06-26",80],["07-03",99],["07-10",137],["07-17",157],["07-24",142],["07-31",131],["08-07",127],["08-14",122],["08-21",109],["08-28",96],["09-04",87],["09-11",66],["09-18",52],["09-25",36]],"2015":[["06-05",1],["06-12",3],["06-19",1],["06-26",1],["07-03",6],["07-10",35],["07-17",49],["07-24",73],["07-31",96],["08-07",109],["08-14",108],["08-21",99],["08-28",95],["09-04",93],["09-11",82],["09-18",61],["09-25",49],["10-02",32]],"2016":[["06-05",0],["06-12",2],["06-19",27],["06-26",56],["07-03",59],["07-10",72],["07-17",72],["07-24",101],["07-31",105],["08-07",100],["08-14",101],["08-21",125],["08-28",114],["09-04",99],["09-11",83],["09-18",78],["09-25",67]],"2017":[["06-05",13],["06-12",11],["06-19",6],["06-26",9],["07-03",20],["07-10",36],["07-17",59],["07-24",75],["07-31",80],["08-07",147],["08-14",138],["08-21",154],["08-28",151],["09-04",197],["09-11",195],["09-18",183],["09-25",161],["10-02",139]],"2018":[["06-05",0],["06-12",40],["06-19",73],["06-26",68],["07-03",74],["07-10",85],["07-17",94],["07-24",104],["07-31",119],["08-07",166],["08-14",187],["08-21",209],["08-28",199],["09-04",187],["09-11",162],["09-18",147],["09-25",129],["10-02",108]],"2019":[["06-05",34],["06-12",16],["06-19",19],["06-26",22],["07-03",25],["07-10",53],["07-17",69],["07-24",79],["07-31",71],["08-07",132],["08-14",143],["08-21",133],["08-28",125],["09-04",124],["09-11",119],["09-18",91],["09-25",67],["10-02",42]],"2020":[["06-05",0],["06-12",0],["06-19",6],["06-26",5],["07-03",29],["07-10",23],["07-17",22],["07-24",16],["07-31",11],["08-07",20],["08-14",21],["08-21",73],["08-28",53],["09-04",28],["09-11",5],["09-18",5],["09-25",30],["10-02",0]],"2021":[["06-12",19],["06-19",12],["06-26",16],["07-03",30],["07-10",34],["07-17",102],["07-24",131],["07-31",128],["08-07",123],["08-14",113],["08-21",108],["08-28",103],["09-04",85],["09-11",66],["09-18",53],["09-25",36],["10-02",24]],"2022":[["06-05",92],["06-12",86],["06-19",74],["06-26",72],["07-03",69],["07-10",71],["07-17",102],["07-24",92],["07-31",104],["08-07",115],["08-14",136],["08-21",145],["08-28",135],["09-04",125],["09-11",116],["09-18",147],["09-25",122],["10-02",107]],"2023":[["06-05",5],["06-12",19],["06-19",60],["06-26",94],["07-03",84],["07-10",90],["07-17",85],["07-24",81],["07-31",65],["08-07",54],["08-14",57],["08-21",51],["08-28",35],["09-04",29],["09-11",23],["09-18",3],["09-25",0]]}, hotham: {"2014":[["06-19",48],["06-26",70],["07-03",84],["07-10",116],["07-17",148],["07-24",135],["07-31",121],["08-07",119],["08-14",116],["08-21",108],["08-28",98],["09-04",88],["09-11",72]],"2015":[["06-05",0],["06-12",0],["06-19",2],["06-26",1],["07-03",7],["07-10",40],["07-17",54],["07-24",75],["07-31",95],["08-07",108],["08-14",107],["08-21",94],["08-28",90],["09-04",92],["09-11",78],["09-18",58],["09-25",46],["10-02",40]],"2016":[["06-05",1],["06-12",1],["06-19",19],["06-26",45],["07-03",49],["07-10",73],["07-17",71],["07-24",92],["07-31",97],["08-07",95],["08-14",95],["08-21",119],["08-28",108],["09-04",90],["09-11",70],["09-18",62],["09-25",19]],"2017":[["06-05",27],["06-12",22],["06-19",19],["06-26",23],["07-03",33],["07-10",48],["07-17",66],["07-24",79],["07-31",85],["08-07",150],["08-14",137],["08-21",154],["08-28",153],["09-04",184],["09-11",181],["09-18",170],["09-25",145],["10-02",121]]}, buller: {"2014":[["06-19",32],["06-26",48],["07-03",67],["07-10",96],["07-17",107],["07-24",100],["07-31",92],["08-07",93],["08-14",89],["08-21",79],["08-28",70],["09-04",62],["09-11",29],["09-18",19],["09-25",8]],"2015":[["06-05",16],["06-12",0],["06-19",0],["06-26",0],["07-03",1],["07-10",24],["07-17",35],["07-24",47],["07-31",53],["08-07",65],["08-14",75],["08-21",61],["08-28",56],["09-04",53],["09-11",41],["09-18",17],["09-25",8]],"2016":[["06-05",0],["06-12",4],["06-19",12],["06-26",45],["07-03",43],["07-10",43],["07-17",40],["07-24",48],["07-31",59],["08-07",57],["08-14",53],["08-21",75],["08-28",66],["09-04",39],["09-11",19],["09-18",12],["09-25",5]],"2017":[["06-05",12],["06-12",10],["06-19",6],["06-26",9],["07-03",18],["07-10",38],["07-17",51],["07-24",63],["07-31",65],["08-07",104],["08-14",95],["08-21",117],["08-28",119],["09-04",139],["09-11",139],["09-18",127],["09-25",98],["10-02",80]],"2018":[["06-05",0],["06-12",22],["06-19",51],["06-26",45],["07-03",44],["07-10",53],["07-17",64],["07-24",67],["07-31",74],["08-07",114],["08-14",133],["08-21",152],["08-28",146],["09-04",135],["09-11",108],["09-18",98],["09-25",85],["10-02",60]],"2019":[["06-05",25],["06-12",1],["06-19",10],["06-26",4],["07-03",1],["07-10",29],["07-17",42],["07-24",43],["07-31",38],["08-07",62],["08-14",78],["08-21",85],["08-28",84],["09-04",82],["09-11",75],["09-18",33],["09-25",12],["10-02",1]],"2020":[["06-05",7],["06-12",0],["06-19",3],["06-26",0],["07-03",14],["07-10",14],["07-17",14],["07-24",8],["07-31",4],["08-07",14],["08-14",6],["08-21",52],["08-28",43],["09-04",15],["09-11",0],["09-18",0],["09-25",26],["10-02",0]],"2021":[["06-05",0],["06-12",1],["06-19",0],["06-26",1],["07-03",17],["07-10",14],["07-17",55],["07-24",83],["07-31",84],["08-07",82],["08-14",76],["08-21",71],["08-28",63],["09-04",25],["09-11",9],["09-18",9],["09-25",5],["10-02",0]],"2022":[["06-05",64],["06-12",76],["06-19",66],["06-26",57],["07-03",52],["07-10",61],["07-17",70],["07-24",64],["07-31",73],["08-07",60],["08-14",75],["08-21",90],["08-28",80],["09-04",60],["09-11",46],["09-18",70],["09-25",45],["10-02",4]],"2023":[["06-05",0],["06-12",5],["06-19",32],["06-26",45],["07-03",45],["07-10",49],["07-17",49],["07-24",48],["07-31",30],["08-07",16],["08-14",21],["08-21",19],["08-28",11],["09-04",8],["09-11",7],["09-18",0],["09-25",0],["10-02",0]],"2024":[["06-05",0],["06-12",1],["06-19",0],["06-26",9],["07-03",14],["07-10",5],["07-17",39],["07-24",47],["07-31",49],["08-07",41],["08-14",27],["08-21",7],["08-28",0],["09-04",0],["09-11",0],["09-18",0],["09-25",0],["10-02",0]]} };
+const HSM = { hotham: {"2018":[["06-05",3],["06-12",38],["06-19",71],["06-26",65],["07-03",67],["07-10",77],["07-17",94],["07-24",101],["07-31",117],["08-07",166],["08-14",191],["08-21",208],["08-28",199],["09-04",187],["09-11",157],["09-18",144],["09-25",121],["10-02",94]],"2019":[["06-05",44],["06-12",14],["06-19",16],["06-26",16],["07-03",16],["07-10",50],["07-17",70],["07-24",79],["07-31",73],["08-07",127],["08-14",137],["08-21",139],["08-28",133],["09-04",134],["09-11",125],["09-18",89],["09-25",61],["10-02",30]],"2020":[["06-05",0],["06-12",1],["06-19",2],["06-26",1],["07-03",27],["07-10",26],["07-17",26],["07-24",23],["07-31",18],["08-07",28],["08-14",22],["08-21",71],["08-28",59],["09-04",34],["09-11",6],["09-18",0],["09-25",26]],"2021":[["06-05",22],["06-12",26],["06-19",24],["06-26",29],["07-03",43],["07-10",46],["07-17",99],["07-24",130],["07-31",132],["08-07",128],["08-14",122],["08-21",122],["08-28",120],["09-04",93],["09-11",73],["09-18",63],["09-25",45],["10-02",23]],"2022":[["06-05",82],["06-12",86],["06-19",75],["06-26",74],["07-03",74],["07-10",77],["07-17",96],["07-24",89],["07-31",103],["08-07",118],["08-14",143],["08-21",152],["08-28",140],["09-04",129],["09-11",120],["09-18",153],["09-25",123],["10-02",110]],"2023":[["06-05",10],["06-12",24],["06-19",51],["06-26",79],["07-03",72],["07-10",75],["07-17",73],["07-24",71],["07-31",57],["08-07",47],["08-14",51],["08-21",41],["08-28",25],["09-04",19],["09-11",15]]} };   // snow-making-area depth, machine-assisted (NOT natural)
+const HSMCOL = "#e8821e";                 // deliberately distinct colour for the snow-making series
+const HMISS = { falls:[2024,2025], hotham:[2024,2025], buller:[2025] };  // expected seasons ARV has not published yet
+const HMETA = {
+  falls:  { name:"Falls Creek",  file:"Daily-snow-depth-records-Falls-Creek.xlsx" },
+  hotham: { name:"Mount Hotham", file:"VictorianAlpineResorts-DailySnowDepthRecords-MtHotham.csv" },
+  buller: { name:"Mount Buller", file:"VictorianAlpineResorts-DailySnowDepthRecords-MtBuller.csv" }
+};
+let H_ACTIVE = null;
+let H_MISS_ACTIVE = null;
+
+const H_MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const H_CUM = [0,31,59,90,120,151,181,212,243,273,304,334];
+function hDay(mmdd){ const p=mmdd.split('-'); return H_CUM[(+p[0])-1] + (+p[1]); }
+function hFmt(mmdd){ const p=mmdd.split('-'); return (+p[1]) + " " + H_MON[(+p[0])-1]; }
+function hMMDD(doy){ for(let m=12;m>=1;m--){ if(doy>H_CUM[m-1]) return String(m).padStart(2,'0')+'-'+String(doy-H_CUM[m-1]).padStart(2,'0'); } return "01-01"; }
+function hYears(S){ return Object.keys(S).map(Number).sort((a,b)=>a-b); }
+function hLatest(S){ return Math.max(...Object.keys(S).map(Number)); }
+function hPeak(S,yr){ let mx=-1,md=""; (S[yr]||[]).forEach(([d,v])=>{ if(v>mx){mx=v;md=d;} }); return {cm:mx,date:md}; }
+function hCls(yr){ return HENSO[yr]?HENSO[yr].cls:'neutral'; }
+const HCOL = {en:"#d6453d", ln:"#2f74c0", neutral:"#9aa6b2"};
+
+function hLineChart(S, SM){
+  const yrs=hYears(S), latest=hLatest(S);
+  const W=920,H=320,L=42,R=14,T=12,B=30, pw=W-L-R, ph=H-T-B;
+  const x0=hDay("05-01"), x1=hDay("11-21");
+  let pv=yrs.map(y=>hPeak(S,y).cm); if(SM) Object.keys(SM).forEach(y=>SM[y].forEach(([d,v])=>pv.push(v)));
+  const ymax=Math.max(150, Math.ceil(Math.max(...pv)/50)*50);
+  const X=d=>L+(d-x0)/(x1-x0)*pw, Y=v=>T+(1-v/ymax)*ph;
+  let g="";
+  for(let v=0; v<=ymax; v+=50){ g+=`<line x1="${L}" y1="${Y(v).toFixed(1)}" x2="${W-R}" y2="${Y(v).toFixed(1)}" stroke="#eef1f4"/>`+
+    `<text x="${L-6}" y="${(Y(v)+3).toFixed(1)}" text-anchor="end" font-size="10" fill="#9aa6b2">${v}</text>`; }
+  [5,6,7,8,9,10,11].forEach(m=>{ const d=H_CUM[m-1]+1, xx=X(d); g+=`<line x1="${xx.toFixed(1)}" y1="${T}" x2="${xx.toFixed(1)}" y2="${T+ph}" stroke="#f4f6f8"/>`+
+    `<text x="${xx.toFixed(1)}" y="${H-10}" text-anchor="middle" font-size="10" fill="#9aa6b2">${H_MON[m-1]}</text>`; });
+  // snow-making series first (behind natural), dashed distinct colour
+  if(SM){ Object.keys(SM).forEach(yr=>{ const pts=SM[yr].map(([d,v])=>`${X(hDay(d)).toFixed(1)},${Y(v).toFixed(1)}`).join(" ");
+    g+=`<polyline class="hline" data-year="SM${yr}" data-op="0.9" points="${pts}" fill="none" stroke="${HSMCOL}" stroke-width="2" opacity="0.9" stroke-dasharray="5 3" stroke-linejoin="round"/>`; }); }
+  ["neutral","ln","en"].forEach(cls=>{ yrs.forEach(yr=>{ if(hCls(yr)!==cls) return;
+    const pts=S[yr].map(([d,v])=>`${X(hDay(d)).toFixed(1)},${Y(v).toFixed(1)}`).join(" ");
+    const recent=(yr===latest), sw=recent?3:(cls==="neutral"?1.7:2.4), op=recent?1:(cls==="neutral"?0.72:0.95);
+    g+=`<polyline class="hline" data-year="${yr}" data-op="${op}" points="${pts}" fill="none" stroke="${HCOL[cls]}" stroke-width="${sw}" opacity="${op}" stroke-linejoin="round"/>`;
+  }); });
+  const pkList=yrs.map(yr=>({yr, x:X(hDay(hPeak(S,yr).date)), y:Y(hPeak(S,yr).cm), cls:hCls(yr)})).sort((a,b)=>a.x-b.x);
+  let lastX=-99, up=true;
+  pkList.forEach(p=>{ let ly=p.y-6; if(p.x-lastX<32){ ly=up?p.y-15:p.y+13; up=!up; } else up=true; lastX=p.x; const recent=(p.yr===latest);
+    g+=`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${recent?3.6:2.4}" fill="${HCOL[p.cls]}"${recent?' stroke="#16202b" stroke-width="1"':''}/>`+
+       `<text x="${p.x.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle" font-size="${recent?11:9.5}" font-weight="${recent?'800':'700'}" fill="${HCOL[p.cls]}">${p.yr}</text>`; });
+  if(SM){ Object.keys(SM).forEach(yr=>{ let mx=-1,md=""; SM[yr].forEach(([d,v])=>{ if(v>mx){mx=v;md=d;} });
+    g+=`<text x="${X(hDay(md)).toFixed(1)}" y="${(Y(mx)-6).toFixed(1)}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${HSMCOL}">${yr}</text>`; }); }
+  yrs.forEach(yr=>{ const c=HCOL[hCls(yr)]; S[yr].forEach(([d,v])=>{ g+=`<circle class="hhit" cx="${X(hDay(d)).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="7" fill="transparent" data-y="${yr}" data-disp="${yr}" data-d="${d}" data-v="${v}" data-c="${c}"/>`; }); });
+  if(SM){ Object.keys(SM).forEach(yr=>{ SM[yr].forEach(([d,v])=>{ g+=`<circle class="hhit" cx="${X(hDay(d)).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="7" fill="transparent" data-y="SM${yr}" data-disp="${yr}" data-d="${d}" data-v="${v}" data-c="${HSMCOL}" data-sm="1"/>`; }); }); }
+  g+=`<circle id="hfocus" r="4.5" fill="#16202b" opacity="0" pointer-events="none"/>`;
+  return `<svg viewBox="0 0 ${W} ${H}" class="hsvg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Weekly snow depth">${g}</svg>`;
+}
+
+function hBarOrder(S,mode){
+  const yrs=hYears(S);
+  if(mode==="chrono") return yrs.slice().sort((a,b)=>a-b);
+  if(mode==="enso"){ const ord={en:0,ln:1,neutral:2}; return yrs.slice().sort((a,b)=> (ord[hCls(a)]-ord[hCls(b)]) || (hPeak(S,b).cm-hPeak(S,a).cm)); }
+  return yrs.slice().sort((a,b)=>hPeak(S,b).cm-hPeak(S,a).cm);
+}
+function hBarChart(S,mode,miss){
+  miss=(miss||[]).filter(Boolean);
+  mode=mode||"depth"; const yrs=hBarOrder(S,mode), latest=hLatest(S);
+  const W=920,rowH=26,top=6,L=150,R=70,pw=W-L-R;
+  const ymax=Math.max(150, Math.ceil(Math.max(...yrs.map(y=>hPeak(S,y).cm))/50)*50);
+  const groupName={en:"El Niño",ln:"La Niña",neutral:"Neutral"}, hdrH=24;
+  let nHeaders=0; if(mode==="enso"){ let last=null; yrs.forEach(y=>{ if(hCls(y)!==last){nHeaders++; last=hCls(y);} }); }
+  const missH = miss.length ? (hdrH + miss.length*rowH) : 0;
+  const H=top+yrs.length*rowH+nHeaders*hdrH+missH+14;
+  let g='<defs><pattern id="nodata" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#f5f7f9"/><line x1="0" y1="0" x2="0" y2="7" stroke="#d6dde4" stroke-width="2"/></pattern></defs>';
+  for(let v=0;v<=ymax;v+=50){ const xx=L+v/ymax*pw; g+=`<line x1="${xx.toFixed(1)}" y1="${top}" x2="${xx.toFixed(1)}" y2="${(H-16).toFixed(1)}" stroke="#eef1f4"/>`+
+    `<text x="${xx.toFixed(1)}" y="${H-2}" text-anchor="middle" font-size="9.5" fill="#bcc4cc">${v}</text>`; }
+  let y=top,last=null;
+  yrs.forEach(yr=>{ const cls=hCls(yr);
+    if(mode==="enso" && cls!==last){ last=cls; g+=`<text x="6" y="${(y+15).toFixed(1)}" font-size="11.5" font-weight="800" fill="${HCOL[cls]}">${groupName[cls]}</text>`; y+=hdrH; }
+    const pk=hPeak(S,yr), bw=pk.cm/ymax*pw, c=HCOL[cls], rec=(yr===latest);
+    g+=`<text x="6" y="${(y+rowH/2+4).toFixed(1)}" font-size="12" font-weight="700" fill="#16202b">${yr}</text>`;
+    if(mode!=="enso") g+=`<text x="44" y="${(y+rowH/2+4).toFixed(1)}" font-size="10.5" fill="#6b7785">${(HENSO[yr]?HENSO[yr].lab:'').replace(/ \(.*/,'')}</text>`;
+    g+=`<rect x="${L}" y="${(y+4).toFixed(1)}" width="${bw.toFixed(1)}" height="${rowH-10}" rx="3" fill="${c}" opacity="0.92"${rec?' stroke="#16202b" stroke-width="1.4"':''}/>`+
+       `<text x="${(L+bw+6).toFixed(1)}" y="${(y+rowH/2+4).toFixed(1)}" font-size="11.5" font-weight="700" fill="#16202b">${pk.cm} cm${rec?'  ◀ most recent':''}</text>`;
+    y+=rowH;
+  });
+  if(miss.length){
+    g+=`<line x1="${L}" y1="${(y+5).toFixed(1)}" x2="${W-R}" y2="${(y+5).toFixed(1)}" stroke="#e3e8ee"/>`;
+    g+=`<text x="6" y="${(y+19).toFixed(1)}" font-size="10.5" font-weight="800" fill="#b6411f">Recent seasons — not yet published by ARV</text>`; y+=hdrH;
+    miss.forEach(yr=>{ const e=HENSO[yr]||{cls:'neutral',lab:'—'};
+      g+=`<text x="6" y="${(y+rowH/2+4).toFixed(1)}" font-size="12" font-weight="700" fill="#9aa6b2">${yr}</text>`+
+         `<text x="44" y="${(y+rowH/2+4).toFixed(1)}" font-size="10.5" fill="#9aa6b2">${e.lab.replace(/ \(.*/,'')}</text>`+
+         `<rect x="${L}" y="${(y+4).toFixed(1)}" width="${pw.toFixed(1)}" height="${rowH-10}" rx="3" fill="url(#nodata)" stroke="#d6dde4"/>`+
+         `<text x="${(L+8).toFixed(1)}" y="${(y+rowH/2+4).toFixed(1)}" font-size="10.5" font-style="italic" fill="#8693a0">no data — season not yet published</text>`;
+      y+=rowH;
+    });
+  }
+  return `<svg viewBox="0 0 ${W} ${H}" class="hsvg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Peak snow depth by season">${g}</svg>`;
+}
+
+function hInterp(series, day){
+  const pts=series.map(([d,v])=>[hDay(d),v]);
+  if(day<pts[0][0] || day>pts[pts.length-1][0]) return null;
+  for(let i=1;i<pts.length;i++){ if(day<=pts[i][0]){ const x0=pts[i-1][0],y0=pts[i-1][1],x1=pts[i][0],y1=pts[i][1];
+    return x1===x0 ? y1 : y0+(y1-y0)*(day-x0)/(x1-x0); } }
+  return pts[pts.length-1][1];
+}
+function hWeeklyAvg(S){
+  const start=hDay("06-01"), end=hDay("10-19"), tot=Object.keys(S).length, need=Math.max(2, Math.ceil(tot/2)); const out=[];
+  for(let g=start; g<=end; g+=7){ let s=0,n=0; Object.keys(S).forEach(yr=>{ const v=hInterp(S[yr],g); if(v!=null){ s+=v; n++; } });
+    if(n>=need) out.push({day:g, avg:s/n, n}); }
+  return out;
+}
+function hWeeklyBar(S){
+  const data=hWeeklyAvg(S);
+  if(!data.length) return `<svg viewBox="0 0 920 60" class="hsvg"><text x="12" y="34" font-size="12" fill="#9aa6b2">Not enough overlapping weeks to average.</text></svg>`;
+  const W=920,H=300,L=42,R=14,T=24,B=52,pw=W-L-R,ph=H-T-B;
+  const ymax=Math.max(25, Math.ceil(Math.max(...data.map(d=>d.avg))/25)*25);
+  const gap=pw/data.length, bw=gap*0.66;
+  const X=i=>L+gap*i+(gap-bw)/2, Y=v=>T+(1-v/ymax)*ph;
+  const peak=data.reduce((a,b)=>b.avg>a.avg?b:a,data[0]);
+  let g="";
+  for(let v=0;v<=ymax;v+=25){ g+=`<line x1="${L}" y1="${Y(v).toFixed(1)}" x2="${W-R}" y2="${Y(v).toFixed(1)}" stroke="#eef1f4"/>`+
+    `<text x="${L-6}" y="${(Y(v)+3).toFixed(1)}" text-anchor="end" font-size="10" fill="#9aa6b2">${v}</text>`; }
+  data.forEach((d,i)=>{ const isPk=(d===peak), x=X(i), yv=Y(d.avg);
+    g+=`<rect class="wbar" x="${x.toFixed(1)}" y="${yv.toFixed(1)}" width="${bw.toFixed(1)}" height="${(T+ph-yv).toFixed(1)}" rx="2" fill="${isPk?'#2e8b57':'#7aa9d6'}" data-l="${hFmt(hMMDD(d.day))}" data-v="${d.avg.toFixed(0)}" data-n="${d.n}"/>`;
+    if(isPk) g+=`<text x="${(x+bw/2).toFixed(1)}" y="${(yv-6).toFixed(1)}" text-anchor="middle" font-size="10.5" font-weight="800" fill="#2e8b57">${d.avg.toFixed(0)}</text>`;
+    if(i%2===0) g+=`<text x="${(x+bw/2).toFixed(1)}" y="${H-32}" text-anchor="middle" font-size="9" fill="#9aa6b2">${hFmt(hMMDD(d.day))}</text>`;
+  });
+  g+=`<text x="${L}" y="${H-10}" font-size="11" fill="#6b7785">Historically deepest week: <tspan font-weight="800" fill="#2e8b57">${hFmt(hMMDD(peak.day))}</tspan> — mean ~${peak.avg.toFixed(0)} cm across ${peak.n} seasons.</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" class="hsvg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Average snow depth by week of season">${g}</svg>`;
+}
+
+function renderHistory(key){
+  const S=HSERIES_ALL[key], meta=HMETA[key]; H_ACTIVE=S;
+  H_MISS_ACTIVE=(typeof HMISS!=='undefined' && HMISS[key])?HMISS[key]:[];
+  const SM=(typeof HSM!=='undefined' && HSM[key]) ? HSM[key] : null;
+  const yrs=hYears(S), minY=yrs[0], maxY=yrs[yrs.length-1];
+  const peaks=yrs.map(y=>({y, cm:hPeak(S,y).cm, date:hPeak(S,y).date, cls:hCls(y)}));
+  const byD=peaks.slice().sort((a,b)=>b.cm-a.cm), deepest=byD[0], leanest=byD[byD.length-1];
+  const sc=peaks.map(p=>p.cm).slice().sort((a,b)=>a-b), nn=sc.length, med=nn?(nn%2?sc[(nn-1)/2]:Math.round((sc[nn/2-1]+sc[nn/2])/2)):0;
+  const grp={en:[],ln:[],neutral:[]}; peaks.forEach(p=>grp[p.cls].push(p));
+  const mean=a=>a.length?Math.round(a.reduce((s,p)=>s+p.cm,0)/a.length):null;
+  const enMean=mean(grp.en), lnMean=mean(grp.ln), neMean=mean(grp.neutral);
+  const base=(M[key]&&M[key].cond)?M[key].cond.base:"—";
+  const smYrs = SM ? Object.keys(SM).map(Number).sort((a,b)=>a-b) : [];
+  const cover = maxY<2024 ? `<div class="hpending">⏳ <strong>Coverage:</strong> ${meta.name}'s <strong>natural</strong>-depth record in the official file runs to <strong>${maxY}</strong>${key==='hotham'?` — rows from 2018 onward are flagged “not collected”. The orange dashed lines (${smYrs[0]}–${smYrs[smYrs.length-1]}) are the snow-making-area figure instead (see note below)`:''}. Natural charts below show ${minY}–${maxY} (${yrs.length} season${yrs.length>1?'s':''}).</div>` : '';
+  const smBanner = SM ? `<div style="background:#fff3e3;border:1px solid #f0c890;border-left:5px solid #e8821e;border-radius:11px;padding:11px 14px;margin:4px 0 14px;font-size:12.5px;color:#7a4a12"><strong style="color:#c2710f">Orange dashed = snow-making-area depth (${smYrs[0]}–${smYrs[smYrs.length-1]}).</strong> Hotham's <em>natural</em> depth record stops in 2017, so for later seasons the only figure ARV publishes is depth in the machine-made snow area. It's drawn in a deliberately different colour because it is <strong>not the same measurement</strong> — it reflects snow-making plus natural at probed snow-making sites, and per ARV may be capped or under-reported. It appears only on the line chart and the table below, and is <strong>excluded</strong> from the peak, weekly-average and El Niño analyses, which stay natural-only for a like-for-like comparison.</div>` : '';
+  const enLine = grp.en.length
+    ? `In ${meta.name}'s natural record here, the El Niño winter${grp.en.length>1?'s':''} (${grp.en.map(p=>p.y+' — '+p.cm+' cm').join(', ')}) ${enMean!=null&&enMean<med?'came in below':'sat near'} the ${med} cm median.`
+    : `This ${minY}–${maxY} window contains no El Niño winters, so there's no local El Niño comparison yet.`;
+  const rows=peaks.slice().reverse().map(p=>{const e=HENSO[p.y]||{cls:'neutral',lab:'—',oni:'—'};
+    return `<tr><td><strong>${p.y}</strong></td><td>${p.cm} cm</td><td>${hFmt(p.date)}</td><td><span class="hbadge ${e.cls}">${e.lab}</span></td><td style="color:#8693a0">${e.oni}</td></tr>`;}).join("");
+  const smRows = SM ? `<tr><td colspan="5" style="background:#fff5ea;color:#9a5a12;font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;padding:6px 9px">Snow-making area — machine-assisted (not natural depth)</td></tr>` +
+    smYrs.slice().reverse().map(y=>{ let mx=-1,md=""; SM[y].forEach(([d,v])=>{ if(v>mx){mx=v;md=d;} }); const e=HENSO[y]||{cls:'neutral',lab:'—',oni:'—'};
+      return `<tr><td><strong style="color:#c2710f">${y}</strong> <span style="font-size:9.5px;color:#c2710f;font-weight:700">SM</span></td><td style="color:#c2710f">${mx} cm</td><td>${hFmt(md)}</td><td><span class="hbadge ${e.cls}">${e.lab}</span></td><td style="color:#8693a0">${e.oni}</td></tr>`; }).join("") : '';
+  const missRows = (typeof HMISS!=='undefined' && HMISS[key] && HMISS[key].length) ? `<tr><td colspan="5" style="background:#f5f7f9;color:#7a8794;font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;padding:6px 9px">Recent seasons — not yet published by ARV</td></tr>` + HMISS[key].map(y=>{ const e=HENSO[y]||{cls:'neutral',lab:'—',oni:'—'}; return `<tr><td><strong style="color:#9aa6b2">${y}</strong></td><td colspan="2" style="color:#9aa6b2;font-style:italic">no data — season not yet published</td><td><span class="hbadge ${e.cls}">${e.lab}</span></td><td style="color:#8693a0">${e.oni}</td></tr>`; }).join("") : '';
+
+  return `<div class="hwrap">
+    <div style="margin:6px 2px 0"><strong style="font-size:15px">${meta.name} — snow history &amp; ENSO</strong> <span style="color:#6b7785;font-size:13px">— natural depth ${minY}–${maxY} · ${yrs.length} season${yrs.length>1?'s':''}${SM?` (+ snow-making ${smYrs[0]}–${smYrs[smYrs.length-1]})`:''}</span></div>
+    <p class="hlead">On-ground <strong>natural snow depth</strong> measured at ${meta.name} by Alpine Resorts Victoria, shown as the weekly mean of the daily record (snow-making excluded). Each winter is coloured by its El Niño / La Niña state (NOAA Oceanic Niño Index).</p>
+    ${cover}
+    ${smBanner}
+    <div style="background:#fbeceb;border:1px solid #e9b4ae;border-left:5px solid #d6453d;border-radius:11px;padding:12px 15px;margin:4px 0 14px;font-size:13px;color:#7a2c23">
+      <strong style="color:#b23529">2026 season — El Niño underway.</strong> The Pacific is in an <strong>El Niño</strong> state and the major agencies (BoM, NOAA, WMO, IRI) put it ~80% to persist through Jun–Aug 2026, at least moderate. El Niño tends to push south-east Australian winters warmer and drier — historically leaner snow. ${enLine} Treat it as a tilt in the odds, not a forecast.
+    </div>
+    <div class="hkpis">
+      <div class="hkpi"><div class="lbl">Deepest (natural)</div><div class="val">${deepest.cm} cm <small>${deepest.y}</small></div></div>
+      <div class="hkpi"><div class="lbl">Leanest (natural)</div><div class="val">${leanest.cm} cm <small>${leanest.y}</small></div></div>
+      <div class="hkpi"><div class="lbl">Median peak</div><div class="val">${med} cm</div></div>
+      <div class="hkpi"><div class="lbl">Base now</div><div class="val">${base} <small>24 Jun, pre-season</small></div></div>
+    </div>
+    <div class="hcard">
+      <h3>Weekly snow depth — ${yrs.length} natural season${yrs.length>1?'s':''}${SM?` + snow-making`:''} overlaid</h3>
+      <p class="cap">Each solid line is one season's on-ground natural depth, coloured by ENSO state.${SM?` <strong style="color:#c2710f">Orange dashed lines are snow-making-area depth</strong> for the later years where natural readings stopped.`:''} <strong>Hover any line</strong> to read its year, date and depth.</p>
+      <div class="hchartwrap">${hLineChart(S, SM)}<div class="htip" id="htip" hidden></div></div>
+      <div class="hlegend">
+        <span><i class="hln" style="border-color:#d6453d"></i> El Niño</span>
+        <span><i class="hln" style="border-color:#2f74c0"></i> La Niña</span>
+        <span><i class="hln" style="border-color:#9aa6b2"></i> Neutral</span>
+        ${SM?`<span><i class="hln" style="border-color:#e8821e;border-top-style:dashed"></i> Snow-making area (not natural)</span>`:''}
+        <span><strong>${maxY}</strong> bold (most recent natural)</span>
+      </div>
+    </div>
+    <div class="hcard">
+      <h3>Average snow depth by week of season <span style="font-weight:400;color:#6b7785;font-size:12px">— ${yrs.length}-season natural mean</span></h3>
+      <p class="cap">Mean natural depth for each week across ${meta.name}'s ${minY}–${maxY} seasons (interpolated onto a common weekly grid; thin-coverage weeks dropped). Shows <strong>when the snowpack is historically deepest</strong>. Hover for value and season count.${SM?' Snow-making years are excluded here.':''}</p>
+      <div class="hchartwrap2">${hWeeklyBar(S)}<div class="htip" id="htip2" hidden></div></div>
+    </div>
+    <div class="hcard">
+      <h3>Peak snow depth by season <span style="font-weight:400;color:#6b7785;font-size:12px">— natural depth</span></h3>
+      <p class="cap">Deepest weekly mean each natural season. Bar colour = ENSO state. Switch the ordering below. Recent seasons ARV hasn’t published yet appear as “no data”.</p>
+      <div class="htoggle" id="hbartoggle">
+        <button data-mode="depth" class="active">By depth</button>
+        <button data-mode="chrono">Chronological</button>
+        <button data-mode="enso">By El Niño / La Niña</button>
+      </div>
+      <div id="hbar">${hBarChart(S,"depth",H_MISS_ACTIVE)}</div>
+    </div>
+    <div class="hcard">
+      <h3>El Niño / La Niña vs season quality <span style="font-weight:400;color:#6b7785;font-size:12px">— natural depth</span></h3>
+      <p class="cap">Mean peak natural depth grouped by winter ENSO state (small samples — tendency, not rule).</p>
+      <div class="hgroups">
+        <div class="hgrp en"><div class="gname">El Niño</div><div class="gmean">${enMean!=null?enMean+' cm':'—'}</div><div class="gyears">${grp.en.map(p=>p.y+' ('+p.cm+')').join('<br>')||'—'}</div></div>
+        <div class="hgrp ln"><div class="gname">La Niña</div><div class="gmean">${lnMean!=null?lnMean+' cm':'—'}</div><div class="gyears">${grp.ln.map(p=>p.y+' ('+p.cm+')').join('<br>')||'—'}</div></div>
+        <div class="hgrp ne"><div class="gname">Neutral</div><div class="gmean">${neMean!=null?neMean+' cm':'—'}</div><div class="gyears">${grp.neutral.map(p=>p.y+' ('+p.cm+')').join('<br>')||'—'}</div></div>
+      </div>
+      <div class="hnote"><strong>The honest read.</strong> Across natural seasons ${minY}–${maxY}: deepest ${deepest.y} (${deepest.cm} cm), leanest ${leanest.y} (${leanest.cm} cm), median ${med} cm. Group means — El Niño ${enMean!=null?enMean+' cm':'n/a'} (n=${grp.en.length}), La Niña ${lnMean!=null?lnMean+' cm':'n/a'} (n=${grp.ln.length}), neutral ${neMean!=null?neMean+' cm':'n/a'} (n=${grp.neutral.length}). Small samples — read as a tendency only. These are on-ground <em>natural</em> depths at the resort (snow-making excluded), so they sit below high-altitude benchmarks like Spencers Creek.</div>
+    </div>
+    <div class="hcard">
+      <h3>Season-by-season</h3>
+      <table class="htable"><thead><tr><th>Season</th><th>Peak depth</th><th>Peaked</th><th>Winter ENSO</th><th>ONI (JJA)</th></tr></thead><tbody>${rows}${smRows}${missRows}</tbody></table>
+    </div>
+    <div class="hcard">
+      <h3>What are El Niño &amp; La Niña?</h3>
+      <p class="cap" style="margin-bottom:8px">They're the two opposite phases of a natural Pacific Ocean–atmosphere cycle (ENSO), tracked by sea-surface temperature in the central tropical Pacific (the Oceanic Niño Index).</p>
+      <table class="htable"><tbody>
+        <tr><td style="white-space:nowrap"><span class="hbadge en">El Niño</span></td><td>Central/eastern Pacific <strong>warmer</strong> than average. For south-east Australia it tends to push winters <strong>warmer and drier</strong> — often poorer snow.</td></tr>
+        <tr><td style="white-space:nowrap"><span class="hbadge ln">La Niña</span></td><td>That same region <strong>cooler</strong> than average. Tends to bring <strong>cooler, wetter</strong> conditions — often better snow, provided it's cold enough to fall as snow rather than rain.</td></tr>
+        <tr><td style="white-space:nowrap"><span class="hbadge ne">Neutral</span></td><td>Neither phase — the Pacific sits near its long-term average and other weather drivers dominate.</td></tr>
+      </tbody></table>
+    </div>
+    <div class="foot">
+      <h3>Sources &amp; method</h3>
+      <p>Snow depth: <a href="https://www.alpineresorts.vic.gov.au/the-resorts/visitation-statistics/snow-depth-datasets2" target="_blank" rel="noopener">Alpine Resorts Victoria — daily snow-depth records</a> (CC-BY), ${meta.name}'s own on-mountain measurements. Natural depth plotted as the weekly mean of daily natural readings (snow-making excluded).${SM?' Snow-making-area depth (orange dashed) is ARV\'s separate machine-area probe figure for years where natural depth was no longer reported.':''} ENSO: <a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/ensostuff/ONI_v5.php" target="_blank" rel="noopener">NOAA CPC Oceanic Niño Index</a> (austral-winter JJA).</p>
+      <p>"Peak depth" is the deepest weekly mean each season. Natural coverage: ${meta.name} ${minY}–${maxY}. Source file: ${meta.file}.</p>
+    </div>
+  </div>`;
+}
+
+function wireHistoryHover(){
+  const wrap = document.querySelector('.hchartwrap');
+  if(!wrap) return;
+  const svg = wrap.querySelector('svg'), tip = document.getElementById('htip'), focus = wrap.querySelector('#hfocus');
+  if(!svg || !tip || !focus) return;
+  const lines = [...svg.querySelectorAll('.hline')];
+  function show(t){
+    const key=t.getAttribute('data-y'), disp=t.getAttribute('data-disp')||key, d=t.getAttribute('data-d'), v=t.getAttribute('data-v'), c=t.getAttribute('data-c'), sm=t.getAttribute('data-sm');
+    focus.setAttribute('cx', t.getAttribute('cx')); focus.setAttribute('cy', t.getAttribute('cy'));
+    focus.setAttribute('fill', c); focus.setAttribute('opacity','1');
+    lines.forEach(l=>{ l.style.opacity = (l.getAttribute('data-year')===key) ? '1' : '0.12'; });
+    tip.innerHTML = '<b>'+disp+'</b> · '+hFmt(d)+' · <b>'+v+' cm</b>'+(sm?' · snow-making area':'');
+    tip.hidden = false;
+    const r=t.getBoundingClientRect(), w=wrap.getBoundingClientRect();
+    tip.style.left = (r.left - w.left + r.width/2) + 'px';
+    tip.style.top  = (r.top - w.top) + 'px';
+  }
+  function hide(){ tip.hidden = true; focus.setAttribute('opacity','0'); lines.forEach(l=> l.style.opacity = l.getAttribute('data-op')); }
+  svg.addEventListener('pointerover', e=>{ const t=e.target; if(t && t.classList && t.classList.contains('hhit')) show(t); });
+  svg.addEventListener('pointerout',  e=>{ const t=e.target; if(t && t.classList && t.classList.contains('hhit')) hide(); });
+}
+function wireWeeklyHover(){
+  const wrap=document.querySelector('.hchartwrap2'); if(!wrap) return;
+  const svg=wrap.querySelector('svg'), tip=document.getElementById('htip2'); if(!svg||!tip) return;
+  svg.addEventListener('pointerover', e=>{ const t=e.target; if(!t.classList||!t.classList.contains('wbar')) return;
+    tip.innerHTML='<b>'+t.getAttribute('data-l')+'</b> · mean <b>'+t.getAttribute('data-v')+' cm</b> · '+t.getAttribute('data-n')+' seasons';
+    tip.hidden=false; const r=t.getBoundingClientRect(), w=wrap.getBoundingClientRect();
+    tip.style.left=(r.left-w.left+r.width/2)+'px'; tip.style.top=(r.top-w.top)+'px'; });
+  svg.addEventListener('pointerout', e=>{ const t=e.target; if(t.classList&&t.classList.contains('wbar')) tip.hidden=true; });
+}
+function wireBarToggle(){
+  const tg = document.getElementById("hbartoggle"); if(!tg) return;
+  tg.addEventListener("click", e=>{
+    const b = e.target.closest("button"); if(!b) return;
+    tg.querySelectorAll("button").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    const host = document.getElementById("hbar");
+    if(host && H_ACTIVE) host.innerHTML = hBarChart(H_ACTIVE, b.dataset.mode, H_MISS_ACTIVE);
+  });
+}
+
+const pill = {high:["p-high","High"], likely:["p-likely","Likely"], possible:["p-possible","Possible"], none:["p-none","None"]};
+const smkClass = {likely:"sm-likely", possible:"sm-possible", unlikely:"sm-unlikely"};
+const smkLabel = {likely:"Likely", possible:"Possible", unlikely:"Unlikely"};
+
+function condStrip(c){
+  const muted = (v)=> (v==="—") ? ' muted' : '';
+  return `
+  <div class="cond">
+    <div class="cbox"><div class="lbl">Base depth</div><div class="val${muted(c.base)}">${c.base}</div></div>
+    <div class="cbox"><div class="lbl">New (24 h)</div><div class="val${muted(c.last24)}">${c.last24}</div></div>
+    <div class="cbox"><div class="lbl">New (7 d)</div><div class="val${muted(c.last7)}">${c.last7}</div></div>
+    <div class="cbox"><div class="lbl">Season to date</div><div class="val${muted(c.season)}">${c.season}</div></div>
+    <div class="cbox"><div class="lbl">Lifts open</div><div class="val${muted(c.lifts)}">${c.lifts}</div></div>
+    <div class="cbox"><div class="lbl">Snowmaking</div><div class="val" style="font-size:15px">${c.snowmaking}</div></div>
+  </div>
+  <div class="condnote">${c.note} &nbsp;·&nbsp; Source: <a href="${c.sourceUrl}" target="_blank" rel="noopener">${c.source}</a>${c.asAt?` (as at ${c.asAt}${c.depthAsAt?`, depth ${c.depthAsAt}`:''})`:''}.</div>`;
+}
+
+function render(key){
+  if(key.slice(-2)==='-h'){ document.getElementById("panel").innerHTML = renderHistory(key.slice(0,-2)); wireHistoryHover(); wireWeeklyHover(); wireBarToggle(); return; }
+  const m = M[key];
+  const stale = m.stale ? `<div class="stale">⚠ ${m.staleNote}</div>` : '';
+  // Always start the table at TODAY (live local date) — drop elapsed days, for every mountain.
+  const _today = new Date(); _today.setHours(0,0,0,0);
+  const _MON = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+  const _dayDate = (ds)=>{ const p=String(ds).trim().split(/\s+/); let dt=new Date(_today.getFullYear(), _MON[p[2]], parseInt(p[1],10)); if((dt-_today)/86400000 < -180){ dt=new Date(_today.getFullYear()+1, _MON[p[2]], parseInt(p[1],10)); } return dt; };
+  let _days = m.days.filter(r=> _dayDate(r.d) >= _today);
+  if(!_days.length) _days = m.days; // safety: never blank the table
+  const rows = _days.map(r=>{
+    const p = pill[r.lk];
+    const z = r.cm.trim().startsWith("0 cm") || r.cm.trim()==="0–1 cm" ? " " : "";
+    const zero = (r.cm.trim()==="0 cm") ? " zero" : "";
+    const ld = r.lvl === "—" ? " dash" : "";
+    const sc = smkClass[r.smk] || "";
+    const sl = smkLabel[r.smk] || r.smk;
+    return `<tr class="${r.conf}${r.past?' past':''}">
+      <td class="daycell">${r.d}<small>${r.past?'past':(r.conf==="firm"?"firm":"outlook")}</small></td>
+      <td>${r.c}</td>
+      <td class="snowcm${zero}">${r.cm}</td>
+      <td class="lvl${ld}">${r.lvl}</td>
+      <td><span class="pill ${p[0]}">${p[1]}</span></td>
+      <td class="sm ${sc}">${sl}</td>
+      <td>${r.w}</td>
+    </tr>`;
+  }).join("");
+
+  document.getElementById("panel").innerHTML = `
+    <div style="margin:6px 2px 0"><strong style="font-size:15px">${m.name}</strong> <span style="color:#6b7785;font-size:13px">— ${m.sub}</span></div>
+    <div class="stamp" style="margin-top:4px;color:#51606e">Snowatch forecast issued: <strong>${m.issued}</strong> &nbsp;|&nbsp; Live temp ${m.liveTemp}</div>
+    ${stale}
+    ${condStrip(m.cond)}
+    <div class="cards">
+      <div class="card"><div class="lbl">Live temp</div><div class="val">${m.liveTemp}</div></div>
+      <div class="card"><div class="lbl">Next 5 days</div><div class="val">${m.p5.replace(' cm','')}<span class="unit"> cm</span></div></div>
+      <div class="card"><div class="lbl">Next 10 days</div><div class="val">${m.p10.replace(' cm','')}<span class="unit"> cm</span></div></div>
+      <div class="card"><div class="lbl">Next 15 days</div><div class="val">${m.p15.replace(' cm','')}<span class="unit"> cm</span></div></div>
+    </div>
+    <h2>15-day forecast</h2>
+    <table>
+      <thead><tr><th>Day</th><th>Conditions (AM › Mid › Night)</th><th>Snow</th><th>Snow level</th><th>Likelihood</th><th>Snowmaking</th><th>Wind</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="legend">
+      <span><i class="sw" style="background:#2e8b57"></i> Days 1–7: firm confidence</span>
+      <span><i class="sw" style="background:#d6a417"></i> Days 8–15: outlook only</span>
+      <span><i class="pill p-likely">Likely</i> snow expected</span>
+      <span><i class="pill p-possible">Possible</i> chance only</span>
+    </div>
+    <div class="foot">
+      <h3>Sources &amp; method</h3>
+      <p>Forecast: <a href="https://www.snowatch.com.au/15-day-forecasts/${key==='buller'?'mt-buller':key}/" target="_blank" rel="noopener">Snowatch 15-day</a> (Pete "The Frog" Taylor; temp &amp; model data from the <a href="http://www.bom.gov.au/" target="_blank" rel="noopener">BOM</a>). Current conditions: official resort report where auto-readable, otherwise linked above.</p>
+      <p><strong>Likelihood</strong> graded from Snowatch wording, not invented percentages: <em>High</em> = sustained snow 5 cm+; <em>Likely</em> = light-snow with measurable cm; <em>Possible</em> = "chance"/trace; <em>None</em> = fine/cloudy, 0 cm. <strong>Snowmaking</strong> is Snowatch's daily call (temp/humidity window), not a guarantee guns run. Days 1–7 reliable; 8–15 indicative direction only.</p>
+    </div>`;
+}
+
+// Tabs
+document.getElementById("tabs").addEventListener("click", (e)=>{
+  const btn = e.target.closest(".tab");
+  if(!btn) return;
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  btn.classList.add("active");
+  render(btn.dataset.m);
+  try { localStorage.setItem("vicSnowTab", btn.dataset.m); } catch(_){}
+});
+
+// ---- Update button (Cowork only) ----
+const TASK_ID = "vic-snow-report-nightly";
+
+document.getElementById("updbtn").addEventListener("click", async ()=>{
+  const btn = document.getElementById("updbtn");
+  const st = document.getElementById("updstatus");
+  st.className = "updstatus";
+  if(!(window.cowork && typeof window.cowork.runScheduledTask === "function")){
+    st.classList.add("err");
+    st.textContent = "Live update runs only in the Cowork desktop app. This public page refreshes when the site is redeployed (nightly).";
+    return;
+  }
+  btn.disabled = true;
+  st.textContent = "Fetching fresh data… reload in a few minutes.";
+  try { await window.cowork.runScheduledTask(TASK_ID); setTimeout(()=>location.reload(), 1500); }
+  catch (err) { st.classList.add("err"); st.textContent = "Couldn't start the update: " + (err && err.message ? err.message : err); btn.disabled = false; }
+});
+
+// Init — hide the in-app Update button on the public web build
+(function(){
+  const hasCowork = !!(window.cowork && typeof window.cowork.runScheduledTask === "function");
+  const gs = document.getElementById("globalstamp"), ub = document.getElementById("updbtn");
+  if(hasCowork){ gs.innerHTML = `Snapshot built <strong>${BUILT}</strong> · refreshes nightly 6 AM, or tap “Update now”.`; }
+  else { if(ub) ub.style.display = "none"; gs.innerHTML = `Snapshot built <strong>${BUILT}</strong> · refreshes daily. Source: Snowatch / BOM.`; }
+})();
+let initTab = "falls";
+try { const saved = localStorage.getItem("vicSnowTab"); if(saved && (M[saved] || /-h$/.test(saved))) initTab = saved; } catch(_){}
+document.querySelectorAll(".tab").forEach(t=>{ t.classList.toggle("active", t.dataset.m===initTab); });
+render(initTab);
+</script>
+</body>
+</html>
