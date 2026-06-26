@@ -51,4 +51,4 @@ git add index.html
 git commit -m "Update snow data 24 Jun"
 git push
 ```
-Vercel redeploys automatically.
+Vercel redeploys automatically. 
