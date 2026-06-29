@@ -142,6 +142,7 @@ const M = "const M = {\n" + MTN.map((cfg,i)=>mtnJs(cfg, fc[cfg.key], conds[i])).
 const builtStamp = new Intl.DateTimeFormat("en-AU",{timeZone:"Australia/Melbourne",day:"numeric",month:"long",year:"numeric",hour:"numeric",minute:"2-digit",hour12:true}).format(new Date()).replace(/ /g," ") + " AEST";
 
 let out = html.replace(/const M = \{[\s\S]*?\n\};/, ()=>M);
+if(out === html){ console.log("No forecast change — nothing to do."); process.exit(0); }  // only bump BUILT when data actually changed
 out = out.replace(/const BUILT = "[^"]*";/, `const BUILT = "${builtStamp}";`);
 
 // ---- structural validation gate (never publish a broken page) ----
@@ -158,6 +159,5 @@ if((out.match(/\{/g)||[]).length !== (out.match(/\}/g)||[]).length) fail("brace 
 const sz = Buffer.byteLength(out);
 if(sz<45000 || sz>100000) fail("size out of range: "+sz);
 
-if(out === html){ console.log("No change — index.html already current."); process.exit(0); }
 writeFileSync(FILE, out);
 console.log("Rebuilt index.html ("+sz+" bytes). Issued:", Object.fromEntries(MTN.map(c=>[c.key, fc[c.key].issued])));
