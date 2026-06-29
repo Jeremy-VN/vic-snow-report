@@ -87,7 +87,7 @@ function parseSnow(html){
     const narr = narrM? narrM[1].replace(/⟦[^⟧]*⟧/g,"").replace(/\s+/g," ").trim() : "";
     const smkM = seg.match(/SNOWMAKING\s*(LIKELY|POSSIBLE|UNLIKELY)/i);
     const smk = smkM? smkM[1].toLowerCase() : "unlikely";
-    const windM = seg.match(/WIND\s*([A-Z]{1,3}(?:-[A-Z]{1,3})?)\s*(LIGHT|MODERATE|STRONG|GALE\w*)?/i);
+    const windM = seg.match(/WIND\s+([NESW]{1,3}(?:-[NESW]{1,3})?)\s*(LIGHT|MODERATE|STRONG|GALE\w*)?/);  // case-sensitive WIND label (avoids matching "Winds" in narrative)
     const wind = windM? (windM[1]+(windM[2]?", "+windM[2].toLowerCase().replace("moderate","mod"):"")) : "";
     const past = date < today;
     days.push({
@@ -139,7 +139,8 @@ for(const cfg of MTN){
 }
 
 const M = "const M = {\n" + MTN.map((cfg,i)=>mtnJs(cfg, fc[cfg.key], conds[i])).join(",\n") + "\n};";
-const builtStamp = new Intl.DateTimeFormat("en-AU",{timeZone:"Australia/Melbourne",day:"numeric",month:"long",year:"numeric",hour:"numeric",minute:"2-digit",hour12:true}).format(new Date()).replace(/ /g," ") + " AEST";
+const _bp = Object.fromEntries(new Intl.DateTimeFormat("en-AU",{timeZone:"Australia/Melbourne",day:"numeric",month:"long",year:"numeric",hour:"numeric",minute:"2-digit",hour12:true}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+const builtStamp = `${_bp.day} ${_bp.month} ${_bp.year}, ${_bp.hour}:${_bp.minute} ${(_bp.dayPeriod||"").toUpperCase()} AEST`;
 
 let out = html.replace(/const M = \{[\s\S]*?\n\};/, ()=>M);
 if(out === html){ console.log("No forecast change — nothing to do."); process.exit(0); }  // only bump BUILT when data actually changed
