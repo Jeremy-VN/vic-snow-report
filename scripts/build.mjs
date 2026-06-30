@@ -36,7 +36,7 @@ function cmRange(s){ // "0" -> "0 cm" ; "2 - 6" -> "2–6 cm"
 function predFmt(s){ if(!s) return "—"; return s.replace(/\s*-\s*/,"–").replace(/cm$/,"").trim()+" cm"; }
 function cond3(title){ const t=(title||"").trim().toLowerCase(); return ICON[t] || (title?title.trim():""); }
 function level(narr){
-  const m = narr.match(/(?:above|lowering(?: overnight)? to|about)\s*~?\s*\d{3,4}\s*(?:-\s*\d{3,4})?\s*m[^.,]*/i);
+  const m = narr.match(/(?:above|lowering(?: overnight| later)? to|about)\s*(?:around\s*)?~?\s*\d{3,4}\s*(?:-\s*\d{3,4})?\s*m[^.,]*/i);
   if(m) return m[0].replace(/\s+/g," ").trim().replace(/^(\w)/,c=>c.toUpperCase());
   if(/about the peaks|about the tops/i.test(narr) && /snow/i.test(narr)) return "About the peaks";
   return "—";
