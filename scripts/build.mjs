@@ -178,23 +178,24 @@ for(const key of ["falls","hotham","buller"]){
 if(Object.keys(cmpAll).length) CMP = JSON.stringify(cmpAll);
 
 // ---- Forecast-accuracy tracker: append today's Falls Creek snapshot ----
+// The official Falls Creek 24-hour snowfall is locked behind JavaScript on the resort
+// site, so it can't be fetched headless. Instead the actual is recorded by hand in
+// data/actuals.json ({"YYYY-MM-DD": cm}); the build merges it in and backfills past
+// rows on every run, so adding a number later fills the matching day automatically.
 try {
   const todayISO = new Intl.DateTimeFormat("en-CA",{timeZone:"Australia/Melbourne",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
-  let actual = null;
-  try {
-    const sf = await getText("https://www.skifalls.com.au/snow-report?t=" + Date.now());
-    const a = sf.match(/24\s*hours?[^0-9]{0,24}(\d+(?:\.\d+)?)\s*cm/i) || sf.match(/(\d+(?:\.\d+)?)\s*cm[^0-9]{0,16}(?:in\s*the\s*)?(?:last\s*)?24\s*hours?/i);
-    if(a) actual = parseFloat(a[1]);
-  } catch(e){ console.warn("skifalls actual-snow fetch: " + e.message); }
+  let acts = {}; try { acts = JSON.parse(readFileSync("data/actuals.json","utf8")); } catch(_){}
   const swDaily = {}; fc.falls.days.forEach(d=>{ swDaily[d.d] = d.cm; });
   const mwDaily = {}; if(mwData) mwData.days.forEach(d=>{ mwDaily[d.label] = d.cm; });
-  const row = { date: todayISO, issued: fc.falls.issued, actual24h: actual, mw7: mwData?mwData.total7:null, swDaily, mwDaily };
+  const row = { date: todayISO, issued: fc.falls.issued, actual24h: (acts[todayISO]!=null?acts[todayISO]:null), mw7: mwData?mwData.total7:null, swDaily, mwDaily };
   const LOG = "data/forecast-log.json";
   let log = []; try { log = JSON.parse(readFileSync(LOG,"utf8")); } catch(_){}
-  log = log.filter(r=> r.date !== todayISO); log.push(row); log.sort((a,b)=> a.date<b.date?-1:1);
+  log = log.filter(r=> r.date !== todayISO); log.push(row);
+  log.forEach(r=>{ if(acts[r.date]!=null) r.actual24h = acts[r.date]; });   // backfill actuals added after the fact
+  log.sort((a,b)=> a.date<b.date?-1:1);
   mkdirSync("data", { recursive:true });
   writeFileSync(LOG, JSON.stringify(log, null, 1));
-  console.log(`Tracker: logged ${todayISO} (actual24h=${actual}, MW Falls 7-day=${mwData?mwData.total7+"cm":"n/a"}).`);
+  console.log(`Tracker: logged ${todayISO} (actual24h=${row.actual24h}, MW Falls 7-day=${mwData?mwData.total7+"cm":"n/a"}).`);
 } catch(e){ console.warn("Tracker log: " + e.message); }
 
 const M = "const M = {\n" + MTN.map((cfg,i)=>mtnJs(cfg, fc[cfg.key], conds[i])).join(",\n") + "\n};";
