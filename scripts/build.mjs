@@ -153,19 +153,29 @@ for(const cfg of MTN){
   fc[cfg.key] = res;
 }
 
-// ---- Mountainwatch comparison strip (Falls Creek) ----
+// ---- Mountainwatch comparison strips (all three mountains) ----
+const MW_URL = {
+  falls:  "https://www.mountainwatch.com/australia/falls-creek/weather/",
+  hotham: "https://www.mountainwatch.com/australia/mt-hotham/weather/",
+  buller: "https://www.mountainwatch.com/australia/mount-buller/weather/",
+};
 let CMP = "null";
-let mwData = null;
-try {
-  mwData = parseMW(await getText("https://www.mountainwatch.com/australia/falls-creek/weather/?t=" + Date.now()));
-} catch(e){ console.warn("Mountainwatch fetch/parse: " + e.message + " — comparison strip skipped this run."); }
-if(mwData){
-  const days = mwData.days.map(d=>{
-    const sw = fc.falls.days.find(s=> s.d.startsWith(d.label));   // "Tue 30 Jun".startsWith("Tue 30")
-    return { label:d.label, sw: sw? sw.cm : "—", mw: d.cm };
-  });
-  CMP = JSON.stringify({ elev:mwData.elev, days, mw7:mwData.total7 });
+let mwData = null;                 // Falls Creek MW (kept for the accuracy tracker)
+const cmpAll = {};
+for(const key of ["falls","hotham","buller"]){
+  try {
+    const mw = parseMW(await getText(MW_URL[key] + "?t=" + Date.now()));
+    if(mw){
+      const days = mw.days.map(d=>{
+        const sw = fc[key].days.find(s=> s.d.startsWith(d.label));   // "Tue 30 Jun".startsWith("Tue 30")
+        return { label:d.label, sw: sw? sw.cm : "—", mw: d.cm };
+      });
+      cmpAll[key] = { elev:mw.elev, days, mw7:mw.total7 };
+      if(key==="falls") mwData = mw;
+    }
+  } catch(e){ console.warn("Mountainwatch "+key+": "+e.message+" — strip skipped this run."); }
 }
+if(Object.keys(cmpAll).length) CMP = JSON.stringify(cmpAll);
 
 // ---- Forecast-accuracy tracker: append today's Falls Creek snapshot ----
 try {
