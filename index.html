@@ -158,18 +158,18 @@ tr.past td { opacity: 0.45; }
 
 <script>
 const ISSUED_GLOBAL = "24 June 2026"; // build date
-const BUILT = "29 June 2026, 7:23 PM AEST";
-const CMP = null;  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
+const BUILT = "30 June 2026, 2:29 PM AEST";
+const CMP = {"falls":{"elev":"1770","days":[{"label":"Tue 30","sw":"0 cm","mw":0},{"label":"Wed 1","sw":"0 cm","mw":10},{"label":"Thu 2","sw":"3–12 cm","mw":30.2},{"label":"Fri 3","sw":"5–10 cm","mw":27.2},{"label":"Sat 4","sw":"0–1 cm","mw":0.5},{"label":"Sun 5","sw":"0 cm","mw":0.2},{"label":"Mon 6","sw":"0 cm","mw":1}],"mw7":69},"hotham":{"elev":"1850","days":[{"label":"Tue 30","sw":"0 cm","mw":0},{"label":"Wed 1","sw":"0 cm","mw":3.3},{"label":"Thu 2","sw":"3–12 cm","mw":37.5},{"label":"Fri 3","sw":"5–10 cm","mw":31.2},{"label":"Sat 4","sw":"0–1 cm","mw":0.6},{"label":"Sun 5","sw":"0 cm","mw":0.2},{"label":"Mon 6","sw":"0 cm","mw":0.7}],"mw7":74},"buller":{"elev":"1710","days":[{"label":"Tue 30","sw":"0 cm","mw":0},{"label":"Wed 1","sw":"0 cm","mw":0},{"label":"Thu 2","sw":"0–7 cm","mw":10.8},{"label":"Fri 3","sw":"5–15 cm","mw":20.6},{"label":"Sat 4","sw":"0–1 cm","mw":1.8},{"label":"Sun 5","sw":"0 cm","mw":0},{"label":"Mon 6","sw":"0 cm","mw":0}],"mw7":33}};  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
 
 const M = {
   falls: {
     name: "Falls Creek",
     sub: "Village 1600 m · Summit 1842 m · 14 lifts",
-    issued: "26 Jun 2026, 6:27 AM",
-    stale: true,
-    staleNote: "Snowatch last refreshed this forecast on 26 Jun 2026 — 3 days old. Elapsed days are dropped so the table starts on today's date. The conditions strip below shows each report's own date.",
-    liveTemp: "3°C",
-    p5: "0 cm", p10: "3–10 cm", p15: "6–19 cm",
+    issued: "30 Jun 2026, 7:16 AM",
+    stale: false,
+    staleNote: "",
+    liveTemp: "4.5°C",
+    p5: "8–23 cm", p10: "8–23 cm", p15: "8–23 cm",
     cond: {
       auto: true, source: "skifalls.com.au", sourceUrl: "https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report",
       asAt: "23 Jun, 7:42 AM", depthAsAt: null,
@@ -179,31 +179,31 @@ const M = {
       note: "Snow report dated 23 Jun: a light dusting in resort yesterday and snowmaking is back ON, guns firing at −2.8°C — but not enough to get skiing/boarding operational the next few days. Halley's Comet (Slalom Plaza) open daily 10am–3pm for scenic chairlift rides and Cloud 9 access. Weather −0.4°C / wind 13 km/h S, late shower (WeatherZone, 24 Jun 6:00 AM). Terrain status 24 Jun 6:08 AM: 1 lift expected to open, 0 trails open/groomed."
     },
     days: [
-      {d:"Fri 26 Jun", c:"Fine › Part cloud › Fine", cm:"0 cm", lvl:"—", lk:"none", w:"W-SE, light", smk:"possible", conf:"firm", past:true},
-      {d:"Sat 27 Jun", c:"Fine all day", cm:"0 cm", lvl:"—", lk:"none", w:"ENE-SE, light", smk:"possible", conf:"firm", past:true},
-      {d:"Sun 28 Jun", c:"Fine › Fine › Cloudy", cm:"0 cm", lvl:"—", lk:"none", w:"NNE-N, mod", smk:"unlikely", conf:"firm", past:true},
-      {d:"Mon 29 Jun", c:"Cloudy all day", cm:"0 cm", lvl:"—", lk:"none", w:"N, mod", smk:"unlikely", conf:"firm"},
-      {d:"Tue 30 Jun", c:"Showers all day", cm:"0 cm", lvl:"—", lk:"none", w:"NNW, strong", smk:"unlikely", conf:"firm"},
-      {d:"Wed 1 Jul", c:"Showers › Showers › Rain", cm:"0 cm", lvl:"—", lk:"none", w:"N-NNW, strong", smk:"unlikely", conf:"firm"},
-      {d:"Thu 2 Jul", c:"Cloudy › Cloudy › Showers", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NW, strong", smk:"unlikely", conf:"firm"},
-      {d:"Fri 3 Jul", c:"Showers › Snow › Snow", cm:"2–6 cm", lvl:"About the peaks", lk:"high", w:"NW-SW, strong", smk:"likely", conf:"low"},
-      {d:"Sat 4 Jul", c:"Snow all day", cm:"1–4 cm", lvl:"—", lk:"likely", w:"SSW-S, strong", smk:"likely", conf:"low"},
-      {d:"Sun 5 Jul", c:"Part cloud all day", cm:"0 cm", lvl:"—", lk:"none", w:"SSE-SE, light", smk:"possible", conf:"low"},
-      {d:"Mon 6 Jul", c:"Cloudy all day", cm:"0 cm", lvl:"—", lk:"none", w:"SSE-ESE, light", smk:"unlikely", conf:"low"},
-      {d:"Tue 7 Jul", c:"Fine › Fine › Showers", cm:"0 cm", lvl:"—", lk:"none", w:"SSE-NNW, light", smk:"likely", conf:"low"},
-      {d:"Wed 8 Jul", c:"Part cloud › Part cloud › Showers", cm:"0 cm", lvl:"Above 1800m", lk:"possible", w:"NNW-NW, mod", smk:"unlikely", conf:"low"},
-      {d:"Thu 9 Jul", c:"Showers › Snow › Snow", cm:"1–4 cm", lvl:"Above 1700m and lowering late to around 1400m", lk:"likely", w:"NW-WNW, strong", smk:"likely", conf:"low"},
-      {d:"Fri 10 Jul", c:"Fine all day", cm:"2–5 cm", lvl:"Above 1200m", lk:"high", w:"SW, strong", smk:"likely", conf:"low"}
+      {d:"Tue 30 Jun", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"N-NW, strong", smk:"unlikely", conf:"firm"},
+      {d:"Wed 1 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"N-NW, strong", smk:"unlikely", conf:"firm"},
+      {d:"Thu 2 Jul", c:"—", cm:"3–12 cm", lvl:"Above around 1600-1700m (lower in the south)", lk:"high", w:"NNW-NW, strong", smk:"unlikely", conf:"firm"},
+      {d:"Fri 3 Jul", c:"—", cm:"5–10 cm", lvl:"Above around 1500-1600m", lk:"high", w:"NW-W, strong", smk:"unlikely", conf:"firm"},
+      {d:"Sat 4 Jul", c:"—", cm:"0–1 cm", lvl:"—", lk:"likely", w:"SW-SSW, mod", smk:"likely", conf:"firm"},
+      {d:"Sun 5 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"S-SSE, mod", smk:"likely", conf:"firm"},
+      {d:"Mon 6 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"SSE, light", smk:"likely", conf:"firm"},
+      {d:"Tue 7 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"SSE, light", smk:"likely", conf:"low"},
+      {d:"Wed 8 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"ESE-SE, light", smk:"unlikely", conf:"low"},
+      {d:"Thu 9 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"NE-NW, light", smk:"likely", conf:"low"},
+      {d:"Fri 10 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"NW-WNW, light", smk:"likely", conf:"low"},
+      {d:"Sat 11 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"NW, light", smk:"likely", conf:"low"},
+      {d:"Sun 12 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NW, light", smk:"likely", conf:"low"},
+      {d:"Mon 13 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"possible", w:"NW-NNW, light", smk:"possible", conf:"low"},
+      {d:"Tue 14 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NW, light", smk:"unlikely", conf:"low"}
     ]
   },
   hotham: {
     name: "Mount Hotham",
     sub: "Village 1750 m · Summit 1861 m · 13 lifts (incl. Dinner Plain)",
-    issued: "26 Jun 2026, 6:27 AM",
-    stale: true,
-    staleNote: "Snowatch last refreshed this forecast on 26 Jun 2026 — 3 days old. Elapsed days are dropped so the table starts on today's date. The conditions strip below shows each report's own date.",
-    liveTemp: "−0.8°C",
-    p5: "0 cm", p10: "3–10 cm", p15: "6–19 cm",
+    issued: "30 Jun 2026, 7:16 AM",
+    stale: false,
+    staleNote: "",
+    liveTemp: "4.1°C",
+    p5: "8–23 cm", p10: "8–23 cm", p15: "8–23 cm",
     cond: {
       auto: true, source: "mthotham.com.au", sourceUrl: "https://www.mthotham.com.au/mountain/conditions/snow-reports",
       asAt: "23 Jun, 10:25 AM", depthAsAt: null,
@@ -213,31 +213,31 @@ const M = {
       note: "Snow report issued 23 Jun 10:25 AM: not operational for skiing the next few days — team on standby, ready to make snow at every opportunity. Backcountry cover very thin and marginal; only higher elevations just skiable, take care on south-facing/shaded slopes. Natural snow — 24 h 2 cm, 7 d 2 cm, season 33 cm, depth 2 cm. Current −0.3°C / wind 19 km/h S (WeatherZone, 24 Jun 6:00 AM)."
     },
     days: [
-      {d:"Fri 26 Jun", c:"Fine › Part cloud › Fine", cm:"0 cm", lvl:"—", lk:"none", w:"W-SE, light", smk:"possible", conf:"firm", past:true},
-      {d:"Sat 27 Jun", c:"Fine all day", cm:"0 cm", lvl:"—", lk:"none", w:"ENE-SE, light", smk:"possible", conf:"firm", past:true},
-      {d:"Sun 28 Jun", c:"Fine › Fine › Cloudy", cm:"0 cm", lvl:"—", lk:"none", w:"NNE-N, mod", smk:"unlikely", conf:"firm", past:true},
-      {d:"Mon 29 Jun", c:"Cloudy all day", cm:"0 cm", lvl:"—", lk:"none", w:"N, mod", smk:"unlikely", conf:"firm"},
-      {d:"Tue 30 Jun", c:"Showers all day", cm:"0 cm", lvl:"—", lk:"none", w:"NNW, strong", smk:"unlikely", conf:"firm"},
-      {d:"Wed 1 Jul", c:"Showers › Showers › Rain", cm:"0 cm", lvl:"—", lk:"none", w:"N-NNW, strong", smk:"unlikely", conf:"firm"},
-      {d:"Thu 2 Jul", c:"Cloudy › Cloudy › Showers", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NW, strong", smk:"unlikely", conf:"firm"},
-      {d:"Fri 3 Jul", c:"Showers › Snow › Snow", cm:"2–6 cm", lvl:"About the peaks", lk:"high", w:"NW-SW, strong", smk:"likely", conf:"low"},
-      {d:"Sat 4 Jul", c:"Snow all day", cm:"1–4 cm", lvl:"—", lk:"likely", w:"SSW-S, strong", smk:"likely", conf:"low"},
-      {d:"Sun 5 Jul", c:"Part cloud all day", cm:"0 cm", lvl:"—", lk:"none", w:"SSE-SE, light", smk:"possible", conf:"low"},
-      {d:"Mon 6 Jul", c:"Cloudy all day", cm:"0 cm", lvl:"—", lk:"none", w:"SSE-ESE, light", smk:"unlikely", conf:"low"},
-      {d:"Tue 7 Jul", c:"Fine › Fine › Showers", cm:"0 cm", lvl:"—", lk:"none", w:"SSE-NNW, light", smk:"likely", conf:"low"},
-      {d:"Wed 8 Jul", c:"Part cloud › Part cloud › Showers", cm:"0 cm", lvl:"Above 1800m", lk:"possible", w:"NNW-NW, mod", smk:"unlikely", conf:"low"},
-      {d:"Thu 9 Jul", c:"Showers › Snow › Snow", cm:"1–4 cm", lvl:"Above 1700m and lowering late to around 1400m", lk:"likely", w:"NW-WNW, strong", smk:"likely", conf:"low"},
-      {d:"Fri 10 Jul", c:"Fine all day", cm:"2–5 cm", lvl:"Above 1200m", lk:"high", w:"SW, strong", smk:"likely", conf:"low"}
+      {d:"Tue 30 Jun", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"N-NW, strong", smk:"unlikely", conf:"firm"},
+      {d:"Wed 1 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"N-NW, strong", smk:"unlikely", conf:"firm"},
+      {d:"Thu 2 Jul", c:"—", cm:"3–12 cm", lvl:"Above around 1600-1700m (lower in the south)", lk:"high", w:"NNW-NW, strong", smk:"unlikely", conf:"firm"},
+      {d:"Fri 3 Jul", c:"—", cm:"5–10 cm", lvl:"Above around 1500-1600m", lk:"high", w:"NW-W, strong", smk:"unlikely", conf:"firm"},
+      {d:"Sat 4 Jul", c:"—", cm:"0–1 cm", lvl:"—", lk:"likely", w:"SW-SSW, mod", smk:"likely", conf:"firm"},
+      {d:"Sun 5 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"S-SSE, mod", smk:"likely", conf:"firm"},
+      {d:"Mon 6 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"SSE, light", smk:"likely", conf:"firm"},
+      {d:"Tue 7 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"SSE, light", smk:"likely", conf:"low"},
+      {d:"Wed 8 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"ESE-SE, light", smk:"unlikely", conf:"low"},
+      {d:"Thu 9 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"NE-NW, light", smk:"likely", conf:"low"},
+      {d:"Fri 10 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"NW-WNW, light", smk:"likely", conf:"low"},
+      {d:"Sat 11 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"NW, light", smk:"likely", conf:"low"},
+      {d:"Sun 12 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NW, light", smk:"likely", conf:"low"},
+      {d:"Mon 13 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"possible", w:"NW-NNW, light", smk:"possible", conf:"low"},
+      {d:"Tue 14 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NW, light", smk:"unlikely", conf:"low"}
     ]
   },
   buller: {
     name: "Mount Buller",
     sub: "Village 1600 m · Summit 1805 m · 22 lifts",
-    issued: "26 Jun 2026, 6:27 AM",
-    stale: true,
-    staleNote: "Snowatch last refreshed this forecast on 26 Jun 2026 — 3 days old. Elapsed days are dropped so the table starts on today's date. The conditions strip below shows each report's own date.",
-    liveTemp: "−0.1°C",
-    p5: "0 cm", p10: "3–9 cm", p15: "6–17 cm",
+    issued: "30 Jun 2026, 7:16 AM",
+    stale: false,
+    staleNote: "",
+    liveTemp: "4.8°C",
+    p5: "5–23 cm", p10: "5–23 cm", p15: "5–23 cm",
     cond: {
       auto: true, source: "mtbuller.com.au", sourceUrl: "https://www.mtbuller.com.au/winter/snow-weather/snow-report",
       asAt: "23 Jun, 7:05 AM", depthAsAt: null,
@@ -247,21 +247,21 @@ const M = {
       note: "Resort cover: Limited. Average natural 0 cm on the ground; 37 cm machine-made season-to-date (the 'made' figure, NOT snow currently on the ground). Snow last 24 h 0 cm; last snowfall 4 Jun. Ski Patrol (23 Jun 7:05 AM): day 18 of sliding, Bourke St soft and fun; cooler snap overnight firms early then softens — good for beginners. Live on-mountain temp/wind didn't render on the official page this run; Snowatch live temp −0.8°C (BOM)."
     },
     days: [
-      {d:"Fri 26 Jun", c:"Fine › Part cloud › Fine", cm:"0 cm", lvl:"—", lk:"none", w:"W-SE, light", smk:"unlikely", conf:"firm", past:true},
-      {d:"Sat 27 Jun", c:"Fine all day", cm:"0 cm", lvl:"—", lk:"none", w:"ENE-SE, light", smk:"unlikely", conf:"firm", past:true},
-      {d:"Sun 28 Jun", c:"Fine › Fine › Cloudy", cm:"0 cm", lvl:"—", lk:"none", w:"NNE-N, mod", smk:"unlikely", conf:"firm", past:true},
-      {d:"Mon 29 Jun", c:"Cloudy all day", cm:"0 cm", lvl:"—", lk:"none", w:"N, mod", smk:"unlikely", conf:"firm"},
-      {d:"Tue 30 Jun", c:"Showers › Rain › Showers", cm:"0 cm", lvl:"—", lk:"none", w:"NNW, strong", smk:"unlikely", conf:"firm"},
-      {d:"Wed 1 Jul", c:"Showers › Showers › Rain", cm:"0 cm", lvl:"—", lk:"none", w:"N-NNW, strong", smk:"unlikely", conf:"firm"},
-      {d:"Thu 2 Jul", c:"Cloudy › Cloudy › Showers", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NW, strong", smk:"unlikely", conf:"firm"},
-      {d:"Fri 3 Jul", c:"Showers › Snow › Snow", cm:"2–5 cm", lvl:"About the peaks", lk:"high", w:"NW-SW, strong", smk:"likely", conf:"low"},
-      {d:"Sat 4 Jul", c:"Snow all day", cm:"1–4 cm", lvl:"—", lk:"likely", w:"SSW-S, strong", smk:"likely", conf:"low"},
-      {d:"Sun 5 Jul", c:"Part cloud › Fine › Fine", cm:"0 cm", lvl:"—", lk:"none", w:"SSE-SE, light", smk:"likely", conf:"low"},
-      {d:"Mon 6 Jul", c:"Part cloud all day", cm:"0 cm", lvl:"—", lk:"none", w:"SSE-ESE, light", smk:"unlikely", conf:"low"},
-      {d:"Tue 7 Jul", c:"Fine › Fine › Showers", cm:"0 cm", lvl:"—", lk:"none", w:"SSE-NNW, light", smk:"possible", conf:"low"},
-      {d:"Wed 8 Jul", c:"Part cloud › Part cloud › Showers", cm:"0 cm", lvl:"Above 1800m", lk:"possible", w:"NNW-NW, mod", smk:"unlikely", conf:"low"},
-      {d:"Thu 9 Jul", c:"Showers › Snow › Snow", cm:"1–3 cm", lvl:"Above 1700m and lowering late to around 1400m", lk:"likely", w:"NW-WNW, strong", smk:"likely", conf:"low"},
-      {d:"Fri 10 Jul", c:"Fine all day", cm:"2–5 cm", lvl:"Above 1200m", lk:"high", w:"SW, strong", smk:"likely", conf:"low"}
+      {d:"Tue 30 Jun", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"N-NW, strong", smk:"unlikely", conf:"firm"},
+      {d:"Wed 1 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"N-NW, strong", smk:"unlikely", conf:"firm"},
+      {d:"Thu 2 Jul", c:"—", cm:"0–7 cm", lvl:"Above around 1600-1700m (lower in the south)", lk:"high", w:"NNW-NW, strong", smk:"unlikely", conf:"firm"},
+      {d:"Fri 3 Jul", c:"—", cm:"5–15 cm", lvl:"Above around 1500-1600m", lk:"high", w:"NW-W, strong", smk:"unlikely", conf:"firm"},
+      {d:"Sat 4 Jul", c:"—", cm:"0–1 cm", lvl:"—", lk:"likely", w:"SW-SSW, mod", smk:"likely", conf:"firm"},
+      {d:"Sun 5 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"S-SSE, mod", smk:"likely", conf:"firm"},
+      {d:"Mon 6 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"SSE, light", smk:"likely", conf:"firm"},
+      {d:"Tue 7 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"SSE, light", smk:"likely", conf:"low"},
+      {d:"Wed 8 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"ESE-SE, light", smk:"possible", conf:"low"},
+      {d:"Thu 9 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"NE-NW, light", smk:"likely", conf:"low"},
+      {d:"Fri 10 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"NW-WNW, light", smk:"likely", conf:"low"},
+      {d:"Sat 11 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"NW, light", smk:"likely", conf:"low"},
+      {d:"Sun 12 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NW, light", smk:"unlikely", conf:"low"},
+      {d:"Mon 13 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"possible", w:"NW-NNW, light", smk:"unlikely", conf:"low"},
+      {d:"Tue 14 Jul", c:"—", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NW, light", smk:"unlikely", conf:"low"}
     ]
   }
 };
