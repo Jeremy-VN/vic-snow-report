@@ -130,7 +130,7 @@ const fc = {};
 for(const cfg of MTN){
   let res;
   try {
-    const r = await fetch(cfg.url, { headers:{ "User-Agent":"Mozilla/5.0 snow-bot" }});
+    const r = await fetch(cfg.url + "?nocache=" + Date.now(), { headers:{ "User-Agent":"Mozilla/5.0 snow-bot", "Cache-Control":"no-cache" }});  // cache-bust so we always get Snowatch's freshest issue
     if(!r.ok){ console.warn(cfg.key+": HTTP "+r.status+" — keeping existing data, no update."); process.exit(0); }
     res = parseSnow(await r.text());
   } catch(e){ console.warn(cfg.key+": fetch/parse error "+e.message+" — keeping existing data, no update."); process.exit(0); }
