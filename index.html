@@ -567,6 +567,8 @@ function condStrip(c){
 }
 
 function render(key){
+  var _cb=document.getElementById("cmpbox");   // comparison strip: Falls Creek forecast tab only
+  if(_cb){ _cb.innerHTML = (key==='falls' && typeof CMP!=='undefined' && CMP) ? cmpRender(CMP) : ''; _cb.style.display = _cb.innerHTML ? '' : 'none'; }
   if(key.slice(-2)==='-h'){ document.getElementById("panel").innerHTML = renderHistory(key.slice(0,-2)); wireHistoryHover(); wireWeeklyHover(); wireBarToggle(); return; }
   const m = M[key];
   const stale = m.stale ? `<div class="stale">⚠ ${m.staleNote}</div>` : '';
@@ -674,7 +676,6 @@ function cmpRender(c){
     + '<div style="display:flex;border:1px solid #eef1f4;border-radius:8px;overflow:hidden">'+c.days.map(cell).join("")+'</div>'
     + '<div style="font-size:12px;color:#51606e;margin-top:8px">Mountainwatch 7-day total: <b style="color:#c2710f">'+c.mw7+' cm</b> @'+(c.elev||'1770')+' m. <span style="color:#9aa6b2">A running accuracy comparison vs actual snowfall is building over the coming fortnight.</span></div></div>';
 }
-if(typeof CMP!=='undefined' && CMP){ var _cb=document.getElementById("cmpbox"); if(_cb) _cb.innerHTML = cmpRender(CMP); }
 </script>
 </body>
 </html>
