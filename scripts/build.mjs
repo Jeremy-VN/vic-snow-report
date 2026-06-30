@@ -6,7 +6,7 @@
 // structural checks, the script writes nothing and exits — the live site is never
 // overwritten with something broken.
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 
 const FILE = "index.html";
 const MTN = [
@@ -120,6 +120,21 @@ function mtnJs(cfg, f, cond){
   }`;
 }
 
+// ---- Mountainwatch (Falls Creek 7-day weather graph @ ~1770m) ----
+function parseMW(text){
+  const elev = (text.match(/For\s*(\d{3,4})\s*m/)||[])[1] || "1770";
+  const labels = [...text.matchAll(/\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(\d{1,2})\b/g)].slice(0,7).map(m=>`${m[1]} ${parseInt(m[2],10)}`);
+  const snows = [...text.matchAll(/Snow:\s*([\d.]+)\s*cm/g)].map(m=>parseFloat(m[1])).slice(0,7);
+  if(labels.length<5 || snows.length<5) return null;
+  const days = labels.map((lab,i)=>({label:lab, cm: snows[i] ?? 0}));
+  return { elev, days, total7: Math.round(snows.reduce((a,b)=>a+b,0)) };
+}
+async function getText(u){
+  const r = await fetch(u, { headers:{ "User-Agent":"Mozilla/5.0 snow-bot", "Cache-Control":"no-cache" }});
+  if(!r.ok) throw new Error("HTTP "+r.status);
+  return toText(await r.text());
+}
+
 function fail(msg){ console.error("BUILD ABORTED:", msg); process.exit(1); }
 
 const html = readFileSync(FILE,"utf8");
@@ -138,12 +153,47 @@ for(const cfg of MTN){
   fc[cfg.key] = res;
 }
 
+// ---- Mountainwatch comparison strip (Falls Creek) ----
+let CMP = "null";
+let mwData = null;
+try {
+  mwData = parseMW(await getText("https://www.mountainwatch.com/australia/falls-creek/weather/?t=" + Date.now()));
+} catch(e){ console.warn("Mountainwatch fetch/parse: " + e.message + " — comparison strip skipped this run."); }
+if(mwData){
+  const days = mwData.days.map(d=>{
+    const sw = fc.falls.days.find(s=> s.d.startsWith(d.label));   // "Tue 30 Jun".startsWith("Tue 30")
+    return { label:d.label, sw: sw? sw.cm : "—", mw: d.cm };
+  });
+  CMP = JSON.stringify({ elev:mwData.elev, days, mw7:mwData.total7 });
+}
+
+// ---- Forecast-accuracy tracker: append today's Falls Creek snapshot ----
+try {
+  const todayISO = new Intl.DateTimeFormat("en-CA",{timeZone:"Australia/Melbourne",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
+  let actual = null;
+  try {
+    const sf = await getText("https://www.skifalls.com.au/snow-report?t=" + Date.now());
+    const a = sf.match(/24\s*hours?[^0-9]{0,24}(\d+(?:\.\d+)?)\s*cm/i) || sf.match(/(\d+(?:\.\d+)?)\s*cm[^0-9]{0,16}(?:in\s*the\s*)?(?:last\s*)?24\s*hours?/i);
+    if(a) actual = parseFloat(a[1]);
+  } catch(e){ console.warn("skifalls actual-snow fetch: " + e.message); }
+  const swDaily = {}; fc.falls.days.forEach(d=>{ swDaily[d.d] = d.cm; });
+  const mwDaily = {}; if(mwData) mwData.days.forEach(d=>{ mwDaily[d.label] = d.cm; });
+  const row = { date: todayISO, issued: fc.falls.issued, actual24h: actual, mw7: mwData?mwData.total7:null, swDaily, mwDaily };
+  const LOG = "data/forecast-log.json";
+  let log = []; try { log = JSON.parse(readFileSync(LOG,"utf8")); } catch(_){}
+  log = log.filter(r=> r.date !== todayISO); log.push(row); log.sort((a,b)=> a.date<b.date?-1:1);
+  mkdirSync("data", { recursive:true });
+  writeFileSync(LOG, JSON.stringify(log, null, 1));
+  console.log(`Tracker: logged ${todayISO} (actual24h=${actual}, MW Falls 7-day=${mwData?mwData.total7+"cm":"n/a"}).`);
+} catch(e){ console.warn("Tracker log: " + e.message); }
+
 const M = "const M = {\n" + MTN.map((cfg,i)=>mtnJs(cfg, fc[cfg.key], conds[i])).join(",\n") + "\n};";
 const _bp = Object.fromEntries(new Intl.DateTimeFormat("en-AU",{timeZone:"Australia/Melbourne",day:"numeric",month:"long",year:"numeric",hour:"numeric",minute:"2-digit",hour12:true}).formatToParts(new Date()).map(x=>[x.type,x.value]));
 const builtStamp = `${_bp.day} ${_bp.month} ${_bp.year}, ${_bp.hour}:${_bp.minute} ${(_bp.dayPeriod||"").toUpperCase()} AEST`;
 
 let out = html.replace(/const M = \{[\s\S]*?\n\};/, ()=>M);
-if(out === html){ console.log("No forecast change — nothing to do."); process.exit(0); }  // only bump BUILT when data actually changed
+out = out.replace(/const CMP = [\s\S]*?;\s*\/\/ CMP/, `const CMP = ${CMP};  // CMP`);   // Snowatch-vs-Mountainwatch strip
+if(out === html){ console.log("No forecast or comparison change — page already current."); process.exit(0); }  // only bump BUILT when something actually changed
 out = out.replace(/const BUILT = "[^"]*";/, `const BUILT = "${builtStamp}";`);
 
 // ---- structural validation gate (never publish a broken page) ----
