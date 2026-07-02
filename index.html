@@ -600,6 +600,7 @@ function render(key){
     <div style="margin:6px 2px 0"><strong style="font-size:15px">${m.name}</strong> <span style="color:#6b7785;font-size:13px">— ${m.sub}</span></div>
     <div class="stamp" style="margin-top:4px;color:#51606e">Snowatch forecast issued: <strong>${m.issued}</strong> &nbsp;|&nbsp; Live temp ${m.liveTemp}</div>
     ${stale}
+    ${condStrip(m.cond)}
     <div class="cards">
       <div class="card"><div class="lbl">Live temp</div><div class="val">${m.liveTemp}</div></div>
       <div class="card"><div class="lbl">Next 5 days</div><div class="val">${m.p5.replace(' cm','')}<span class="unit"> cm</span></div></div>
