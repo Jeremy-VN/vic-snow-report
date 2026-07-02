@@ -135,6 +135,29 @@ async function getText(u){
   return toText(await r.text());
 }
 
+// ---- Official Falls Creek snow & weather report (server-rendered; fully fetchable) ----
+function cmFig(t,label){ const m=t.match(new RegExp("(\\d+)\\s*cm\\s*"+label,"i")); return m? m[1]+" cm" : null; }
+function parseFallsReport(raw){
+  const t = raw.replace(/\s+/g," ").trim();
+  const date = (t.match(/Report Date:\s*([A-Za-z]{3,}\s+\d{1,2}\s+\w+,\s*[\d:]+\s*[AP]M)/i)||[])[1] || null;
+  if(!date) return null;
+  let report = null;
+  const dm = t.match(/Report Date:[^,]*,\s*[\d:]+\s*[AP]M/i);
+  const ni = t.search(/NATURAL SNOW ?FALL/i);
+  if(dm && ni>0){
+    const block = t.slice(dm.index+dm[0].length, ni).replace(/\s+/g," ").trim();
+    report = block.split(/(?<=[.!?])\s+/).filter(s=>s.length>2).slice(0,3).join(" ").slice(0,320).trim();
+  }
+  const smk = (t.match(/(Our snowmaking team[^!.]*[!.])/i)||[])[1] || null;
+  const temp = (t.match(/([\d.]+)\s*°?\s*C\s*TEMP/i)||[])[1];
+  const wind = (t.match(/(\d+)\s*kph\s*WIND/i)||[])[1];
+  const dir  = (t.match(/([NSEW]{1,3})\s*DIRECTION/i)||[])[1];
+  const lifts= (t.match(/(\d+)\s*CURRENT LIFTS/i)||[])[1];
+  return { date, report, smk,
+    last24: cmFig(t,"24 HOURS"), last7: cmFig(t,"7 DAYS"), season: cmFig(t,"SEASON"), base: cmFig(t,"DEPTH"),
+    temp: temp? temp+"°C" : null, wind: wind? wind+" km/h "+(dir||"") : null, lifts };
+}
+
 function fail(msg){ console.error("BUILD ABORTED:", msg); process.exit(1); }
 
 const html = readFileSync(FILE,"utf8");
@@ -177,17 +200,39 @@ for(const key of ["falls","hotham","buller"]){
 }
 if(Object.keys(cmpAll).length) CMP = JSON.stringify(cmpAll);
 
+// ---- Official Falls Creek report → live current-conditions box + tracker actual ----
+// Server-rendered and fully fetchable (cache-busted). Falls Creek only for now.
+const FALLS_REPORT_URL = "https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report";
+let fallsReport = null, reportActual = null;
+try { fallsReport = parseFallsReport(await getText(FALLS_REPORT_URL + "?nocache=" + Date.now())); }
+catch(e){ console.warn("Falls Creek report: " + e.message + " — keeping previous conditions box."); }
+const condsForBuild = conds.slice();
+if(fallsReport){
+  const smM = fallsReport.smk && fallsReport.smk.match(/will be ([^,.!]+)/i);
+  const smkCell = smM ? smM[1].replace(/^./,c=>c.toUpperCase()) : (fallsReport.smk ? "See note" : "—");
+  const bits = [];
+  if(fallsReport.report) bits.push(fallsReport.report);
+  if(fallsReport.smk)    bits.push("Snowmaking: " + fallsReport.smk);
+  if(fallsReport.temp)   bits.push("On-mountain now " + fallsReport.temp + (fallsReport.wind ? ", wind " + fallsReport.wind : "") + " (WeatherZone)");
+  condsForBuild[0] = JSON.stringify({
+    base: fallsReport.base || "—", last24: fallsReport.last24 || "—", last7: fallsReport.last7 || "—",
+    season: fallsReport.season || "—", lifts: fallsReport.lifts || "—", snowmaking: smkCell,
+    note: bits.join(" · "),
+    source: "Falls Creek official report", sourceUrl: FALLS_REPORT_URL, asAt: fallsReport.date
+  });
+  if(fallsReport.last24){ const n = parseFloat(fallsReport.last24); if(!isNaN(n)) reportActual = n; }
+  console.log(`Falls report: ${fallsReport.date} — 24h ${fallsReport.last24}, base ${fallsReport.base}, ${fallsReport.lifts} lift(s).`);
+}
+
 // ---- Forecast-accuracy tracker: append today's Falls Creek snapshot ----
-// The official Falls Creek 24-hour snowfall is locked behind JavaScript on the resort
-// site, so it can't be fetched headless. Instead the actual is recorded by hand in
-// data/actuals.json ({"YYYY-MM-DD": cm}); the build merges it in and backfills past
-// rows on every run, so adding a number later fills the matching day automatically.
+// Actual 24h snowfall now comes from the official report (reportActual); data/actuals.json
+// still overrides/backfills any day by hand ({"YYYY-MM-DD": cm}) if the resort figure is off.
 try {
   const todayISO = new Intl.DateTimeFormat("en-CA",{timeZone:"Australia/Melbourne",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
   let acts = {}; try { acts = JSON.parse(readFileSync("data/actuals.json","utf8")); } catch(_){}
   const swDaily = {}; fc.falls.days.forEach(d=>{ swDaily[d.d] = d.cm; });
   const mwDaily = {}; if(mwData) mwData.days.forEach(d=>{ mwDaily[d.label] = d.cm; });
-  const row = { date: todayISO, issued: fc.falls.issued, actual24h: (acts[todayISO]!=null?acts[todayISO]:null), mw7: mwData?mwData.total7:null, swDaily, mwDaily };
+  const row = { date: todayISO, issued: fc.falls.issued, actual24h: (acts[todayISO]!=null?acts[todayISO]:reportActual), mw7: mwData?mwData.total7:null, swDaily, mwDaily };
   const LOG = "data/forecast-log.json";
   let log = []; try { log = JSON.parse(readFileSync(LOG,"utf8")); } catch(_){}
   log = log.filter(r=> r.date !== todayISO); log.push(row);
@@ -198,7 +243,7 @@ try {
   console.log(`Tracker: logged ${todayISO} (actual24h=${row.actual24h}, MW Falls 7-day=${mwData?mwData.total7+"cm":"n/a"}).`);
 } catch(e){ console.warn("Tracker log: " + e.message); }
 
-const M = "const M = {\n" + MTN.map((cfg,i)=>mtnJs(cfg, fc[cfg.key], conds[i])).join(",\n") + "\n};";
+const M = "const M = {\n" + MTN.map((cfg,i)=>mtnJs(cfg, fc[cfg.key], condsForBuild[i])).join(",\n") + "\n};";
 const _bp = Object.fromEntries(new Intl.DateTimeFormat("en-AU",{timeZone:"Australia/Melbourne",day:"numeric",month:"long",year:"numeric",hour:"numeric",minute:"2-digit",hour12:true}).formatToParts(new Date()).map(x=>[x.type,x.value]));
 const builtStamp = `${_bp.day} ${_bp.month} ${_bp.year}, ${_bp.hour}:${_bp.minute} ${(_bp.dayPeriod||"").toUpperCase()} AEST`;
 
