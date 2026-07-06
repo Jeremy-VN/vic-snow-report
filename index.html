@@ -409,7 +409,7 @@ function hWeeklyBar(S, SM){
   let g="";
   HOL.forEach(h=>{ const x1=clamp(Xf(h.f1)), x2=clamp(Xf(h.f2)); if(x2<=x1) return; const xm=((x1+x2)/2).toFixed(1);
     g+=`<rect x="${x1.toFixed(1)}" y="${T}" width="${(x2-x1).toFixed(1)}" height="${ph}" fill="#cdd8ea" fill-opacity="0.5"/>`+
-       `<text x="${xm}" y="${T+11}" text-anchor="middle" font-size="9.5" font-weight="700" fill="#4f668c">${h.n.split(" ")[0]}</text>`+
+       `<text x="${xm}" y="${T+11}" text-anchor="middle" font-size="9.5" font-weight="700" fill="#4f668c">${h.n}</text>`+
        `<text x="${xm}" y="${(T+ph-6).toFixed(1)}" text-anchor="middle" font-size="8.5" fill="#5f78a0">${h.dt}</text>`; });
   for(let v=0;v<=ymax;v+=25){ g+=`<line x1="${L}" y1="${Y(v).toFixed(1)}" x2="${W-R}" y2="${Y(v).toFixed(1)}" stroke="#eef1f4"/>`+
     `<text x="${L-6}" y="${(Y(v)+3).toFixed(1)}" text-anchor="end" font-size="10" fill="#9aa6b2">${v}</text>`; }
@@ -483,7 +483,7 @@ function renderHistory(key){
     </div>
     <div class="hcard">
       <h3>Snow depth by week of season <span style="font-weight:400;color:#6b7785;font-size:12px">— min · mean · max, ${yrs.length} natural seasons</span></h3>
-      <p class="cap">Each candle covers one week of the season. The box spans the <strong>shallowest to deepest</strong> that week has been across ${meta.name}'s ${minY}–${maxY} natural seasons — its <strong>minimum</strong> and <strong>maximum</strong> — and the heavy line is the <strong>average</strong>. A tall box means a week that swings wildly year to year; a short box is dependable. The <strong style="color:#2e8b57">green</strong> candle is the historically deepest week. The <strong style="color:#4f668c">shaded blue bands</strong> are the <strong>Melbourne Grammar School</strong> holidays (winter 27 Jun – 20 Jul, spring 19 Sep – 4 Oct). Hover any week for its min, mean and max.${SM?' The <strong style="color:#c2710f">orange</strong> candles are Hotham\'s snow-making-area seasons (2018–2023) — a different, machine-assisted measurement shown beside the natural ones.':''}</p>
+      <p class="cap">Each candle covers one week of the season. The box spans the <strong>shallowest to deepest</strong> that week has been across ${meta.name}'s ${minY}–${maxY} natural seasons — its <strong>minimum</strong> and <strong>maximum</strong> — and the heavy line is the <strong>average</strong>. A tall box means a week that swings wildly year to year; a short box is dependable. The <strong style="color:#2e8b57">green</strong> candle is the historically deepest week. The <strong style="color:#4f668c">shaded blue bands</strong> are the <strong>private school</strong> holidays (winter 27 Jun – 20 Jul, spring 19 Sep – 4 Oct). Hover any week for its min, mean and max.${SM?' The <strong style="color:#c2710f">orange</strong> candles are Hotham\'s snow-making-area seasons (2018–2023) — a different, machine-assisted measurement shown beside the natural ones.':''}</p>
       <div class="hchartwrap2">${hWeeklyBar(S, SM)}<div class="htip" id="htip2" hidden></div></div>
     </div>
     <div class="hcard">
