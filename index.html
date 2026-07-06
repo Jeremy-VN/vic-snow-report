@@ -383,24 +383,51 @@ function hWeeklyAvg(S){
     if(n>=need) out.push({day:g, avg:s/n, n}); }
   return out;
 }
-function hWeeklyBar(S){
-  const data=hWeeklyAvg(S);
-  if(!data.length) return `<svg viewBox="0 0 920 60" class="hsvg"><text x="12" y="34" font-size="12" fill="#9aa6b2">Not enough overlapping weeks to average.</text></svg>`;
-  const W=920,H=300,L=42,R=14,T=24,B=52,pw=W-L-R,ph=H-T-B;
-  const ymax=Math.max(25, Math.ceil(Math.max(...data.map(d=>d.avg))/25)*25);
-  const gap=pw/data.length, bw=gap*0.66;
-  const X=i=>L+gap*i+(gap-bw)/2, Y=v=>T+(1-v/ymax)*ph;
-  const peak=data.reduce((a,b)=>b.avg>a.avg?b:a,data[0]);
+function hWeeklyStats(S){
+  const start=hDay("06-01"), end=hDay("10-19"), tot=Object.keys(S).length, need=Math.max(2, Math.ceil(tot/2)); const out=[];
+  for(let g=start; g<=end; g+=7){ const vals=[]; Object.keys(S).forEach(yr=>{ const v=hInterp(S[yr],g); if(v!=null) vals.push(v); });
+    if(vals.length>=need){ const mean=vals.reduce((a,b)=>a+b,0)/vals.length; out.push({day:g, min:Math.min(...vals), max:Math.max(...vals), mean, n:vals.length}); } }
+  return out;
+}
+// Candle chart: each week's box spans season min–max, line = mean; green = deepest week; VIC school holidays shaded.
+// Optional SM series (Hotham snow-making-area seasons) is drawn as flagged orange candles beside the natural ones.
+function hWeeklyBar(S, SM){
+  const data=hWeeklyStats(S);
+  const dataSM = SM ? hWeeklyStats(SM) : null;
+  const hasSM = !!(dataSM && dataSM.length);
+  if(!data.length && !hasSM) return `<svg viewBox="0 0 920 60" class="hsvg"><text x="12" y="34" font-size="12" fill="#9aa6b2">Not enough overlapping natural seasons to chart.</text></svg>`;
+  const all=data.concat(hasSM?dataSM:[]);
+  const days=[...new Set(all.map(d=>d.day))].sort((a,b)=>a-b);
+  const idx=Object.fromEntries(days.map((d,i)=>[d,i]));
+  const W=920,H=322,L=42,R=14,T=22,B=54,pw=W-L-R,ph=H-T-B;
+  const ymax=Math.max(25, Math.ceil(Math.max(...all.map(d=>d.max))/25)*25);
+  const gap=pw/days.length, Xi=i=>L+gap*i+gap/2, Y=v=>T+(1-v/ymax)*ph;
+  const s0=hDay("06-01"), Xf=f=>L+gap*f+gap/2, clamp=x=>Math.max(L,Math.min(W-R,x));
+  const HOL=[{n:"Winter Holidays",dt:"27 Jun – 20 Jul",f1:(hDay("06-27")-s0)/7,f2:(hDay("07-20")-s0)/7},
+             {n:"Spring Holidays",dt:"19 Sep – 4 Oct",f1:(hDay("09-19")-s0)/7,f2:(hDay("10-04")-s0)/7}];
+  const peak=data.length?data.reduce((a,b)=>b.mean>a.mean?b:a,data[0]):null;
   let g="";
+  HOL.forEach(h=>{ const x1=clamp(Xf(h.f1)), x2=clamp(Xf(h.f2)); if(x2<=x1) return; const xm=((x1+x2)/2).toFixed(1);
+    g+=`<rect x="${x1.toFixed(1)}" y="${T}" width="${(x2-x1).toFixed(1)}" height="${ph}" fill="#cdd8ea" fill-opacity="0.5"/>`+
+       `<text x="${xm}" y="${T+11}" text-anchor="middle" font-size="9.5" font-weight="700" fill="#4f668c">${h.n.split(" ")[0]}</text>`+
+       `<text x="${xm}" y="${(T+ph-6).toFixed(1)}" text-anchor="middle" font-size="8.5" fill="#5f78a0">${h.dt}</text>`; });
   for(let v=0;v<=ymax;v+=25){ g+=`<line x1="${L}" y1="${Y(v).toFixed(1)}" x2="${W-R}" y2="${Y(v).toFixed(1)}" stroke="#eef1f4"/>`+
     `<text x="${L-6}" y="${(Y(v)+3).toFixed(1)}" text-anchor="end" font-size="10" fill="#9aa6b2">${v}</text>`; }
-  data.forEach((d,i)=>{ const isPk=(d===peak), x=X(i), yv=Y(d.avg);
-    g+=`<rect class="wbar" x="${x.toFixed(1)}" y="${yv.toFixed(1)}" width="${bw.toFixed(1)}" height="${(T+ph-yv).toFixed(1)}" rx="2" fill="${isPk?'#2e8b57':'#7aa9d6'}" data-l="${hFmt(hMMDD(d.day))}" data-v="${d.avg.toFixed(0)}" data-n="${d.n}"/>`;
-    if(isPk) g+=`<text x="${(x+bw/2).toFixed(1)}" y="${(yv-6).toFixed(1)}" text-anchor="middle" font-size="10.5" font-weight="800" fill="#2e8b57">${d.avg.toFixed(0)}</text>`;
-    if(i%2===0) g+=`<text x="${(x+bw/2).toFixed(1)}" y="${H-32}" text-anchor="middle" font-size="9" fill="#9aa6b2">${hFmt(hMMDD(d.day))}</text>`;
-  });
-  g+=`<text x="${L}" y="${H-10}" font-size="11" fill="#6b7785">Historically deepest week: <tspan font-weight="800" fill="#2e8b57">${hFmt(hMMDD(peak.day))}</tspan> — mean ~${peak.avg.toFixed(0)} cm across ${peak.n} seasons.</text>`;
-  return `<svg viewBox="0 0 ${W} ${H}" class="hsvg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Average snow depth by week of season">${g}</svg>`;
+  const candle=(d,cx,bw,col,fo,sw,src)=>{ const top=Y(d.max),bot=Y(d.min);
+    return `<rect class="wbar" x="${(cx-bw/2).toFixed(1)}" y="${top.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1,bot-top).toFixed(1)}" rx="2" fill="${col}" fill-opacity="${fo}" stroke="${col}" stroke-width="${sw}" data-l="${hFmt(hMMDD(d.day))}" data-src="${src}" data-min="${d.min.toFixed(0)}" data-mean="${d.mean.toFixed(0)}" data-max="${d.max.toFixed(0)}" data-n="${d.n}"/>`+
+      `<line x1="${(cx-bw/2).toFixed(1)}" y1="${Y(d.mean).toFixed(1)}" x2="${(cx+bw/2).toFixed(1)}" y2="${Y(d.mean).toFixed(1)}" stroke="${col}" stroke-width="${sw+1.4}" pointer-events="none"/>`; };
+  if(hasSM){
+    const bw=Math.min(11, gap*0.36), off=bw*0.62;
+    data.forEach(d=>{ const pk=(d===peak); g+=candle(d, Xi(idx[d.day])-off, bw, pk?"#2e8b57":"#5b7085", pk?0.34:0.24, pk?1.2:1, "Natural"); });
+    dataSM.forEach(d=>{ g+=candle(d, Xi(idx[d.day])+off, bw, "#e8821e", 0.22, 1, "Snow-making"); });
+  } else {
+    const bw=Math.min(20, gap*0.62);
+    data.forEach(d=>{ const pk=(d===peak); g+=candle(d, Xi(idx[d.day]), bw, pk?"#2e8b57":"#5b7085", pk?0.34:0.24, pk?1.3:1, "Natural"); });
+  }
+  days.forEach((d,i)=>{ if(i%2===0) g+=`<text x="${Xi(i).toFixed(1)}" y="${H-32}" text-anchor="middle" font-size="9" fill="#9aa6b2">${hFmt(hMMDD(d))}</text>`; });
+  if(peak) g+=`<text x="${L}" y="${H-10}" font-size="11" fill="#6b7785">Deepest natural week: <tspan font-weight="800" fill="#2e8b57">${hFmt(hMMDD(peak.day))}</tspan> — mean ~${peak.mean.toFixed(0)} cm (range ${peak.min.toFixed(0)}–${peak.max.toFixed(0)} cm across ${peak.n} seasons).${hasSM?` <tspan fill="#c2710f">Orange = snow-making-area seasons.</tspan>`:''}</text>`;
+  else g+=`<text x="${L}" y="${H-10}" font-size="11" fill="#c2710f">Orange candles = snow-making-area depth (no natural record for these seasons).</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" class="hsvg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Snow depth by week of season — min, mean and max">${g}</svg>`;
 }
 
 function renderHistory(key){
@@ -417,7 +444,7 @@ function renderHistory(key){
   const base=(M[key]&&M[key].cond)?M[key].cond.base:"—";
   const smYrs = SM ? Object.keys(SM).map(Number).sort((a,b)=>a-b) : [];
   const cover = maxY<2024 ? `<div class="hpending">⏳ <strong>Coverage:</strong> ${meta.name}'s <strong>natural</strong>-depth record in the official file runs to <strong>${maxY}</strong>${key==='hotham'?` — rows from 2018 onward are flagged “not collected”. The orange dashed lines (${smYrs[0]}–${smYrs[smYrs.length-1]}) are the snow-making-area figure instead (see note below)`:''}. Natural charts below show ${minY}–${maxY} (${yrs.length} season${yrs.length>1?'s':''}).</div>` : '';
-  const smBanner = SM ? `<div style="background:#fff3e3;border:1px solid #f0c890;border-left:5px solid #e8821e;border-radius:11px;padding:11px 14px;margin:4px 0 14px;font-size:12.5px;color:#7a4a12"><strong style="color:#c2710f">Orange dashed = snow-making-area depth (${smYrs[0]}–${smYrs[smYrs.length-1]}).</strong> Hotham's <em>natural</em> depth record stops in 2017, so for later seasons the only figure ARV publishes is depth in the machine-made snow area. It's drawn in a deliberately different colour because it is <strong>not the same measurement</strong> — it reflects snow-making plus natural at probed snow-making sites, and per ARV may be capped or under-reported. It appears only on the line chart and the table below, and is <strong>excluded</strong> from the peak, weekly-average and El Niño analyses, which stay natural-only for a like-for-like comparison.</div>` : '';
+  const smBanner = SM ? `<div style="background:#fff3e3;border:1px solid #f0c890;border-left:5px solid #e8821e;border-radius:11px;padding:11px 14px;margin:4px 0 14px;font-size:12.5px;color:#7a4a12"><strong style="color:#c2710f">Orange dashed = snow-making-area depth (${smYrs[0]}–${smYrs[smYrs.length-1]}).</strong> Hotham's <em>natural</em> depth record stops in 2017, so for later seasons the only figure ARV publishes is depth in the machine-made snow area. It's drawn in a deliberately different colour because it is <strong>not the same measurement</strong> — it reflects snow-making plus natural at probed snow-making sites, and per ARV may be capped or under-reported. It appears on the line chart, the weekly candle chart (in orange, beside the natural candles), and the table below, and is <strong>excluded</strong> from the peak and El Niño analyses, which stay natural-only for a like-for-like comparison.</div>` : '';
   const enLine = grp.en.length
     ? `In ${meta.name}'s natural record here, the El Niño winter${grp.en.length>1?'s':''} (${grp.en.map(p=>p.y+' — '+p.cm+' cm').join(', ')}) ${enMean!=null&&enMean<med?'came in below':'sat near'} the ${med} cm median.`
     : `This ${minY}–${maxY} window contains no El Niño winters, so there's no local El Niño comparison yet.`;
@@ -455,9 +482,9 @@ function renderHistory(key){
       </div>
     </div>
     <div class="hcard">
-      <h3>Average snow depth by week of season <span style="font-weight:400;color:#6b7785;font-size:12px">— ${yrs.length}-season natural mean</span></h3>
-      <p class="cap">Mean natural depth for each week across ${meta.name}'s ${minY}–${maxY} seasons (interpolated onto a common weekly grid; thin-coverage weeks dropped). Shows <strong>when the snowpack is historically deepest</strong>. Hover for value and season count.${SM?' Snow-making years are excluded here.':''}</p>
-      <div class="hchartwrap2">${hWeeklyBar(S)}<div class="htip" id="htip2" hidden></div></div>
+      <h3>Snow depth by week of season <span style="font-weight:400;color:#6b7785;font-size:12px">— min · mean · max, ${yrs.length} natural seasons</span></h3>
+      <p class="cap">Each candle covers one week of the season. The box spans the <strong>shallowest to deepest</strong> that week has been across ${meta.name}'s ${minY}–${maxY} natural seasons — its <strong>minimum</strong> and <strong>maximum</strong> — and the heavy line is the <strong>average</strong>. A tall box means a week that swings wildly year to year; a short box is dependable. The <strong style="color:#2e8b57">green</strong> candle is the historically deepest week. The <strong style="color:#4f668c">shaded blue bands</strong> are the <strong>Melbourne Grammar School</strong> holidays (winter 27 Jun – 20 Jul, spring 19 Sep – 4 Oct). Hover any week for its min, mean and max.${SM?' The <strong style="color:#c2710f">orange</strong> candles are Hotham\'s snow-making-area seasons (2018–2023) — a different, machine-assisted measurement shown beside the natural ones.':''}</p>
+      <div class="hchartwrap2">${hWeeklyBar(S, SM)}<div class="htip" id="htip2" hidden></div></div>
     </div>
     <div class="hcard">
       <h3>Peak snow depth by season <span style="font-weight:400;color:#6b7785;font-size:12px">— natural depth</span></h3>
@@ -525,7 +552,7 @@ function wireWeeklyHover(){
   const wrap=document.querySelector('.hchartwrap2'); if(!wrap) return;
   const svg=wrap.querySelector('svg'), tip=document.getElementById('htip2'); if(!svg||!tip) return;
   svg.addEventListener('pointerover', e=>{ const t=e.target; if(!t.classList||!t.classList.contains('wbar')) return;
-    tip.innerHTML='<b>'+t.getAttribute('data-l')+'</b> · mean <b>'+t.getAttribute('data-v')+' cm</b> · '+t.getAttribute('data-n')+' seasons';
+    tip.innerHTML='<b>'+t.getAttribute('data-l')+'</b> · '+t.getAttribute('data-src')+' · '+t.getAttribute('data-n')+' seasons<br>min <b>'+t.getAttribute('data-min')+'</b> · mean <b>'+t.getAttribute('data-mean')+'</b> · max <b>'+t.getAttribute('data-max')+'</b> cm';
     tip.hidden=false; const r=t.getBoundingClientRect(), w=wrap.getBoundingClientRect();
     tip.style.left=(r.left-w.left+r.width/2)+'px'; tip.style.top=(r.top-w.top)+'px'; });
   svg.addEventListener('pointerout', e=>{ const t=e.target; if(t.classList&&t.classList.contains('wbar')) tip.hidden=true; });
