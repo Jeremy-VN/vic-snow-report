@@ -686,14 +686,14 @@ document.querySelectorAll(".tab").forEach(t=>{ t.classList.toggle("active", t.da
 render(initTab);
 
 function cmpRender(c, name){
-  const cell = d => '<div style="flex:1;min-width:58px;text-align:center;padding:6px 3px;border-right:1px solid #eef1f4">'
-    + '<div style="font-size:10.5px;color:#6b7785;font-weight:600">'+d.label+'</div>'
-    + '<div style="font-size:12.5px;font-weight:700;color:#1b6ca8;margin-top:3px">'+d.sw+'</div>'
-    + '<div style="font-size:12.5px;font-weight:700;color:#c2710f">'+d.mw+' cm</div></div>';
+  const cell = d => '<div style="flex:1;min-width:44px;text-align:center;padding:5px 2px;border-right:1px solid #eef1f4">'
+    + '<div style="font-size:10px;color:#6b7785;font-weight:600">'+d.label+'</div>'
+    + '<div style="font-size:11.5px;font-weight:700;color:#1b6ca8;margin-top:3px">'+d.sw+'</div>'
+    + '<div style="font-size:11.5px;font-weight:700;color:#c2710f">'+d.mw+' cm</div></div>';
   return '<div style="background:#fff;border:1px solid #e3e8ee;border-radius:12px;padding:12px 14px;margin:0 0 14px">'
     + '<div style="font-weight:700;font-size:14px;color:#16202b">'+(name||'')+' — next 7 days: Snowatch vs Mountainwatch</div>'
     + '<div style="font-size:12px;color:#6b7785;margin:2px 0 8px"><b style="color:#1b6ca8">Snowatch</b> (resort level) vs <b style="color:#c2710f">Mountainwatch</b> (upper '+(c.elev||'')+' m). Mountainwatch reads higher because it measures higher up — not necessarily more accurate.</div>'
-    + '<div style="display:flex;border:1px solid #eef1f4;border-radius:8px;overflow:hidden">'+c.days.map(cell).join("")+'</div>'
+    + '<div style="display:flex;border:1px solid #eef1f4;border-radius:8px;overflow-x:auto;-webkit-overflow-scrolling:touch">'+c.days.map(cell).join("")+'</div>'
     + '<div style="font-size:12px;color:#51606e;margin-top:8px">Mountainwatch 7-day total: <b style="color:#c2710f">'+c.mw7+' cm</b> @'+(c.elev||'1770')+' m. <span style="color:#9aa6b2">A running accuracy comparison vs actual snowfall is building over the coming fortnight.</span></div></div>';
 }
 </script>
