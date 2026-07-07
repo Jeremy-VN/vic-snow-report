@@ -23,6 +23,9 @@ body { margin: 0; background: #f4f6f8; color: #16202b; font-family: -apple-syste
 .tab:hover { color: #16202b; }
 .tab.active { background: #fff; color: #0d3b66; box-shadow: 0 1px 3px rgba(13,59,102,.18); }
 .spacer { flex: 1 1 auto; }
+.outlookbtn { appearance: none; border: 0; background: #1b6ca8; color: #fff; font-weight: 700; font-size: 13.5px; padding: 9px 15px; border-radius: 9px; cursor: pointer; white-space: nowrap; transition: background .12s; }
+.outlookbtn:hover { background: #155a8f; }
+.outlookbtn.on { background: #0d3f66; box-shadow: 0 0 0 3px rgba(27,108,168,.28); }
 .updbtn { appearance: none; border: 1px solid #1b6ca8; background: #1b6ca8; color: #fff; font-weight: 600; font-size: 13.5px; padding: 9px 16px; border-radius: 9px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; }
 .updbtn:hover { background: #15598c; }
 .updbtn:disabled { opacity: .6; cursor: default; }
@@ -147,6 +150,7 @@ tr.past td { opacity: 0.45; }
       <button class="tab" data-m="buller-h">Buller history</button>
     </div>
     <div class="spacer"></div>
+    <button class="outlookbtn" id="outlookbtn" title="Season snow outlook &amp; climate drivers">❄ Snow Outlook</button>
     <button class="updbtn" id="updbtn" title="Re-run the data fetch now">⟳ Update now</button>
   </div>
   <div class="updstatus" id="updstatus"></div>
@@ -442,6 +446,55 @@ function hWeeklyBar(S, SM){
   return `<svg viewBox="0 0 ${W} ${H}" class="hsvg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Snow depth by week of season — min, mean and max">${g}</svg>`;
 }
 
+function renderOutlook(){
+  const sub = 'style="font-weight:400;color:#6b7785;font-size:12px"';
+  return `
+  <div class="hcard">
+    <div style="margin:2px 0 6px"><strong style="font-size:16px">Falls Creek — snow outlook</strong> <span ${sub}>data-based, not a season-by-season forecast</span></div>
+    <p class="cap"><strong>Read this first.</strong> No one can skilfully predict a specific winter's snowfall years ahead — the season-to-season swings dwarf any trend (our Falls record runs from a 73 cm peak in 2020 to 209 cm in 2018). What follows is what the numbers and the science genuinely support: a likely range and the direction of travel, not a promise about any one year.</p>
+  </div>
+
+  <div class="hcard">
+    <h3>This season <span ${sub}>— as at July 2026</span> &nbsp;<span style="background:#fff3e3;border:1px solid #f0c890;color:#c2710f;font-weight:700;font-size:11px;padding:2px 8px;border-radius:20px">Leaning below-average</span></h3>
+    <p class="cap">The Bureau of Meteorology has the Pacific in a <strong>strong El Niño</strong>, with a <strong>positive Indian Ocean Dipole</strong> possibly developing through winter–spring. Both tend to make south-east Australia <strong>warmer and drier</strong> — usually poorer snow. In our own record the two El Niño winters (2015, 2023) were among the leanest, peaking at 109 and 94 cm versus a 138 cm average. So the base case for 2026 is a <strong>leaner-than-typical natural season</strong>, cushioned early and late by snow-making. Caveat: a strong Pacific signal doesn't guarantee a strong local impact — it's one driver among several.</p>
+  </div>
+
+  <div class="hcard">
+    <h3>The Falls baseline <span ${sub}>— 10 natural seasons, 2014–2023 (Alpine Resorts Victoria)</span></h3>
+    <p class="cap">Peak depth each season averaged <strong>~138 cm</strong> (median 137), ranging <strong>73 cm (2020) → 209 cm (2018)</strong>, standard deviation ≈ 40 cm. The single biggest lesson is <strong>variability</strong> — the gap between a good and a poor year is far larger than any long-term drift. Split by climate driver: <strong>El Niño ≈ 102 cm</strong>, <strong>La Niña ≈ 119 cm</strong>, <strong>neutral ≈ 176 cm</strong> (small samples, so trust the "El Niño is leanest" part more than the La-Niña-vs-neutral order). Season-by-season detail is on the <em>Buller/Falls history</em> tabs.</p>
+  </div>
+
+  <div class="hcard">
+    <h3>The next few seasons</h3>
+    <p class="cap">Beyond this winter, ENSO and the IOD aren't skilfully predictable, so the honest expectation is just the <strong>historical spread</strong>: most seasons peak roughly <strong>110–165 cm</strong>, with about a 1-in-6 chance of a bumper 190 cm+ year and a similar chance of a poor sub-95 cm one. Expect a couple of average-ish seasons and probably one lean one in any three-to-four-year run. The genuine long-term signal — from the 60-year Spencers Creek record, a far better guide than our short one — is a <strong>gradual decline of ~0.35 cm/yr</strong> and a season that <strong>ends earlier</strong> (late-Sept/early-Oct depths already down 18–30%). Over just a few years that shift is small next to the year-to-year noise.</p>
+  </div>
+
+  <div class="hcard">
+    <h3>The long game — to 2050</h3>
+    <p class="cap">CSIRO projects maximum snow depth at Falls Creek and Mt Hotham falling <strong>30–70% under lower emissions, or 45–90% under higher emissions, by 2050</strong> (relative to a 1990 baseline), with warming trimming the season mainly at its shoulders. The direction is unambiguous even though any single year isn't: deep <em>natural</em> cover becomes rarer and later to arrive, and snow-making does more of the heavy lifting each year — which is exactly what the resort report has been showing this season.</p>
+  </div>
+
+  <div class="hcard">
+    <h3>The climate drivers, briefly</h3>
+    <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+      <tr><td style="padding:6px 8px;vertical-align:top;white-space:nowrap"><strong style="color:#1b6ca8">ENSO</strong><br><span ${sub}>Pacific Ocean</span></td>
+          <td style="padding:6px 8px;border-bottom:1px solid #eef1f4">The <strong>El Niño–Southern Oscillation</strong> — the Pacific's warm/cool cycle, the biggest single lever on our winters. <strong>El Niño</strong> (warm central/east Pacific) tips SE Australia warmer &amp; drier → generally <strong>poorer snow</strong>. <strong>La Niña</strong> (cool) brings cooler, wetter conditions → often <strong>better snow</strong>, provided it's cold enough to fall as snow not rain. <strong>Neutral</strong> = neither dominates.</td></tr>
+      <tr><td style="padding:6px 8px;vertical-align:top;white-space:nowrap"><strong style="color:#1b6ca8">IOD</strong><br><span ${sub}>Indian Ocean</span></td>
+          <td style="padding:6px 8px;border-bottom:1px solid #eef1f4">The <strong>Indian Ocean Dipole</strong> — the Indian Ocean's version of ENSO. A <strong>positive IOD</strong> (cool water off north-west Australia) means less moisture fed to the south-east → <strong>drier, poorer snow</strong>; a <strong>negative IOD</strong> does the opposite. It often <strong>compounds El Niño</strong>, as it may this year.</td></tr>
+      <tr><td style="padding:6px 8px;vertical-align:top;white-space:nowrap"><strong style="color:#1b6ca8">SAM</strong><br><span ${sub}>Southern Ocean</span></td>
+          <td style="padding:6px 8px">The <strong>Southern Annular Mode</strong> — the north–south position of the Southern Ocean storm track. A <strong>negative SAM</strong> in winter drags cold fronts north onto the Alps → <strong>more snow</strong>; a positive SAM pulls them south → drier. It flips week to week, so it mostly governs <strong>individual storms</strong> rather than the whole season.</td></tr>
+    </table>
+  </div>
+
+  <div class="hcard">
+    <h3>Practical takeaways</h3>
+    <p class="cap">• <strong>Mid-to-late August (~17–24 Aug)</strong> stays the most reliable deep-snow window — where the historic peak, the school holidays' tail and the Interschools all sit.<br>• Plan around <strong>variability, not averages</strong> — chasing the storms beats betting on a specific season; the difference between a 2018 and a 2020 dwarfs the climate trend.<br>• Expect <strong>snow-making to matter more</strong> every year, especially to open early and hold the season's end.</p>
+  </div>
+
+  <p class="cap" style="color:#9aa6b2">Baseline: Alpine Resorts Victoria daily snow-depth records (Falls Creek, 2014–2023). Current drivers: Bureau of Meteorology. Long-term trend &amp; projections: CSIRO (Hennessy et al.) and the Spencers Creek record. This is a climatological outlook, reviewed each season — last updated July 2026.</p>
+  `;
+}
+
 function renderHistory(key){
   const S=HSERIES_ALL[key], meta=HMETA[key]; H_ACTIVE=S;
   H_MISS_ACTIVE=(typeof HMISS!=='undefined' && HMISS[key])?HMISS[key]:[];
@@ -601,6 +654,7 @@ function condStrip(c){
 function render(key){
   var _cb=document.getElementById("cmpbox");   // comparison strip: forecast tabs only, per mountain
   if(_cb){ var _c = (typeof CMP!=='undefined' && CMP && CMP[key]) ? CMP[key] : null; _cb.innerHTML = _c ? cmpRender(_c, (M[key]&&M[key].name)||'') : ''; _cb.style.display = _cb.innerHTML ? '' : 'none'; }
+  if(key==='outlook'){ document.getElementById("panel").innerHTML = renderOutlook(); return; }
   if(key.slice(-2)==='-h'){ document.getElementById("panel").innerHTML = renderHistory(key.slice(0,-2)); wireHistoryHover(); wireWeeklyHover(); wireBarToggle(); return; }
   const m = M[key];
   const stale = m.stale ? `<div class="stale">⚠ ${m.staleNote}</div>` : '';
@@ -662,9 +716,16 @@ document.getElementById("tabs").addEventListener("click", (e)=>{
   const btn = e.target.closest(".tab");
   if(!btn) return;
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  var _ob=document.getElementById("outlookbtn"); if(_ob) _ob.classList.remove("on");
   btn.classList.add("active");
   render(btn.dataset.m);
   try { localStorage.setItem("vicSnowTab", btn.dataset.m); } catch(_){}
+});
+document.getElementById("outlookbtn").addEventListener("click", ()=>{
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.getElementById("outlookbtn").classList.add("on");
+  render("outlook");
+  try { localStorage.setItem("vicSnowTab","outlook"); } catch(_){}
 });
 
 // ---- Update button (Cowork only) ----
@@ -693,8 +754,9 @@ document.getElementById("updbtn").addEventListener("click", async ()=>{
   else { if(ub) ub.style.display = "none"; gs.innerHTML = `Snapshot built <strong>${BUILT}</strong> · refreshes daily. Source: Snowatch / BOM.`; }
 })();
 let initTab = "falls";
-try { const saved = localStorage.getItem("vicSnowTab"); if(saved && (M[saved] || /-h$/.test(saved))) initTab = saved; } catch(_){}
+try { const saved = localStorage.getItem("vicSnowTab"); if(saved && (M[saved] || /-h$/.test(saved) || saved==='outlook')) initTab = saved; } catch(_){}
 document.querySelectorAll(".tab").forEach(t=>{ t.classList.toggle("active", t.dataset.m===initTab); });
+if(initTab==='outlook'){ var _ob=document.getElementById("outlookbtn"); if(_ob) _ob.classList.add("on"); }
 render(initTab);
 
 function cmpRender(c, name){
