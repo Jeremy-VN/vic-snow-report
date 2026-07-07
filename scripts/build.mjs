@@ -35,6 +35,23 @@ function cmRange(s){ // "0" -> "0 cm" ; "2 - 6" -> "2–6 cm"
 }
 function predFmt(s){ if(!s) return "—"; return s.replace(/\s*-\s*/,"–").replace(/cm$/,"").trim()+" cm"; }
 function cond3(title){ const t=(title||"").trim().toLowerCase(); return ICON[t] || (title?title.trim():""); }
+// Snowatch weather-icon FILENAME (/images/weathericons/NAME.gif) → emoji.
+// Snowatch stitches icons to the Morning/Midday/Night labels via JS, so in the raw HTML
+// the icons sit in their own block — we read them by filename in day order instead.
+const FILEMOJI = {
+  "fine":"☀️","mostly-fine":"🌤️","sunny":"☀️","mostly-sunny":"🌤️","cloud-clearing":"🌤️","clearing":"🌤️",
+  "partly-cloudy":"⛅","mostly-cloudy":"🌥️","becoming-cloudy":"🌥️","cloudy":"☁️","overcast":"☁️",
+  "light-showers":"🌦️","showers":"🌧️","rain":"🌧️","heavy-rain":"🌧️","drizzle":"🌦️","possible-shower":"🌦️","possible-showers":"🌦️",
+  "light-snow":"🌨️","snow":"❄️","snow-showers":"🌨️","light-snow-showers":"🌨️","snow-flurries":"🌨️","flurries":"🌨️","heavy-snow":"❄️","possible-snow":"🌨️",
+  "snow-and-rain":"🌨️","rain-and-snow":"🌨️","sleet":"🌨️",
+  "fog":"🌫️","mist":"🌫️","frost":"❄️","wind":"💨","windy":"💨","storm":"⛈️","thunderstorm":"⛈️","thunder":"⛈️"
+};
+function fileEmoji(f){
+  f=(f||"").toLowerCase();
+  if(FILEMOJI[f]) return FILEMOJI[f];
+  const k = Object.keys(FILEMOJI).find(x=> f.includes(x));   // fallback for unlisted icons
+  return k ? FILEMOJI[k] : "•";
+}
 function level(narr){
   const m = narr.match(/(?:above|lowering(?: overnight| later)? to|about)\s*(?:around\s*)?~?\s*\d{3,4}\s*(?:-\s*\d{3,4})?\s*m[^.,]*/i);
   if(m) return m[0].replace(/\s+/g," ").trim().replace(/^(\w)/,c=>c.toUpperCase());
@@ -71,16 +88,17 @@ function parseSnow(html){
 
   const re = /(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s+\d{1,2}(?:ST|ND|RD|TH)/g;
   const marks=[]; let m; while((m=re.exec(t))!==null) marks.push(m.index);
+  // Weather icons live in the raw HTML as /images/weathericons/NAME.gif — 3 per day, in day order.
+  // Take the trailing marks*3 so a stray leading icon (e.g. current conditions) can't shift alignment.
+  const allIcons = [...html.matchAll(/weathericons\/([a-z0-9_-]+)\.(?:gif|png|svg)/gi)].map(x=>x[1].toLowerCase());
+  const need = marks.length*3;
+  const wicons = allIcons.length>=need ? allIcons.slice(allIcons.length-need) : allIcons;
   const days=[];
   for(let i=0;i<marks.length;i++){
     const seg = t.slice(marks[i], i+1<marks.length?marks[i+1]:t.length);
     const date = new Date(issueDate.getTime()+i*86400000);
-    const cond = ["Morning","Midday","Night"].map(part=>{
-      const mm = seg.match(new RegExp("⟦([^⟧]*)⟧\\s*"+part,"i"));
-      return mm?cond3(mm[1]):"";
-    }).filter(Boolean);
-    const cset=[...new Set(cond)];
-    const c = cond.length? (cset.length===1? cond[0]+" all day" : cond.join(" › ")) : "";
+    const dayIcons = wicons.slice(i*3, i*3+3);
+    const c = dayIcons.length ? dayIcons.map(fileEmoji).join(" › ") : "—";
     const snowM = seg.match(/SNOW:\s*([0-9]+(?:\s*-\s*[0-9]+)?)\s*cm/i);
     const cm = snowM? cmRange(snowM[1]) : "0 cm";
     const narrM = seg.match(/cm\s*([\s\S]*?)\s*SNOWMAKING/i);
