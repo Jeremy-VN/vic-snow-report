@@ -132,7 +132,6 @@ function mtnJs(cfg, f, cond){
     stale: ${stale},
     staleNote: ${stale?`"${note}"`:'""'},
     liveTemp: "${f.liveTemp}",
-    liveTempSrc: "${f.liveTempSrc||''}",
     p5: "${f.p5}", p10: "${f.p10}", p15: "${f.p15}",
     cond: ${cond},
     days: ${daysBlock}
@@ -194,26 +193,6 @@ for(const cfg of MTN){
   if(!res){ console.warn(cfg.key+": Snowatch didn't parse cleanly — keeping existing data, no update."); process.exit(0); }
   fc[cfg.key] = res;
 }
-
-// ---- BOM Falls Creek live temp ----
-// Snowatch already relays the BOM Falls Creek AWS reading, so label it as such by default.
-// We still try the raw BOM AWS feed (station 94903) directly — if it's reachable (BOM usually blocks
-// cloud IPs like GitHub's) we upgrade the label to the direct AWS source. 5s timeout so it can't stall.
-fc.falls.liveTempSrc = "BOM · via Snowatch";
-try {
-  const ctrl = new AbortController(); const to = setTimeout(()=>ctrl.abort(), 5000);
-  const r = await fetch("https://www.bom.gov.au/fwo/IDV60801/IDV60801.94903.json?t=" + Date.now(),
-    { headers:{ "User-Agent":"Mozilla/5.0 snow-bot", "Accept":"application/json" }, signal: ctrl.signal });
-  clearTimeout(to);
-  if(r.ok){
-    const j = await r.json();
-    const d = j && j.observations && j.observations.data && j.observations.data[0];
-    if(d && d.air_temp!=null){
-      const t = tempFmt(String(d.air_temp));
-      if(t){ fc.falls.liveTemp = t; fc.falls.liveTempSrc = "BOM Falls Creek AWS"; console.log("BOM live temp: " + t + " @ " + (d.local_date_time_full||"?")); }
-    }
-  } else console.warn("BOM live temp: HTTP " + r.status + " — keeping Snowatch temp.");
-} catch(e){ console.warn("BOM live temp: " + e.message + " — keeping Snowatch temp."); }
 
 // ---- Mountainwatch comparison strips (all three mountains) ----
 const MW_URL = {
