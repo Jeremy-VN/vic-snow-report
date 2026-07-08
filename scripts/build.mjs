@@ -195,9 +195,13 @@ for(const cfg of MTN){
   fc[cfg.key] = res;
 }
 
-// ---- BOM Falls Creek AWS live temp (station 94903) — direct from BOM, 8s timeout, graceful fallback to Snowatch ----
+// ---- BOM Falls Creek live temp ----
+// Snowatch already relays the BOM Falls Creek AWS reading, so label it as such by default.
+// We still try the raw BOM AWS feed (station 94903) directly — if it's reachable (BOM usually blocks
+// cloud IPs like GitHub's) we upgrade the label to the direct AWS source. 5s timeout so it can't stall.
+fc.falls.liveTempSrc = "BOM · via Snowatch";
 try {
-  const ctrl = new AbortController(); const to = setTimeout(()=>ctrl.abort(), 8000);
+  const ctrl = new AbortController(); const to = setTimeout(()=>ctrl.abort(), 5000);
   const r = await fetch("https://www.bom.gov.au/fwo/IDV60801/IDV60801.94903.json?t=" + Date.now(),
     { headers:{ "User-Agent":"Mozilla/5.0 snow-bot", "Accept":"application/json" }, signal: ctrl.signal });
   clearTimeout(to);
