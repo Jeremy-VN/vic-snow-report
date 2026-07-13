@@ -162,8 +162,8 @@ tr.past td { opacity: 0.45; }
 
 <script>
 const ISSUED_GLOBAL = "24 June 2026"; // build date
-const BUILT = "14 July 2026, 7:29 AM AEST";
-const CMP = {"falls":{"elev":"1770","days":[{"label":"Mon 13","sw":"—","mw":19.5},{"label":"Tue 14","sw":"0–2 cm","mw":8.6},{"label":"Wed 15","sw":"0 cm","mw":0},{"label":"Thu 16","sw":"0 cm","mw":0},{"label":"Fri 17","sw":"0 cm","mw":0},{"label":"Sat 18","sw":"0 cm","mw":0},{"label":"Sun 19","sw":"0 cm","mw":0}],"mw7":28},"hotham":{"elev":"1850","days":[{"label":"Mon 13","sw":"—","mw":17.8},{"label":"Tue 14","sw":"0–2 cm","mw":10.4},{"label":"Wed 15","sw":"0 cm","mw":0},{"label":"Thu 16","sw":"0 cm","mw":0},{"label":"Fri 17","sw":"0 cm","mw":0},{"label":"Sat 18","sw":"0 cm","mw":0},{"label":"Sun 19","sw":"0 cm","mw":0}],"mw7":28},"buller":{"elev":"1710","days":[{"label":"Mon 13","sw":"—","mw":12.3},{"label":"Tue 14","sw":"0 cm","mw":9.9},{"label":"Wed 15","sw":"0 cm","mw":0},{"label":"Thu 16","sw":"0 cm","mw":0},{"label":"Fri 17","sw":"0 cm","mw":0},{"label":"Sat 18","sw":"0 cm","mw":0},{"label":"Sun 19","sw":"0 cm","mw":0}],"mw7":22}};  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
+const BUILT = "14 July 2026, 9:25 AM AEST";
+const CMP = {"falls":{"elev":"1770","days":[{"label":"Tue 14","sw":"0–2 cm","mw":9.1},{"label":"Wed 15","sw":"0 cm","mw":0},{"label":"Thu 16","sw":"0 cm","mw":0},{"label":"Fri 17","sw":"0 cm","mw":0},{"label":"Sat 18","sw":"0 cm","mw":0},{"label":"Sun 19","sw":"0 cm","mw":0},{"label":"Mon 20","sw":"0 cm","mw":0}],"mw7":9},"hotham":{"elev":"1850","days":[{"label":"Tue 14","sw":"0–2 cm","mw":10.5},{"label":"Wed 15","sw":"0 cm","mw":0},{"label":"Thu 16","sw":"0 cm","mw":0},{"label":"Fri 17","sw":"0 cm","mw":0},{"label":"Sat 18","sw":"0 cm","mw":0},{"label":"Sun 19","sw":"0 cm","mw":0},{"label":"Mon 20","sw":"0 cm","mw":0.2}],"mw7":11},"buller":{"elev":"1710","days":[{"label":"Tue 14","sw":"0 cm","mw":13.4},{"label":"Wed 15","sw":"0 cm","mw":0},{"label":"Thu 16","sw":"0 cm","mw":0},{"label":"Fri 17","sw":"0 cm","mw":0},{"label":"Sat 18","sw":"0 cm","mw":0},{"label":"Sun 19","sw":"0 cm","mw":0},{"label":"Mon 20","sw":"0 cm","mw":0}],"mw7":13}};  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
 
 const M = {
   falls: {
@@ -172,9 +172,9 @@ const M = {
     issued: "14 Jul 2026, 6:32 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "0.4°C",
+    liveTemp: "−0.1°C",
     p5: "0–2 cm", p10: "0–2 cm", p15: "2–10 cm",
-    cond: {"base":"38 cm","last24":"0 cm","last7":"26 cm","season":"103 cm","lifts":"—","snowmaking":"—","note":"Eagle Express Chairlift Open! The recent snowfall has added a fresh layer across the resort, keeping the mountain looking and feeling wintery! Temperatures are expected to remain between 0°C and 1°C and wind is predicted to stay in the mid to low 20 s. · On-mountain now 0.2°C, wind 33 km/h NW (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Tue 14 July, 07:28AM"},
+    cond: {"base":"38 cm","last24":"0 cm","last7":"26 cm","season":"103 cm","lifts":"6","snowmaking":"—","note":"Eagle Express Chairlift Open! The recent snowfall has added a fresh layer across the resort, keeping the mountain looking and feeling wintery! Temperatures are expected to remain between 0°C and 1°C and wind is predicted to stay in the mid to low 20 s. · On-mountain now 0.0°C, wind 15 km/h NW (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Tue 14 July, 07:28AM"},
     days: [
       {d:"Tue 14 Jul", c:"🌦️ › 🌦️ › ⛅", cm:"0–2 cm", lvl:"Above 1700-1800m", lk:"likely", w:"NW-WSW, strong", smk:"possible", conf:"firm"},
       {d:"Wed 15 Jul", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SSW-S, mod", smk:"likely", conf:"firm"},
@@ -199,7 +199,7 @@ const M = {
     issued: "14 Jul 2026, 6:32 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "0°C",
+    liveTemp: "−0.2°C",
     p5: "0–2 cm", p10: "0–2 cm", p15: "2–10 cm",
     cond: {
       auto: true, source: "mthotham.com.au", sourceUrl: "https://www.mthotham.com.au/mountain/conditions/snow-reports",
@@ -233,7 +233,7 @@ const M = {
     issued: "14 Jul 2026, 6:32 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "0.9°C",
+    liveTemp: "0.1°C",
     p5: "0 cm", p10: "0 cm", p15: "0–3 cm",
     cond: {
       auto: true, source: "mtbuller.com.au", sourceUrl: "https://www.mtbuller.com.au/winter/snow-weather/snow-report",

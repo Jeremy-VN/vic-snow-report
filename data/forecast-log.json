@@ -451,7 +451,7 @@
   "date": "2026-07-14",
   "issued": "14 Jul 2026, 6:32 AM",
   "actual24h": 0,
-  "mw7": 28,
+  "mw7": 9,
   "swDaily": {
    "Tue 14 Jul": "0–2 cm",
    "Wed 15 Jul": "0 cm",
@@ -470,13 +470,13 @@
    "Tue 28 Jul": "0–2 cm"
   },
   "mwDaily": {
-   "Mon 13": 19.5,
-   "Tue 14": 8.6,
+   "Tue 14": 9.1,
    "Wed 15": 0,
    "Thu 16": 0,
    "Fri 17": 0,
    "Sat 18": 0,
-   "Sun 19": 0
+   "Sun 19": 0,
+   "Mon 20": 0
   }
  }
 ]
