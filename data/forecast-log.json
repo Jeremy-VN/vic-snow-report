@@ -579,7 +579,7 @@
   "date": "2026-07-18",
   "issued": "18 Jul 2026, 6:45 AM",
   "actual24h": 0,
-  "mw7": 3,
+  "mw7": 5,
   "swDaily": {
    "Sat 18 Jul": "0 cm",
    "Sun 19 Jul": "0 cm",
@@ -598,13 +598,13 @@
    "Sat 1 Aug": "0–2 cm"
   },
   "mwDaily": {
-   "Fri 17": 0,
    "Sat 18": 0,
    "Sun 19": 0,
    "Mon 20": 0,
    "Tue 21": 0,
-   "Wed 22": 0.2,
-   "Thu 23": 2.4
+   "Wed 22": 4.2,
+   "Thu 23": 1.1,
+   "Fri 24": 0
   }
  }
 ]
