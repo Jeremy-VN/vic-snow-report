@@ -731,7 +731,7 @@ function aheadBehind(key, condBase){
 
 // ---- Official cam + road/chain quick links, per mountain ----
 const QLINKS = {
-  falls:  { cams:"https://www.skifalls.com.au/snow-cams", road:"https://www.skifalls.com.au/discover-falls-creek/conditions-maps" },
+  falls:  { cams:"https://www.skifalls.com.au/snow-cams", road:"https://www.fallscreek.com.au/snowreport/", roadLabel:"🚗 Road &amp; conditions" },
   hotham: { cams:"https://www.mthotham.com.au/mountain/conditions/snow-cams", road:"https://www.mthotham.com.au/mountain/conditions/weather-roads" },
   buller: { cams:"https://www.mtbuller.com.au/winter/weather/web-cams", road:"https://www.mtbuller.com.au/winter/wheel-chain-requirements" },
 };
@@ -740,7 +740,7 @@ function quickLinks(key){
   const btn = (href,label)=> `<a href="${href}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#eef3f8;border:1px solid #d5e0ea;color:#1b6ca8;font-weight:600;font-size:13px;padding:7px 13px;border-radius:9px;text-decoration:none">${label}</a>`;
   return `<div style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 2px 0">`
     + btn(q.cams, "📷 Live snow cams")
-    + btn(q.road, "🚗 Road &amp; chain status")
+    + btn(q.road, q.roadLabel || "🚗 Road &amp; chain status")
     + `</div>`;
 }
 
