@@ -261,12 +261,49 @@ try {
   console.log(`Tracker: logged ${todayISO} (actual24h=${row.actual24h}, MW Falls 7-day=${mwData?mwData.total7+"cm":"n/a"}).`);
 } catch(e){ console.warn("Tracker log: " + e.message); }
 
+// ---- Accuracy scorecard: grade Snowatch vs Mountainwatch on 1-day-ahead Falls forecasts ----
+// For each day D with a real actual, look at the PRIOR day's log row and read what each
+// source forecast for D. Snowatch cm is a range string ("3–12 cm") -> midpoint; MW is a number.
+let SCORE = "null";
+try {
+  const log = JSON.parse(readFileSync("data/forecast-log.json","utf8"));
+  const byd = Object.fromEntries(log.map(r=>[r.date,r]));
+  const WD=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const swLbl = dt => `${WD[dt.getUTCDay()]} ${dt.getUTCDate()} ${MON3[dt.getUTCMonth()]}`;
+  const mwLbl = dt => `${WD[dt.getUTCDay()]} ${dt.getUTCDate()}`;
+  const mid = s => { if(s==null) return null; const n=String(s).match(/[\d.]+/g); if(!n) return null; const a=n.map(Number); return a.length>=2?(a[0]+a[1])/2:a[0]; };
+  const rows=[];
+  for(const r of log){
+    if(r.actual24h==null) continue;
+    const d=new Date(r.date+"T00:00:00Z");
+    const prev=new Date(d.getTime()-864e5).toISOString().slice(0,10);
+    const p=byd[prev]; if(!p) continue;
+    const sw = mid(p.swDaily ? p.swDaily[swLbl(d)] : null);
+    const mw = p.mwDaily ? p.mwDaily[mwLbl(d)] : null;
+    rows.push({ d:`${d.getUTCDate()} ${MON3[d.getUTCMonth()]}`, a:r.actual24h, sw, mw });
+  }
+  const mae = (arr,pick) => { const e=arr.filter(x=>pick(x)!=null).map(x=>Math.abs(pick(x)-x.a)); return e.length? Math.round(e.reduce((s,v)=>s+v,0)/e.length*10)/10 : null; };
+  const snow = rows.filter(x=>x.a>0);
+  const _sd = Object.fromEntries(new Intl.DateTimeFormat("en-AU",{timeZone:"Australia/Melbourne",day:"numeric",month:"short",year:"numeric"}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+  const score = {
+    built: `${_sd.day} ${_sd.month} ${_sd.year}`,
+    nAll: rows.length,
+    swMaeAll: mae(rows,x=>x.sw), mwMaeAll: mae(rows,x=>x.mw),
+    nSnow: snow.length,
+    swMaeSnow: mae(snow,x=>x.sw), mwMaeSnow: mae(snow,x=>x.mw),
+    events: snow.map(x=>({ d:x.d, a:x.a, sw:(x.sw==null?null:Math.round(x.sw*10)/10), mw:x.mw }))
+  };
+  SCORE = JSON.stringify(score);
+  console.log(`Scorecard: ${score.nAll} scored days (SW MAE ${score.swMaeAll} / MW ${score.mwMaeAll}); ${score.nSnow} snow days (SW ${score.swMaeSnow} / MW ${score.mwMaeSnow}).`);
+} catch(e){ console.warn("Scorecard: " + e.message); }
+
 const M = "const M = {\n" + MTN.map((cfg,i)=>mtnJs(cfg, fc[cfg.key], condsForBuild[i])).join(",\n") + "\n};";
 const _bp = Object.fromEntries(new Intl.DateTimeFormat("en-AU",{timeZone:"Australia/Melbourne",day:"numeric",month:"long",year:"numeric",hour:"numeric",minute:"2-digit",hour12:true}).formatToParts(new Date()).map(x=>[x.type,x.value]));
 const builtStamp = `${_bp.day} ${_bp.month} ${_bp.year}, ${_bp.hour}:${_bp.minute} ${(_bp.dayPeriod||"").toUpperCase()} AEST`;
 
 let out = html.replace(/const M = \{[\s\S]*?\n\};/, ()=>M);
 out = out.replace(/const CMP = [\s\S]*?;\s*\/\/ CMP/, `const CMP = ${CMP};  // CMP`);   // Snowatch-vs-Mountainwatch strip
+out = out.replace(/const SCORE = [\s\S]*?;\s*\/\/ SCORE/, `const SCORE = ${SCORE};  // SCORE`);   // accuracy scorecard
 if(out === html){ console.log("No forecast or comparison change — page already current."); process.exit(0); }  // only bump BUILT when something actually changed
 out = out.replace(/const BUILT = "[^"]*";/, `const BUILT = "${builtStamp}";`);
 

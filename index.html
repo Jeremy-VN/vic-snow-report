@@ -150,6 +150,7 @@ tr.past td { opacity: 0.45; }
       <button class="tab" data-m="buller-h">Buller history</button>
     </div>
     <div class="spacer"></div>
+    <button class="outlookbtn" id="scorebtn" title="How Snowatch &amp; Mountainwatch forecasts scored vs actual snow">📊 Accuracy</button>
     <button class="outlookbtn" id="outlookbtn" title="Season snow outlook &amp; climate drivers">❄ Snow Outlook</button>
     <button class="updbtn" id="updbtn" title="Re-run the data fetch now">⟳ Update now</button>
   </div>
@@ -164,6 +165,8 @@ tr.past td { opacity: 0.45; }
 const ISSUED_GLOBAL = "24 June 2026"; // build date
 const BUILT = "18 July 2026, 9:22 AM AEST";
 const CMP = {"falls":{"elev":"1770","days":[{"label":"Sat 18","sw":"0 cm","mw":0},{"label":"Sun 19","sw":"0 cm","mw":0},{"label":"Mon 20","sw":"0 cm","mw":0},{"label":"Tue 21","sw":"0 cm","mw":0},{"label":"Wed 22","sw":"1–3 cm","mw":4.2},{"label":"Thu 23","sw":"0–2 cm","mw":1.1},{"label":"Fri 24","sw":"0 cm","mw":0}],"mw7":5},"hotham":{"elev":"1850","days":[{"label":"Sat 18","sw":"0 cm","mw":0},{"label":"Sun 19","sw":"0 cm","mw":0},{"label":"Mon 20","sw":"0 cm","mw":0},{"label":"Tue 21","sw":"0 cm","mw":0},{"label":"Wed 22","sw":"1–3 cm","mw":4.9},{"label":"Thu 23","sw":"0–2 cm","mw":1.4},{"label":"Fri 24","sw":"0 cm","mw":0}],"mw7":6},"buller":{"elev":"1710","days":[{"label":"Sat 18","sw":"0 cm","mw":0},{"label":"Sun 19","sw":"0 cm","mw":0},{"label":"Mon 20","sw":"0 cm","mw":0},{"label":"Tue 21","sw":"0 cm","mw":0},{"label":"Wed 22","sw":"1–3 cm","mw":4.8},{"label":"Thu 23","sw":"0–1 cm","mw":2.2},{"label":"Fri 24","sw":"0 cm","mw":0.1}],"mw7":7}};  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
+
+const SCORE = {"built":"18 Jul 2026","nAll":16,"swMaeAll":3.3,"mwMaeAll":3.7,"nSnow":5,"swMaeSnow":6.3,"mwMaeSnow":8.5,"events":[{"d":"3 Jul","a":14,"sw":10.5,"mw":25.8},{"d":"4 Jul","a":15,"sw":0,"mw":0},{"d":"12 Jul","a":14,"sw":9,"mw":25.3},{"d":"13 Jul","a":12,"sw":5,"mw":15.5},{"d":"15 Jul","a":1,"sw":0,"mw":0}]};  // SCORE — Snowatch-vs-Mountainwatch accuracy scorecard; populated by the GitHub Action
 
 const M = {
   falls: {
@@ -495,6 +498,68 @@ function renderOutlook(){
   `;
 }
 
+function renderScore(){
+  const sub = 'style="font-weight:400;color:#6b7785;font-size:12px"';
+  const S = (typeof SCORE!=='undefined') ? SCORE : null;
+  if(!S){
+    return `<div class="hcard"><div style="margin:2px 0 6px"><strong style="font-size:16px">Forecast accuracy</strong></div>
+      <p class="cap">The scorecard populates once the daily tracker has enough graded days. Check back after the next refresh.</p></div>`;
+  }
+  const lead = (S.swMaeAll!=null && S.mwMaeAll!=null)
+    ? (S.swMaeAll < S.mwMaeAll ? "Snowatch" : (S.mwMaeAll < S.swMaeAll ? "Mountainwatch" : "Neck and neck"))
+    : "—";
+  const cell = 'style="padding:6px 8px;border-bottom:1px solid #eef1f4;text-align:right"';
+  const cellL = 'style="padding:6px 8px;border-bottom:1px solid #eef1f4"';
+  const th = 'style="padding:6px 8px;text-align:right;color:#6b7785;font-weight:600;border-bottom:2px solid #dfe4ea"';
+  const thL = 'style="padding:6px 8px;text-align:left;color:#6b7785;font-weight:600;border-bottom:2px solid #dfe4ea"';
+  const win = (a,b) => (a!=null&&b!=null&&a<b) ? 'font-weight:700;color:#127a3e' : '';
+  const evRows = (S.events||[]).map(e=>{
+    const se = e.sw==null?null:Math.abs(e.sw-e.a), me = e.mw==null?null:Math.abs(e.mw-e.a);
+    return `<tr>
+      <td ${cellL}>${e.d}</td>
+      <td ${cell}><strong>${e.a}</strong></td>
+      <td ${cell} style="padding:6px 8px;border-bottom:1px solid #eef1f4;text-align:right;${win(se,me)}">${e.sw==null?"—":e.sw}</td>
+      <td ${cell} style="padding:6px 8px;border-bottom:1px solid #eef1f4;text-align:right;${win(me,se)}">${e.mw==null?"—":e.mw}</td>
+    </tr>`;
+  }).join("");
+  return `
+  <div class="hcard">
+    <div style="margin:2px 0 6px"><strong style="font-size:16px">Forecast accuracy</strong> <span ${sub}>Snowatch vs Mountainwatch · Falls Creek · updated ${S.built}</span></div>
+    <p class="cap"><strong>What this is.</strong> Each morning we log both sites' snowfall forecast for every day, then grade the <strong>one-day-ahead</strong> call against the snow the resort actually reported. Lower error = better. It's an early read on <strong>${S.nAll}</strong> graded days — a small sample, so treat it as a scoreboard, not a verdict.</p>
+  </div>
+
+  <div class="hcard">
+    <h3>Leaderboard <span ${sub}>— mean absolute error, cm (lower is better)</span></h3>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <tr><th ${thL}></th><th ${th}>Snowatch</th><th ${th}>Mountainwatch</th></tr>
+      <tr><td ${cellL}>All days <span ${sub}>(n=${S.nAll})</span></td>
+          <td ${cell} style="padding:6px 8px;border-bottom:1px solid #eef1f4;text-align:right;${win(S.swMaeAll,S.mwMaeAll)}">${S.swMaeAll==null?"—":S.swMaeAll}</td>
+          <td ${cell} style="padding:6px 8px;border-bottom:1px solid #eef1f4;text-align:right;${win(S.mwMaeAll,S.swMaeAll)}">${S.mwMaeAll==null?"—":S.mwMaeAll}</td></tr>
+      <tr><td ${cellL}>Snow days only <span ${sub}>(n=${S.nSnow})</span></td>
+          <td ${cell} style="padding:6px 8px;border-bottom:1px solid #eef1f4;text-align:right;${win(S.swMaeSnow,S.mwMaeSnow)}">${S.swMaeSnow==null?"—":S.swMaeSnow}</td>
+          <td ${cell} style="padding:6px 8px;border-bottom:1px solid #eef1f4;text-align:right;${win(S.mwMaeSnow,S.swMaeSnow)}">${S.mwMaeSnow==null?"—":S.mwMaeSnow}</td></tr>
+    </table>
+    <p class="cap" style="margin-top:8px">Both look sharp on <em>all days</em> mainly because most days are correctly-called zeros. The <strong>snow-days-only</strong> row is the real test — that's where they earn or lose their keep. Current leader: <strong>${lead}</strong>.</p>
+  </div>
+
+  <div class="hcard">
+    <h3>The snow days <span ${sub}>— every day the resort reported fresh snow (cm)</span></h3>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <tr><th ${thL}>Date</th><th ${th}>Actual</th><th ${th}>Snowatch</th><th ${th}>Mtnwatch</th></tr>
+      ${evRows || `<tr><td ${cellL} colspan="4"><span ${sub}>No snow days graded yet this season.</span></td></tr>`}
+    </table>
+    <p class="cap" style="margin-top:8px">Green = the closer forecast that day. The pattern so far: <strong>Snowatch runs low, Mountainwatch runs high</strong>, and both entirely missed the 4 Jul surprise dump (15 cm forecast as 0).</p>
+  </div>
+
+  <div class="hcard">
+    <h3>One honest caveat</h3>
+    <p class="cap">The "actual" is the <strong>resort's village report</strong>, which sits close to Snowatch's village-level forecast. Mountainwatch quotes the <strong>1770 m upper mountain</strong>, which genuinely gets more snow — so some of its "over-forecast" is real snow that fell higher up, not pure error. Without an upper-mountain measurement to grade against, this isn't a perfectly fair fight, and it tilts slightly toward Snowatch. Read it as "which better predicts what you'll see in the village."</p>
+  </div>
+
+  <p class="cap" style="color:#9aa6b2">Method: one-day-ahead forecast vs the official Falls Creek 24-hour snowfall report. Snowatch ranges scored at their midpoint. Logged daily by the site's build; grows more reliable as the season goes on.</p>
+  `;
+}
+
 function renderHistory(key){
   const S=HSERIES_ALL[key], meta=HMETA[key]; H_ACTIVE=S;
   H_MISS_ACTIVE=(typeof HMISS!=='undefined' && HMISS[key])?HMISS[key]:[];
@@ -653,8 +718,10 @@ function condStrip(c){
 
 function render(key){
   var _cb=document.getElementById("cmpbox");   // comparison strip: forecast tabs only, per mountain
-  if(_cb){ var _c = (typeof CMP!=='undefined' && CMP && CMP[key]) ? CMP[key] : null; _cb.innerHTML = _c ? cmpRender(_c, (M[key]&&M[key].name)||'') : ''; _cb.style.display = _cb.innerHTML ? '' : 'none'; }
+  var _panelKey = (key==='outlook'||key==='score');
+  if(_cb){ var _c = (!_panelKey && typeof CMP!=='undefined' && CMP && CMP[key]) ? CMP[key] : null; _cb.innerHTML = _c ? cmpRender(_c, (M[key]&&M[key].name)||'') : ''; _cb.style.display = _cb.innerHTML ? '' : 'none'; }
   if(key==='outlook'){ document.getElementById("panel").innerHTML = renderOutlook(); return; }
+  if(key==='score'){ document.getElementById("panel").innerHTML = renderScore(); return; }
   if(key.slice(-2)==='-h'){ document.getElementById("panel").innerHTML = renderHistory(key.slice(0,-2)); wireHistoryHover(); wireWeeklyHover(); wireBarToggle(); return; }
   const m = M[key];
   const stale = m.stale ? `<div class="stale">⚠ ${m.staleNote}</div>` : '';
@@ -717,15 +784,24 @@ document.getElementById("tabs").addEventListener("click", (e)=>{
   if(!btn) return;
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
   var _ob=document.getElementById("outlookbtn"); if(_ob) _ob.classList.remove("on");
+  var _sb=document.getElementById("scorebtn"); if(_sb) _sb.classList.remove("on");
   btn.classList.add("active");
   render(btn.dataset.m);
   try { localStorage.setItem("vicSnowTab", btn.dataset.m); } catch(_){}
 });
 document.getElementById("outlookbtn").addEventListener("click", ()=>{
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  var _sb=document.getElementById("scorebtn"); if(_sb) _sb.classList.remove("on");
   document.getElementById("outlookbtn").classList.add("on");
   render("outlook");
   try { localStorage.setItem("vicSnowTab","outlook"); } catch(_){}
+});
+document.getElementById("scorebtn").addEventListener("click", ()=>{
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  var _ob=document.getElementById("outlookbtn"); if(_ob) _ob.classList.remove("on");
+  document.getElementById("scorebtn").classList.add("on");
+  render("score");
+  try { localStorage.setItem("vicSnowTab","score"); } catch(_){}
 });
 
 // ---- Update button (Cowork only) ----
@@ -754,9 +830,10 @@ document.getElementById("updbtn").addEventListener("click", async ()=>{
   else { if(ub) ub.style.display = "none"; gs.innerHTML = `Snapshot built <strong>${BUILT}</strong> · refreshes daily. Source: Snowatch / BOM.`; }
 })();
 let initTab = "falls";
-try { const saved = localStorage.getItem("vicSnowTab"); if(saved && (M[saved] || /-h$/.test(saved) || saved==='outlook')) initTab = saved; } catch(_){}
+try { const saved = localStorage.getItem("vicSnowTab"); if(saved && (M[saved] || /-h$/.test(saved) || saved==='outlook' || saved==='score')) initTab = saved; } catch(_){}
 document.querySelectorAll(".tab").forEach(t=>{ t.classList.toggle("active", t.dataset.m===initTab); });
 if(initTab==='outlook'){ var _ob=document.getElementById("outlookbtn"); if(_ob) _ob.classList.add("on"); }
+if(initTab==='score'){ var _sb=document.getElementById("scorebtn"); if(_sb) _sb.classList.add("on"); }
 render(initTab);
 
 function cmpRender(c, name){
