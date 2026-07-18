@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex">
 <title>Victoria Snow Report</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0d3b66">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Snow Report">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
 <style>
 :root { color-scheme: light; }
 * { box-sizing: border-box; }
@@ -26,12 +33,8 @@ body { margin: 0; background: #f4f6f8; color: #16202b; font-family: -apple-syste
 .outlookbtn { appearance: none; border: 0; background: #1b6ca8; color: #fff; font-weight: 700; font-size: 13.5px; padding: 9px 15px; border-radius: 9px; cursor: pointer; white-space: nowrap; transition: background .12s; }
 .outlookbtn:hover { background: #155a8f; }
 .outlookbtn.on { background: #0d3f66; box-shadow: 0 0 0 3px rgba(27,108,168,.28); }
-.updbtn { appearance: none; border: 1px solid #1b6ca8; background: #1b6ca8; color: #fff; font-weight: 600; font-size: 13.5px; padding: 9px 16px; border-radius: 9px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; }
-.updbtn:hover { background: #15598c; }
-.updbtn:disabled { opacity: .6; cursor: default; }
-.updstatus { font-size: 12.5px; color: #51606e; margin: 2px 2px 0; min-height: 16px; }
-.updstatus.ok { color: #1d6b2a; }
-.updstatus.err { color: #b23b3b; }
+/* Stale-data alarm banner */
+#stalebanner { display: none; background: #fde2e0; color: #7a1f18; border: 1px solid #e79a92; border-radius: 10px; padding: 11px 15px; font-size: 13.5px; font-weight: 600; margin: 12px 0 0; }
 
 /* Stamp + stale */
 .stamp { margin-top: 14px; font-size: 12.5px; color: #51606e; }
@@ -152,9 +155,9 @@ tr.past td { opacity: 0.45; }
     <div class="spacer"></div>
     <button class="outlookbtn" id="scorebtn" title="How Snowatch &amp; Mountainwatch forecasts scored vs actual snow">📊 Accuracy</button>
     <button class="outlookbtn" id="outlookbtn" title="Season snow outlook &amp; climate drivers">❄ Snow Outlook</button>
-    <button class="updbtn" id="updbtn" title="Re-run the data fetch now">⟳ Update now</button>
   </div>
-  <div class="updstatus" id="updstatus"></div>
+
+  <div id="stalebanner"></div>
 
   <div id="cmpbox"></div>
 
@@ -702,6 +705,45 @@ function condStrip(c){
   <div class="condnote">${c.note} &nbsp;·&nbsp; Source: <a href="${c.sourceUrl}" target="_blank" rel="noopener">${c.source}</a>${c.asAt?` (as at ${c.asAt}${c.depthAsAt?`, depth ${c.depthAsAt}`:''})`:''}.</div>`;
 }
 
+// ---- "Ahead or behind average" — current base vs the historical mean depth for today's day-of-season ----
+function aheadBehind(key, condBase){
+  const S = (typeof HSERIES_ALL!=='undefined') ? HSERIES_ALL[key] : null;
+  if(!S) return "";
+  const cur = parseFloat(String(condBase||"").replace(/[^\d.]/g,""));
+  if(isNaN(cur)) return "";
+  const now = new Date();
+  const doy = [0,31,59,90,120,151,181,212,243,273,304,334][now.getMonth()] + now.getDate();
+  const vals = [];
+  Object.keys(S).forEach(yr=>{ const v = hInterp(S[yr], doy); if(v!=null) vals.push(v); });
+  if(vals.length < 3) return "";
+  const mean = vals.reduce((a,b)=>a+b,0)/vals.length;
+  if(mean < 5) return "";   // meaningless % off a near-zero base (very early/late season)
+  const pct = Math.round((cur-mean)/mean*100);
+  const word = pct >= 8 ? "above" : (pct <= -8 ? "below" : "near");
+  const col  = pct >= 8 ? "#127a3e" : (pct <= -8 ? "#b23b3b" : "#6b7785");
+  const mag  = Math.abs(pct);
+  const phrase = word==="near" ? "about average" : `${mag}% ${word} average`;
+  return `<div style="margin:10px 2px 0;font-size:13.5px;color:#45576a">`
+    + `<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${col};margin-right:6px"></span>`
+    + `Base depth is <strong style="color:${col}">${phrase}</strong> for this time of season `
+    + `<span style="color:#9aa6b2">(natural cover vs ${vals.length}-season mean ≈ ${Math.round(mean)} cm at today's date; range ${Math.round(Math.min(...vals))}–${Math.round(Math.max(...vals))} cm)</span>.</div>`;
+}
+
+// ---- Official cam + road/chain quick links, per mountain ----
+const QLINKS = {
+  falls:  { cams:"https://www.skifalls.com.au/snow-cams", road:"https://www.skifalls.com.au/discover-falls-creek/conditions-maps" },
+  hotham: { cams:"https://www.mthotham.com.au/mountain/conditions/snow-cams", road:"https://www.mthotham.com.au/mountain/conditions/weather-roads" },
+  buller: { cams:"https://www.mtbuller.com.au/winter/weather/web-cams", road:"https://www.mtbuller.com.au/winter/wheel-chain-requirements" },
+};
+function quickLinks(key){
+  const q = QLINKS[key]; if(!q) return "";
+  const btn = (href,label)=> `<a href="${href}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#eef3f8;border:1px solid #d5e0ea;color:#1b6ca8;font-weight:600;font-size:13px;padding:7px 13px;border-radius:9px;text-decoration:none">${label}</a>`;
+  return `<div style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 2px 0">`
+    + btn(q.cams, "📷 Live snow cams")
+    + btn(q.road, "🚗 Road &amp; chain status")
+    + `</div>`;
+}
+
 function render(key){
   var _cb=document.getElementById("cmpbox");   // comparison strip: forecast tabs only, per mountain
   var _panelKey = (key==='outlook'||key==='score');
@@ -740,6 +782,8 @@ function render(key){
     <div class="stamp" style="margin-top:4px;color:#51606e">Snowatch forecast issued: <strong>${m.issued}</strong> &nbsp;|&nbsp; Live temp ${m.liveTemp}</div>
     ${stale}
     ${condStrip(m.cond)}
+    ${aheadBehind(key, m.cond && m.cond.base)}
+    ${quickLinks(key)}
     <div class="cards">
       <div class="card"><div class="lbl">Live temp</div><div class="val">${m.liveTemp}</div></div>
       <div class="card"><div class="lbl">Next 5 days</div><div class="val">${m.p5.replace(' cm','')}<span class="unit"> cm</span></div></div>
@@ -790,30 +834,28 @@ document.getElementById("scorebtn").addEventListener("click", ()=>{
   try { localStorage.setItem("vicSnowTab","score"); } catch(_){}
 });
 
-// ---- Update button (Cowork only) ----
-const TASK_ID = "vic-snow-report-nightly";
-
-document.getElementById("updbtn").addEventListener("click", async ()=>{
-  const btn = document.getElementById("updbtn");
-  const st = document.getElementById("updstatus");
-  st.className = "updstatus";
-  if(!(window.cowork && typeof window.cowork.runScheduledTask === "function")){
-    st.classList.add("err");
-    st.textContent = "Live update runs only in the Cowork desktop app. This public page refreshes when the site is redeployed (nightly).";
-    return;
+// ---- Stale-data alarm: warn if the daily build hasn't run in 2+ days ----
+function checkStale(){
+  const el = document.getElementById("stalebanner"); if(!el) return;
+  // BUILT looks like "18 July 2026, 7:16 AM AEST" — parse the leading "DD Month YYYY".
+  const m = String(BUILT).match(/(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})/);
+  if(!m) return;
+  const MON = {january:0,february:1,march:2,april:3,may:4,june:5,july:6,august:7,september:8,october:9,november:10,december:11};
+  const mon = MON[m[2].toLowerCase()]; if(mon==null) return;
+  const built = new Date(+m[3], mon, +m[1]);
+  const today = new Date(); today.setHours(0,0,0,0);
+  const days = Math.round((today - built) / 86400000);
+  if(days >= 2){
+    el.textContent = `⚠ Heads up: this data is ${days} days old (last updated ${m[1]} ${m[2]}). The automatic morning refresh may have failed — treat the figures with caution until it updates.`;
+    el.style.display = "block";
   }
-  btn.disabled = true;
-  st.textContent = "Fetching fresh data… reload in a few minutes.";
-  try { await window.cowork.runScheduledTask(TASK_ID); setTimeout(()=>location.reload(), 1500); }
-  catch (err) { st.classList.add("err"); st.textContent = "Couldn't start the update: " + (err && err.message ? err.message : err); btn.disabled = false; }
-});
+}
 
-// Init — hide the in-app Update button on the public web build
+// Init — global stamp + stale-data check
 (function(){
-  const hasCowork = !!(window.cowork && typeof window.cowork.runScheduledTask === "function");
-  const gs = document.getElementById("globalstamp"), ub = document.getElementById("updbtn");
-  if(hasCowork){ gs.innerHTML = `Snapshot built <strong>${BUILT}</strong> · refreshes nightly 6 AM, or tap “Update now”.`; }
-  else { if(ub) ub.style.display = "none"; gs.innerHTML = `Snapshot built <strong>${BUILT}</strong> · refreshes daily. Source: Snowatch / BOM.`; }
+  const gs = document.getElementById("globalstamp");
+  if(gs) gs.innerHTML = `Snapshot built <strong>${BUILT}</strong> · refreshes daily 6 AM AEST. Source: Snowatch / official resort reports.`;
+  checkStale();
 })();
 let initTab = "falls";
 try { const saved = localStorage.getItem("vicSnowTab"); if(saved && (M[saved] || /-h$/.test(saved) || saved==='outlook' || saved==='score')) initTab = saved; } catch(_){}
