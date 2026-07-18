@@ -171,7 +171,7 @@ tr.past td { opacity: 0.45; }
 
 <script>
 const ISSUED_GLOBAL = "24 June 2026"; // build date
-const BUILT = "19 July 2026, 7:23 AM AEST";
+const BUILT = "19 July 2026, 9:25 AM AEST";
 const CMP = {"falls":{"elev":"1770","days":[{"label":"Sun 19","sw":"0 cm","mw":0},{"label":"Mon 20","sw":"0 cm","mw":0},{"label":"Tue 21","sw":"0 cm","mw":0},{"label":"Wed 22","sw":"1–2 cm","mw":4.4},{"label":"Thu 23","sw":"1–2 cm","mw":2},{"label":"Fri 24","sw":"0 cm","mw":0},{"label":"Sat 25","sw":"0–1 cm","mw":0}],"mw7":6},"hotham":{"elev":"1850","days":[{"label":"Sun 19","sw":"0 cm","mw":0},{"label":"Mon 20","sw":"0 cm","mw":0},{"label":"Tue 21","sw":"0 cm","mw":0},{"label":"Wed 22","sw":"1–2 cm","mw":5},{"label":"Thu 23","sw":"1–2 cm","mw":2.2},{"label":"Fri 24","sw":"0 cm","mw":0},{"label":"Sat 25","sw":"0–1 cm","mw":0}],"mw7":7},"buller":{"elev":"1710","days":[{"label":"Sun 19","sw":"0 cm","mw":0},{"label":"Mon 20","sw":"0 cm","mw":0},{"label":"Tue 21","sw":"0 cm","mw":0},{"label":"Wed 22","sw":"1–2 cm","mw":5.3},{"label":"Thu 23","sw":"1–2 cm","mw":2.7},{"label":"Fri 24","sw":"0 cm","mw":0},{"label":"Sat 25","sw":"0–1 cm","mw":0}],"mw7":8}};  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
 
 const SCORE = {"built":"19 July 2026","nAll":17,"swMaeAll":3.1,"mwMaeAll":3.4,"nSnow":5,"swMaeSnow":6.3,"mwMaeSnow":8.5,"events":[{"d":"3 Jul","a":14,"sw":10.5,"mw":25.8},{"d":"4 Jul","a":15,"sw":0,"mw":0},{"d":"12 Jul","a":14,"sw":9,"mw":25.3},{"d":"13 Jul","a":12,"sw":5,"mw":15.5},{"d":"15 Jul","a":1,"sw":0,"mw":0}]};  // SCORE — Snowatch-vs-Mountainwatch accuracy scorecard; populated by the GitHub Action
@@ -183,9 +183,9 @@ const M = {
     issued: "19 Jul 2026, 7:00 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "6.6°C",
+    liveTemp: "9.1°C",
     p5: "2–4 cm", p10: "3–8 cm", p15: "8–20 cm",
-    cond: {"base":"38 cm","last24":"0 cm","last7":"27 cm","season":"104 cm","lifts":"—","snowmaking":"—","note":"12 lifts spinning + a sunny Sunday! We ve been treated to a spectacular weekend on the mountain, and today is no exception. Expect another bluebird day with sunny skies , temperatures ranging from 3°C to 10°C, and overnight snowmaking setting the resort up beautifully. · On-mountain now 6.6°C, wind 4 km/h SE (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Sun 19 July, 07:22AM"},
+    cond: {"base":"38 cm","last24":"0 cm","last7":"27 cm","season":"104 cm","lifts":"10","snowmaking":"—","note":"12 lifts spinning + a sunny Sunday! We ve been treated to a spectacular weekend on the mountain, and today is no exception. Expect another bluebird day with sunny skies , temperatures ranging from 3°C to 10°C, and overnight snowmaking setting the resort up beautifully. · On-mountain now 8.2°C, wind 4 km/h S (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Sun 19 July, 07:22AM"},
     days: [
       {d:"Sun 19 Jul", c:"☀️ › ☀️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"NNE-NNW, light", smk:"possible", conf:"firm"},
       {d:"Mon 20 Jul", c:"⛅ › ☁️ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NW, light", smk:"possible", conf:"firm"},
@@ -210,9 +210,9 @@ const M = {
     issued: "19 Jul 2026, 7:00 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "7.1°C",
+    liveTemp: "8.7°C",
     p5: "2–4 cm", p10: "3–8 cm", p15: "8–20 cm",
-    cond: {"auto":true,"source":"mthotham.com.au","sourceUrl":"https://www.mthotham.com.au/mountain/conditions/snow-reports","asAt":"Sun 19 July, 07:11AM","depthAsAt":null,"base":"40 cm","last24":"0 cm","last7":"9 cm","season":"96 cm","lifts":"See report","trails":"—","snowmaking":"—","note":"It'll be yet another gloriously sunny and mostly calm day on the mountain. · On-mountain now 7.4°C, wind 2 km/h S (WeatherZone) · Natural snow — 24 h 0 cm, 7 d 9 cm, season 96 cm, depth 40 cm."},
+    cond: {"auto":true,"source":"mthotham.com.au","sourceUrl":"https://www.mthotham.com.au/mountain/conditions/snow-reports","asAt":"Sun 19 July, 07:11AM","depthAsAt":null,"base":"41 cm","last24":"0 cm","last7":"9 cm","season":"96 cm","lifts":"See report","trails":"—","snowmaking":"—","note":"It'll be yet another gloriously sunny and mostly calm day on the mountain. · On-mountain now 9.7°C, wind 2 km/h SE (WeatherZone) · Natural snow — 24 h 0 cm, 7 d 9 cm, season 96 cm, depth 41 cm."},
     days: [
       {d:"Sun 19 Jul", c:"☀️ › ☀️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"NNE-NNW, light", smk:"possible", conf:"firm"},
       {d:"Mon 20 Jul", c:"⛅ › ☁️ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NW, light", smk:"possible", conf:"firm"},
@@ -237,7 +237,7 @@ const M = {
     issued: "19 Jul 2026, 7:00 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "7.8°C",
+    liveTemp: "7.7°C",
     p5: "2–4 cm", p10: "2–7 cm", p15: "4–12 cm",
     cond: {"auto":true,"source":"mtbuller.com.au","sourceUrl":"https://www.mtbuller.com.au/winter/snow-weather/snow-report","asAt":"Sunday 19th July 07:15am","depthAsAt":null,"base":"20 cm","last24":"0 cm","last7":"—","season":"53 cm <small>made</small>","lifts":"Fair","trails":"—","snowmaking":"—","note":"Resort cover: Fair. Average natural 20 cm on the ground; 53 cm machine-made (the 'made' figure, NOT snow currently on the ground). Snow last 24 h 0 cm; last snowfall 12 Jul 2026. Ski Patrol: Sunday 19th July 07:15am: It's a Beautiful sunny day and the snow has firmed up again overnight and should make for some good turns on the groomed areas first thing. Live on-mountain temp/wind isn't exposed to an automated fetch; see Snowatch live temp above."},
     days: [
