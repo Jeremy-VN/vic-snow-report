@@ -176,6 +176,62 @@ function parseFallsReport(raw){
     temp: temp? temp+"°C" : null, wind: wind? wind+" km/h "+(dir||"") : null, lifts };
 }
 
+// ---- Official Mt Hotham report (server-rendered like Falls) ----
+// Page lays out: "Last 24hrs 0cm", "Last 7 Days 26cm", "Season Total 95cm", "Depth 42cm",
+// "Temperature 7.0°C", "Wind Speed 20kph", "Wind Direction S", plus a "Daily Snow Report" issued date.
+function parseHotham(raw){
+  const t = raw.replace(/\s+/g," ").trim();
+  const g = re => { const m = t.match(re); return m ? m[1] : null; };
+  const last24 = g(/Last 24 ?hrs\s*([\d.]+)\s*cm/i);
+  const last7  = g(/Last 7 Days\s*([\d.]+)\s*cm/i);
+  const season = g(/Season Total\s*([\d.]+)\s*cm/i);
+  const depth  = g(/Depth\s*([\d.]+)\s*cm/i);
+  if(depth==null && season==null && last7==null) return null;   // nothing parsed → don't touch box
+  const temp = g(/Temperature\s*([\d.]+)\s*°?\s*C/i);
+  const wind = g(/Wind Speed\s*([\d.]+)\s*kph/i);
+  const dir  = g(/Wind Direction\s*([NSEW]{1,3})\b/i);
+  // Issued date on the natural-snow panel: "Issued: Fri 17 July, 08:59AM"
+  const issued = g(/Issued:\s*([A-Za-z]{3},?\s*\d{1,2}\s+[A-Za-z]+,\s*[\d:]+\s*[AP]M)/i)
+              || g(/([A-Za-z]{3},?\s*\d{1,2}\s+[A-Za-z]+,\s*[\d:]+\s*[AP]M)\s*It'?s another/i);
+  // Lead sentence of the daily report (between the issued time and the backcountry heading)
+  let report = null;
+  const lead = t.match(/It'?ll be [\s\S]{0,260}?(?:\.|Enjoy\.)/i) || t.match(/It'?s (?:another|a) [\s\S]{0,220}?\./i);
+  if(lead) report = lead[0].replace(/\s+/g," ").trim().slice(0,300);
+  return {
+    last24: last24!=null?last24+" cm":null, last7: last7!=null?last7+" cm":null,
+    season: season!=null?season+" cm":null, base: depth!=null?depth+" cm":null,
+    temp: temp?temp+"°C":null, wind: wind?wind+" km/h "+(dir||""):null,
+    issued, report,
+  };
+}
+
+// ---- Official Mt Buller report (Jane's Weather; report text server-rendered) ----
+// Lays out: "Resort cover Fair 20cm Average natural 53cm Average made", "Snow last 24 hours 0cm",
+// "Last snowfall 12 Jul 2026", "Resort rating Limited cover", and a "Ski Patrol update" paragraph.
+function parseBuller(raw){
+  const t = raw.replace(/\s+/g," ").trim();
+  const g = re => { const m = t.match(re); return m ? m[1] : null; };
+  // "Resort cover Fair 20cm Average natural 53cm Average made"
+  const cvr = t.match(/Resort cover\s*([A-Za-z][A-Za-z ]*?)\s*([\d.]+)\s*cm\s*Average natural/i);
+  const cover = cvr ? cvr[1].trim() : null;
+  const natural = cvr ? cvr[2] : g(/([\d.]+)\s*cm\s*Average natural/i);
+  const made = g(/Average natural\s*([\d.]+)\s*cm\s*Average made/i);
+  if(natural==null && made==null) return null;
+  const last24 = g(/Snow last 24 hours\s*([\d.]+)\s*cm/i);
+  const lastSnow = g(/Last snowfall\s*([0-9]{1,2}\s+[A-Za-z]{3,}\s+\d{4})/i);
+  const rating = g(/Resort rating\s*([A-Za-z][A-Za-z ]*?)\s*(?:Now|Snow|Observations|Ski|Updated|$)/i);
+  let patrol = g(/Ski Patrol update\s*([\s\S]{20,320}?)(?:\.|!)\s/i);
+  if(patrol){ patrol = patrol.replace(/\s+/g," ").trim(); }
+  // Buller stamps the report with a date like "Saturday 18th July 07:15am" inside the patrol text, or "18 July 2026"
+  const asAt = g(/((?:Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day\s+\d{1,2}(?:st|nd|rd|th)?\s+[A-Za-z]+\s+[\d:]+\s*[ap]m)/i)
+            || g(/(\d{1,2}\s+[A-Za-z]+\s+\d{4})\s*Forecast/i)
+            || lastSnow;
+  return {
+    cover, natural: natural!=null?natural+" cm":null, made: made!=null?made+" cm":null,
+    last24: last24!=null?last24+" cm":null, lastSnow, rating, patrol, asAt,
+  };
+}
+
 function fail(msg){ console.error("BUILD ABORTED:", msg); process.exit(1); }
 
 const html = readFileSync(FILE,"utf8");
@@ -241,6 +297,46 @@ if(fallsReport){
   if(fallsReport.last24){ const n = parseFloat(fallsReport.last24); if(!isNaN(n)) reportActual = n; }
   console.log(`Falls report: ${fallsReport.date} — 24h ${fallsReport.last24}, base ${fallsReport.base}, ${fallsReport.lifts} lift(s).`);
 }
+
+// ---- Official Mt Hotham report → conditions box (index 1) ----
+const HOTHAM_REPORT_URL = "https://www.mthotham.com.au/mountain/conditions/snow-reports";
+try {
+  const hr = parseHotham(await getText(HOTHAM_REPORT_URL + "?nocache=" + Date.now()));
+  if(hr){
+    const bits = [];
+    if(hr.report) bits.push(hr.report);
+    if(hr.temp)   bits.push("On-mountain now " + hr.temp + (hr.wind ? ", wind " + hr.wind : "") + " (WeatherZone)");
+    bits.push("Natural snow — 24 h " + (hr.last24||"—") + ", 7 d " + (hr.last7||"—") + ", season " + (hr.season||"—") + ", depth " + (hr.base||"—") + ".");
+    condsForBuild[1] = JSON.stringify({
+      auto: true, source: "mthotham.com.au", sourceUrl: HOTHAM_REPORT_URL, asAt: hr.issued || null, depthAsAt: null,
+      base: hr.base || "—", last24: hr.last24 || "—", last7: hr.last7 || "—", season: hr.season || "—",
+      lifts: "See report", trails: "—", snowmaking: "—",
+      note: bits.join(" · ")
+    });
+    console.log(`Hotham report: issued ${hr.issued} — depth ${hr.base}, 7 d ${hr.last7}, season ${hr.season}.`);
+  } else { console.warn("Hotham report: didn't parse — keeping previous box."); }
+} catch(e){ console.warn("Hotham report: " + e.message + " — keeping previous box."); }
+
+// ---- Official Mt Buller report → conditions box (index 2) ----
+const BULLER_REPORT_URL = "https://www.mtbuller.com.au/winter/snow-weather/snow-report";
+try {
+  const br = parseBuller(await getText(BULLER_REPORT_URL + "?nocache=" + Date.now()));
+  if(br){
+    const bits = [];
+    bits.push("Resort cover: " + (br.cover || br.rating || "—") + ". Average natural " + (br.natural||"—") + " on the ground; " + (br.made||"—") + " machine-made (the 'made' figure, NOT snow currently on the ground).");
+    if(br.last24)   bits.push("Snow last 24 h " + br.last24 + (br.lastSnow ? "; last snowfall " + br.lastSnow : "") + ".");
+    if(br.patrol)   bits.push("Ski Patrol: " + br.patrol + ".");
+    bits.push("Live on-mountain temp/wind isn't exposed to an automated fetch; see Snowatch live temp above.");
+    condsForBuild[2] = JSON.stringify({
+      auto: true, source: "mtbuller.com.au", sourceUrl: BULLER_REPORT_URL, asAt: br.asAt || null, depthAsAt: null,
+      base: br.natural || "0 cm", last24: br.last24 || "—", last7: "—",
+      season: (br.made ? br.made + " <small>made</small>" : "—"),
+      lifts: (br.cover || br.rating || "—"), trails: "—", snowmaking: "—",
+      note: bits.join(" ")
+    });
+    console.log(`Buller report: cover ${br.cover||br.rating} — natural ${br.natural}, made ${br.made}, 24h ${br.last24}.`);
+  } else { console.warn("Buller report: didn't parse — keeping previous box."); }
+} catch(e){ console.warn("Buller report: " + e.message + " — keeping previous box."); }
 
 // ---- Forecast-accuracy tracker: append today's Falls Creek snapshot ----
 // Actual 24h snowfall now comes from the official report (reportActual); data/actuals.json
