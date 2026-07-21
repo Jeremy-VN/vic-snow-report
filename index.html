@@ -171,7 +171,7 @@ tr.past td { opacity: 0.45; }
 
 <script>
 const ISSUED_GLOBAL = "24 June 2026"; // build date
-const BUILT = "22 July 2026, 7:39 AM AEST";
+const BUILT = "22 July 2026, 9:28 AM AEST";
 const CMP = {"falls":{"elev":"1770","days":[{"label":"Wed 22","sw":"1–2 cm","mw":3},{"label":"Thu 23","sw":"1–2 cm","mw":2},{"label":"Fri 24","sw":"0 cm","mw":1.1},{"label":"Sat 25","sw":"0 cm","mw":0.7},{"label":"Sun 26","sw":"0 cm","mw":0},{"label":"Mon 27","sw":"0 cm","mw":4.8},{"label":"Tue 28","sw":"0–1 cm","mw":17.1}],"mw7":29},"hotham":{"elev":"1850","days":[{"label":"Wed 22","sw":"1–2 cm","mw":3.3},{"label":"Thu 23","sw":"1–2 cm","mw":2.3},{"label":"Fri 24","sw":"0 cm","mw":1.6},{"label":"Sat 25","sw":"0 cm","mw":0.8},{"label":"Sun 26","sw":"0 cm","mw":0.2},{"label":"Mon 27","sw":"0 cm","mw":3.5},{"label":"Tue 28","sw":"0–1 cm","mw":14.7}],"mw7":26},"buller":{"elev":"1710","days":[{"label":"Wed 22","sw":"1–2 cm","mw":4.9},{"label":"Thu 23","sw":"1–2 cm","mw":1.6},{"label":"Fri 24","sw":"0–2 cm","mw":1.7},{"label":"Sat 25","sw":"0–1 cm","mw":2.3},{"label":"Sun 26","sw":"0 cm","mw":0.6},{"label":"Mon 27","sw":"0 cm","mw":2.9},{"label":"Tue 28","sw":"0–2 cm","mw":16.2}],"mw7":30}};  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
 
 const SCORE = {"built":"22 July 2026","nAll":20,"swMaeAll":2.8,"mwMaeAll":3.1,"nSnow":5,"swMaeSnow":6.3,"mwMaeSnow":8.5,"events":[{"d":"3 Jul","a":14,"sw":10.5,"mw":25.8},{"d":"4 Jul","a":15,"sw":0,"mw":0},{"d":"12 Jul","a":14,"sw":9,"mw":25.3},{"d":"13 Jul","a":12,"sw":5,"mw":15.5},{"d":"15 Jul","a":1,"sw":0,"mw":0}]};  // SCORE — Snowatch-vs-Mountainwatch accuracy scorecard; populated by the GitHub Action
@@ -183,9 +183,9 @@ const M = {
     issued: "22 Jul 2026, 7:10 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "−0.7°C",
+    liveTemp: "−1°C",
     p5: "2–4 cm", p10: "4–12 cm", p15: "10–28 cm",
-    cond: {"base":"37 cm","last24":"0 cm","last7":"0 cm","season":"104 cm","lifts":"—","snowmaking":"—","note":"Wintery Conditions Ahead A change in the weather is set to bring overcast, wet and wintery conditions throughout the day. Temperatures are expected to remain between 0°C and 2°C and wind is predicted to be a moderate northeasterly. With wet weather expected, be sure to dress appropriately in warm and waterproof layers. · On-mountain now 0.9°C, wind 24 km/h N (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Wed 22 July, 07:29AM"},
+    cond: {"base":"37 cm","last24":"0 cm","last7":"0 cm","season":"104 cm","lifts":"10","snowmaking":"—","note":"Wintery Conditions Ahead Please note that Wombats Ramble and Rudi s / Junction trails are closed today due to snow conditions on these runs. For access back to Slalom Plaza, please download on Halley s Comet chairlift. For access to the Village Bowl, you can download on Eagle Express or ride Day s End and Broadway trai · On-mountain now 0.9°C, wind 17 km/h NW (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Wed 22 July, 07:57AM"},
     days: [
       {d:"Wed 22 Jul", c:"☁️ › 🌦️ › 🌨️", cm:"1–2 cm", lvl:"Above 1500m in the south and 1700m in the north", lk:"likely", w:"NW-W, strong", smk:"possible", conf:"firm"},
       {d:"Thu 23 Jul", c:"🌨️ › 🌨️ › ⛅", cm:"1–2 cm", lvl:"Above 1200m in the south and 1300m in the north", lk:"likely", w:"SW-WSW, strong", smk:"likely", conf:"firm"},
@@ -237,7 +237,7 @@ const M = {
     issued: "22 Jul 2026, 7:10 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "−0.7°C",
+    liveTemp: "0.5°C",
     p5: "2–7 cm", p10: "3–13 cm", p15: "8–25 cm",
     cond: {"auto":true,"source":"mtbuller.com.au","sourceUrl":"https://www.mtbuller.com.au/winter/snow-weather/snow-report","asAt":"Wednesday 22nd July 7:12am","depthAsAt":null,"base":"17 cm","last24":"0 cm","last7":"—","season":"51 cm <small>made</small>","lifts":"Fair","trails":"—","snowmaking":"—","note":"Resort cover: Fair. Average natural 17 cm on the ground; 51 cm machine-made (the 'made' figure, NOT snow currently on the ground). Snow last 24 h 0 cm; last snowfall 12 Jul 2026. Ski Patrol: Wednesday 22nd July 7:12am: Here comes a wintry change and chance of snow showers arriving later today. Live on-mountain temp/wind isn't exposed to an automated fetch; see Snowatch live temp above."},
     days: [
