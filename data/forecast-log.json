@@ -926,5 +926,37 @@
    "Sun 2": 0.2,
    "Mon 3": 0.8
   }
+ },
+ {
+  "date": "2026-07-29",
+  "issued": "29 Jul 2026, 6:56 AM",
+  "actual24h": 11,
+  "mw7": 20,
+  "swDaily": {
+   "Wed 29 Jul": "3–6 cm",
+   "Thu 30 Jul": "0 cm",
+   "Fri 31 Jul": "0 cm",
+   "Sat 1 Aug": "0 cm",
+   "Sun 2 Aug": "0–1 cm",
+   "Mon 3 Aug": "1–2 cm",
+   "Tue 4 Aug": "0 cm",
+   "Wed 5 Aug": "0 cm",
+   "Thu 6 Aug": "0 cm",
+   "Fri 7 Aug": "0 cm",
+   "Sat 8 Aug": "0 cm",
+   "Sun 9 Aug": "0 cm",
+   "Mon 10 Aug": "0–1 cm",
+   "Tue 11 Aug": "0–1 cm",
+   "Wed 12 Aug": "0 cm"
+  },
+  "mwDaily": {
+   "Wed 29": 12.6,
+   "Thu 30": 0,
+   "Fri 31": 0,
+   "Sat 1": 0,
+   "Sun 2": 0.2,
+   "Mon 3": 7.2,
+   "Tue 4": 0.3
+  }
  }
 ]
