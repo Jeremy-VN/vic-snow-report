@@ -171,91 +171,91 @@ tr.past td { opacity: 0.45; }
 
 <script>
 const ISSUED_GLOBAL = "24 June 2026"; // build date
-const BUILT = "29 July 2026, 2:08 PM AEST";
-const CMP = {"falls":{"elev":"1770","days":[{"label":"Wed 29","sw":"3–6 cm","mw":12.6},{"label":"Thu 30","sw":"0 cm","mw":0},{"label":"Fri 31","sw":"0 cm","mw":0},{"label":"Sat 1","sw":"0 cm","mw":0},{"label":"Sun 2","sw":"0–1 cm","mw":0.2},{"label":"Mon 3","sw":"1–2 cm","mw":7.2},{"label":"Tue 4","sw":"0 cm","mw":0.3}],"mw7":20},"hotham":{"elev":"1850","days":[{"label":"Wed 29","sw":"3–6 cm","mw":12.9},{"label":"Thu 30","sw":"0 cm","mw":0},{"label":"Fri 31","sw":"0 cm","mw":0},{"label":"Sat 1","sw":"0 cm","mw":0},{"label":"Sun 2","sw":"0–1 cm","mw":0},{"label":"Mon 3","sw":"1–2 cm","mw":6},{"label":"Tue 4","sw":"0 cm","mw":0.4}],"mw7":19},"buller":{"elev":"1710","days":[{"label":"Wed 29","sw":"3–7 cm","mw":10.7},{"label":"Thu 30","sw":"0–1 cm","mw":0.6},{"label":"Fri 31","sw":"0 cm","mw":0},{"label":"Sat 1","sw":"0 cm","mw":0},{"label":"Sun 2","sw":"0–1 cm","mw":0.3},{"label":"Mon 3","sw":"0–2 cm","mw":7.2},{"label":"Tue 4","sw":"0 cm","mw":0.7}],"mw7":20}};  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
+const BUILT = "30 July 2026, 7:27 AM AEST";
+const CMP = {"falls":{"elev":"1770","days":[{"label":"Thu 30","sw":"0 cm","mw":0},{"label":"Fri 31","sw":"0 cm","mw":0},{"label":"Sat 1","sw":"0 cm","mw":0},{"label":"Sun 2","sw":"0 cm","mw":1.2},{"label":"Mon 3","sw":"5–12 cm","mw":5.4},{"label":"Tue 4","sw":"0–1 cm","mw":1.5},{"label":"Wed 5","sw":"0 cm","mw":0}],"mw7":8},"hotham":{"elev":"1850","days":[{"label":"Thu 30","sw":"0 cm","mw":0.1},{"label":"Fri 31","sw":"0 cm","mw":0},{"label":"Sat 1","sw":"0 cm","mw":0},{"label":"Sun 2","sw":"0 cm","mw":0.8},{"label":"Mon 3","sw":"5–12 cm","mw":5.6},{"label":"Tue 4","sw":"0–1 cm","mw":2},{"label":"Wed 5","sw":"0 cm","mw":0}],"mw7":9},"buller":{"elev":"1710","days":[{"label":"Thu 30","sw":"0–1 cm","mw":0.8},{"label":"Fri 31","sw":"0 cm","mw":0.1},{"label":"Sat 1","sw":"0 cm","mw":0},{"label":"Sun 2","sw":"0–1 cm","mw":0.4},{"label":"Mon 3","sw":"5–10 cm","mw":5.8},{"label":"Tue 4","sw":"0–1 cm","mw":3.4},{"label":"Wed 5","sw":"0 cm","mw":0.2}],"mw7":11}};  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
 
-const SCORE = {"built":"29 July 2026","nAll":27,"swMaeAll":2.7,"mwMaeAll":2.9,"nSnow":8,"swMaeSnow":5.4,"mwMaeSnow":5.8,"events":[{"d":"3 Jul","a":14,"sw":10.5,"mw":25.8},{"d":"4 Jul","a":15,"sw":0,"mw":0},{"d":"12 Jul","a":14,"sw":9,"mw":25.3},{"d":"13 Jul","a":12,"sw":5,"mw":15.5},{"d":"15 Jul","a":1,"sw":0,"mw":0},{"d":"23 Jul","a":3,"sw":1.5,"mw":2},{"d":"24 Jul","a":3,"sw":0,"mw":0.9},{"d":"29 Jul","a":11,"sw":3.5,"mw":10.7}]};  // SCORE — Snowatch-vs-Mountainwatch accuracy scorecard; populated by the GitHub Action
+const SCORE = {"built":"30 July 2026","nAll":28,"swMaeAll":2.8,"mwMaeAll":3,"nSnow":9,"swMaeSnow":5.5,"mwMaeSnow":5.8,"events":[{"d":"3 Jul","a":14,"sw":10.5,"mw":25.8},{"d":"4 Jul","a":15,"sw":0,"mw":0},{"d":"12 Jul","a":14,"sw":9,"mw":25.3},{"d":"13 Jul","a":12,"sw":5,"mw":15.5},{"d":"15 Jul","a":1,"sw":0,"mw":0},{"d":"23 Jul","a":3,"sw":1.5,"mw":2},{"d":"24 Jul","a":3,"sw":0,"mw":0.9},{"d":"29 Jul","a":11,"sw":3.5,"mw":10.7},{"d":"30 Jul","a":6,"sw":0,"mw":0}]};  // SCORE — Snowatch-vs-Mountainwatch accuracy scorecard; populated by the GitHub Action
 
 const M = {
   falls: {
     name: "Falls Creek",
     sub: "Village 1600 m · Summit 1842 m · 14 lifts",
-    issued: "29 Jul 2026, 6:56 AM",
+    issued: "30 Jul 2026, 6:48 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "−2.2°C",
-    p5: "3–7 cm", p10: "4–9 cm", p15: "4–11 cm",
-    cond: {"base":"47 cm","last24":"11 cm","last7":"17 cm","season":"121 cm","lifts":"12","snowmaking":"—","note":"11cm of fresh snow!! As a wintry blast continues to move through the region, we ve woken up to cold alpine conditions, with a fresh dusting of 11cm of snow across the resort. Overnight temperatures dropped to around -5°C, while daytime temperatures are expected to remain below freezing, reaching a top of around -1°C. · On-mountain now 2.1°C, wind 11 km/h W (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Wed 29 July, 09:08AM"},
+    liveTemp: "−4.5°C",
+    p5: "5–12 cm", p10: "5–13 cm", p15: "6–21 cm",
+    cond: {"base":"51 cm","last24":"6 cm","last7":"20 cm","season":"127 cm","lifts":"—","snowmaking":"See note","note":"17cm of fresh snow this week! It s the perfect day to get out and enjoy the fresh snow, with 17cm falling across the resort this week . Today s shaping up to be mostly sunny with temperatures ranging from -6°C to 1°C. · Snowmaking: our snowmaking team to keep the guns firing right through the night, with the guns still blazing this morning. · On-mountain now 4.5°C, wind 28 km/h S (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Thu 30 July, 07:24AM"},
     days: [
-      {d:"Wed 29 Jul", c:"🌨️ › 🌨️ › 🌨️", cm:"3–6 cm", lvl:"Above 1000m in the south and 1100m in the north", lk:"high", w:"WSW-SW, strong", smk:"likely", conf:"firm"},
-      {d:"Thu 30 Jul", c:"☁️ › 🌨️ › ⛅", cm:"0 cm", lvl:"About the peaks", lk:"possible", w:"SSW-S, mod", smk:"likely", conf:"firm"},
-      {d:"Fri 31 Jul", c:"☀️ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"S-N, light", smk:"likely", conf:"firm"},
+      {d:"Thu 30 Jul", c:"⛅ › ⛅ › ☀️", cm:"0 cm", lvl:"About the peaks", lk:"possible", w:"S-SW, mod", smk:"likely", conf:"firm"},
+      {d:"Fri 31 Jul", c:"☀️ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"S-SSE, light", smk:"likely", conf:"firm"},
       {d:"Sat 1 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"N-NNW, light", smk:"likely", conf:"firm"},
-      {d:"Sun 2 Aug", c:"☀️ › ☀️ › 🌥️", cm:"0–1 cm", lvl:"Above 1500m in early hours of Monday", lk:"likely", w:"NNW, mod", smk:"possible", conf:"firm"},
-      {d:"Mon 3 Aug", c:"🌨️ › 🌨️ › 🌨️", cm:"1–2 cm", lvl:"Above 1300m", lk:"likely", w:"NW-WSW, strong", smk:"likely", conf:"firm"},
-      {d:"Tue 4 Aug", c:"⛅ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SSW-S, mod", smk:"likely", conf:"firm"},
-      {d:"Wed 5 Aug", c:"☁️ › ☁️ › 🌥️", cm:"0 cm", lvl:"—", lk:"none", w:"S-S, light", smk:"likely", conf:"low"},
-      {d:"Thu 6 Aug", c:"⛅ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SE, light", smk:"likely", conf:"low"},
-      {d:"Fri 7 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"ENE-NE, light", smk:"likely", conf:"low"},
-      {d:"Sat 8 Aug", c:"☀️ › ☀️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"N-NNW, light", smk:"unlikely", conf:"low"},
-      {d:"Sun 9 Aug", c:"☀️ › ☀️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-NNW, mod", smk:"unlikely", conf:"low"},
-      {d:"Mon 10 Aug", c:"🌧️ › 🌧️ › 🌦️", cm:"0–1 cm", lvl:"About the peaks", lk:"likely", w:"NW-WNW, strong", smk:"unlikely", conf:"low"},
-      {d:"Tue 11 Aug", c:"🌨️ › ☁️ › ☁️", cm:"0–1 cm", lvl:"Above 1700m", lk:"likely", w:"NW, mod", smk:"unlikely", conf:"low"},
-      {d:"Wed 12 Aug", c:"☀️ › ☀️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-NNW, strong", smk:"unlikely", conf:"low"}
+      {d:"Sun 2 Aug", c:"☀️ › ☀️ › 🌥️", cm:"0 cm", lvl:"About the peaks", lk:"possible", w:"NNW, mod", smk:"possible", conf:"firm"},
+      {d:"Mon 3 Aug", c:"🌨️ › 🌨️ › 🌨️", cm:"5–12 cm", lvl:"—", lk:"high", w:"NW-WSW, strong", smk:"likely", conf:"firm"},
+      {d:"Tue 4 Aug", c:"🌨️ › 🌨️ › ☁️", cm:"0–1 cm", lvl:"Above 1400-1500m - molsty during the morning", lk:"likely", w:"WSW-SSW, mod", smk:"possible", conf:"firm"},
+      {d:"Wed 5 Aug", c:"☁️ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SW-S, light", smk:"likely", conf:"firm"},
+      {d:"Thu 6 Aug", c:"☁️ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SE, light", smk:"likely", conf:"low"},
+      {d:"Fri 7 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SE, light", smk:"likely", conf:"low"},
+      {d:"Sat 8 Aug", c:"☀️ › ☀️ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"N-NNW, light", smk:"unlikely", conf:"low"},
+      {d:"Sun 9 Aug", c:"☁️ › 🌦️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-NNW, light", smk:"unlikely", conf:"low"},
+      {d:"Mon 10 Aug", c:"🌨️ › 🌨️ › 🌨️", cm:"1–3 cm", lvl:"Above around 1500-1600m", lk:"likely", w:"NW, mod", smk:"possible", conf:"low"},
+      {d:"Tue 11 Aug", c:"🌨️ › 🌨️ › 🌨️", cm:"0–2 cm", lvl:"Above 1500m", lk:"likely", w:"NW-WNW, mod", smk:"unlikely", conf:"low"},
+      {d:"Wed 12 Aug", c:"☁️ › ☁️ › ☁️", cm:"0–1 cm", lvl:"Above 1600m", lk:"likely", w:"NW, strong", smk:"unlikely", conf:"low"},
+      {d:"Thu 13 Aug", c:"☁️ › ☁️ › 🌨️", cm:"0–2 cm", lvl:"—", lk:"likely", w:"NW, strong", smk:"unlikely", conf:"low"}
     ]
   },
   hotham: {
     name: "Mount Hotham",
     sub: "Village 1750 m · Summit 1861 m · 13 lifts (incl. Dinner Plain)",
-    issued: "29 Jul 2026, 6:56 AM",
+    issued: "30 Jul 2026, 6:48 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "−2.7°C",
-    p5: "3–7 cm", p10: "4–9 cm", p15: "4–11 cm",
-    cond: {"auto":true,"source":"mthotham.com.au","sourceUrl":"https://www.mthotham.com.au/mountain/conditions/snow-reports","asAt":"Wed 29 July, 06:51AM","depthAsAt":null,"base":"49 cm","last24":"10 cm","last7":"16 cm","season":"111 cm","lifts":"See report","trails":"—","snowmaking":"—","note":"It'll be a morning for the storm riders. · Natural snow — 24 h 10 cm, 7 d 16 cm, season 111 cm, depth 49 cm."},
+    liveTemp: "−4.3°C",
+    p5: "5–12 cm", p10: "5–13 cm", p15: "6–21 cm",
+    cond: {"auto":true,"source":"mthotham.com.au","sourceUrl":"https://www.mthotham.com.au/mountain/conditions/snow-reports","asAt":"Thu 30 July, 07:02AM","depthAsAt":null,"base":"55 cm","last24":"5 cm","last7":"21 cm","season":"119 cm","lifts":"See report","trails":"—","snowmaking":"—","note":"Natural snow — 24 h 5 cm, 7 d 21 cm, season 119 cm, depth 55 cm."},
     days: [
-      {d:"Wed 29 Jul", c:"🌨️ › 🌨️ › 🌨️", cm:"3–6 cm", lvl:"Above 1000m in the south and 1100m in the north", lk:"high", w:"WSW-SW, strong", smk:"likely", conf:"firm"},
-      {d:"Thu 30 Jul", c:"☁️ › 🌨️ › ⛅", cm:"0 cm", lvl:"About the peaks", lk:"possible", w:"SSW-S, mod", smk:"likely", conf:"firm"},
-      {d:"Fri 31 Jul", c:"☀️ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"S-N, light", smk:"likely", conf:"firm"},
+      {d:"Thu 30 Jul", c:"⛅ › ⛅ › ☀️", cm:"0 cm", lvl:"About the peaks", lk:"possible", w:"S-SW, mod", smk:"likely", conf:"firm"},
+      {d:"Fri 31 Jul", c:"☀️ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"S-SSE, light", smk:"likely", conf:"firm"},
       {d:"Sat 1 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"N-NNW, light", smk:"likely", conf:"firm"},
-      {d:"Sun 2 Aug", c:"☀️ › ☀️ › 🌥️", cm:"0–1 cm", lvl:"Above 1500m in early hours of Monday", lk:"likely", w:"NNW, mod", smk:"possible", conf:"firm"},
-      {d:"Mon 3 Aug", c:"🌨️ › 🌨️ › 🌨️", cm:"1–2 cm", lvl:"Above 1300m", lk:"likely", w:"NW-WSW, strong", smk:"likely", conf:"firm"},
-      {d:"Tue 4 Aug", c:"⛅ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SSW-S, mod", smk:"likely", conf:"firm"},
-      {d:"Wed 5 Aug", c:"☁️ › ☁️ › 🌥️", cm:"0 cm", lvl:"—", lk:"none", w:"S-S, light", smk:"likely", conf:"low"},
-      {d:"Thu 6 Aug", c:"⛅ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SE, light", smk:"likely", conf:"low"},
-      {d:"Fri 7 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"ENE-NE, light", smk:"likely", conf:"low"},
-      {d:"Sat 8 Aug", c:"☀️ › ☀️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"N-NNW, light", smk:"unlikely", conf:"low"},
-      {d:"Sun 9 Aug", c:"☀️ › ☀️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-NNW, mod", smk:"unlikely", conf:"low"},
-      {d:"Mon 10 Aug", c:"🌧️ › 🌧️ › 🌦️", cm:"0–1 cm", lvl:"About the peaks", lk:"likely", w:"NW-WNW, strong", smk:"unlikely", conf:"low"},
-      {d:"Tue 11 Aug", c:"🌨️ › ☁️ › ☁️", cm:"0–1 cm", lvl:"Above 1700m", lk:"likely", w:"NW, mod", smk:"unlikely", conf:"low"},
-      {d:"Wed 12 Aug", c:"☀️ › ☀️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-NNW, strong", smk:"unlikely", conf:"low"}
+      {d:"Sun 2 Aug", c:"☀️ › ☀️ › 🌥️", cm:"0 cm", lvl:"About the peaks", lk:"possible", w:"NNW, mod", smk:"possible", conf:"firm"},
+      {d:"Mon 3 Aug", c:"🌨️ › 🌨️ › 🌨️", cm:"5–12 cm", lvl:"—", lk:"high", w:"NW-WSW, strong", smk:"likely", conf:"firm"},
+      {d:"Tue 4 Aug", c:"🌨️ › 🌨️ › ☁️", cm:"0–1 cm", lvl:"Above 1400-1500m - molsty during the morning", lk:"likely", w:"WSW-SSW, mod", smk:"possible", conf:"firm"},
+      {d:"Wed 5 Aug", c:"☁️ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SW-S, light", smk:"likely", conf:"firm"},
+      {d:"Thu 6 Aug", c:"☁️ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SE, light", smk:"likely", conf:"low"},
+      {d:"Fri 7 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SE, light", smk:"likely", conf:"low"},
+      {d:"Sat 8 Aug", c:"☀️ › ☀️ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"N-NNW, light", smk:"unlikely", conf:"low"},
+      {d:"Sun 9 Aug", c:"☁️ › 🌦️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-NNW, light", smk:"unlikely", conf:"low"},
+      {d:"Mon 10 Aug", c:"🌨️ › 🌨️ › 🌨️", cm:"1–3 cm", lvl:"Above around 1500-1600m", lk:"likely", w:"NW, mod", smk:"possible", conf:"low"},
+      {d:"Tue 11 Aug", c:"🌨️ › 🌨️ › 🌨️", cm:"0–2 cm", lvl:"Above 1500m", lk:"likely", w:"NW-WNW, mod", smk:"unlikely", conf:"low"},
+      {d:"Wed 12 Aug", c:"☁️ › ☁️ › ☁️", cm:"0–1 cm", lvl:"Above 1600m", lk:"likely", w:"NW, strong", smk:"unlikely", conf:"low"},
+      {d:"Thu 13 Aug", c:"☁️ › ☁️ › 🌨️", cm:"0–2 cm", lvl:"—", lk:"likely", w:"NW, strong", smk:"unlikely", conf:"low"}
     ]
   },
   buller: {
     name: "Mount Buller",
     sub: "Village 1600 m · Summit 1805 m · 22 lifts",
-    issued: "29 Jul 2026, 6:56 AM",
+    issued: "30 Jul 2026, 6:48 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "−2°C",
-    p5: "3–9 cm", p10: "3–11 cm", p15: "3–13 cm",
+    liveTemp: "−3°C",
+    p5: "5–12 cm", p10: "5–13 cm", p15: "6–19 cm",
     cond: {"auto":true,"source":"mtbuller.com.au","sourceUrl":"https://www.mtbuller.com.au/winter/snow-weather/snow-report","asAt":"Wednesday 29th July 7:22am","depthAsAt":null,"base":"27 cm","last24":"9 cm","last7":"—","season":"61 cm <small>made</small>","lifts":"Fair","trails":"—","snowmaking":"—","note":"Resort cover: Fair. Average natural 27 cm on the ground; 61 cm machine-made (the 'made' figure, NOT snow currently on the ground). Snow last 24 h 9 cm; last snowfall 29 July 2026. Ski Patrol: Wednesday 29th July 7:22am: Here comes the SNOW as forecast and low temperatures allowing the guns to blaze. Live on-mountain temp/wind isn't exposed to an automated fetch; see Snowatch live temp above."},
     days: [
-      {d:"Wed 29 Jul", c:"🌨️ › 🌨️ › 🌨️", cm:"3–7 cm", lvl:"Above 1000m in the south and 1100m in the north", lk:"high", w:"WSW-SW, strong", smk:"likely", conf:"firm"},
-      {d:"Thu 30 Jul", c:"🌨️ › ☁️ › ☁️", cm:"0–1 cm", lvl:"About the peaks", lk:"likely", w:"SSW-S, mod", smk:"likely", conf:"firm"},
-      {d:"Fri 31 Jul", c:"⛅ › ☁️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"S-N, light", smk:"likely", conf:"firm"},
+      {d:"Thu 30 Jul", c:"🌨️ › ☁️ › ☁️", cm:"0–1 cm", lvl:"About the peaks", lk:"likely", w:"S-SW, mod", smk:"likely", conf:"firm"},
+      {d:"Fri 31 Jul", c:"⛅ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"S-SSE, light", smk:"likely", conf:"firm"},
       {d:"Sat 1 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"N-NNW, light", smk:"likely", conf:"firm"},
-      {d:"Sun 2 Aug", c:"☀️ › ☀️ › 🌥️", cm:"0–1 cm", lvl:"Above 1500m in early hours of Monday", lk:"likely", w:"NNW, mod", smk:"unlikely", conf:"firm"},
-      {d:"Mon 3 Aug", c:"🌨️ › 🌨️ › 🌨️", cm:"0–2 cm", lvl:"Above 1300m", lk:"likely", w:"NW-WSW, strong", smk:"possible", conf:"firm"},
-      {d:"Tue 4 Aug", c:"☁️ › ☁️ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"SSW-S, mod", smk:"possible", conf:"firm"},
-      {d:"Wed 5 Aug", c:"☀️ › ☀️ › 🌥️", cm:"0 cm", lvl:"—", lk:"none", w:"S-S, light", smk:"possible", conf:"low"},
-      {d:"Thu 6 Aug", c:"⛅ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SE, light", smk:"possible", conf:"low"},
-      {d:"Fri 7 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"ENE-NE, light", smk:"possible", conf:"low"},
-      {d:"Sat 8 Aug", c:"☀️ › ☀️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"N-NNW, light", smk:"unlikely", conf:"low"},
-      {d:"Sun 9 Aug", c:"☀️ › ☀️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-NNW, mod", smk:"unlikely", conf:"low"},
-      {d:"Mon 10 Aug", c:"🌧️ › 🌦️ › 🌦️", cm:"0–1 cm", lvl:"About the peaks", lk:"likely", w:"NW-WNW, strong", smk:"unlikely", conf:"low"},
-      {d:"Tue 11 Aug", c:"🌨️ › ☁️ › ☁️", cm:"0–1 cm", lvl:"Above 1700m", lk:"likely", w:"NW, mod", smk:"unlikely", conf:"low"},
-      {d:"Wed 12 Aug", c:"☀️ › ☀️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-NNW, strong", smk:"unlikely", conf:"low"}
+      {d:"Sun 2 Aug", c:"☀️ › ☀️ › 🌥️", cm:"0–1 cm", lvl:"About the peaks", lk:"likely", w:"NNW, mod", smk:"possible", conf:"firm"},
+      {d:"Mon 3 Aug", c:"🌨️ › 🌨️ › 🌨️", cm:"5–10 cm", lvl:"—", lk:"high", w:"NW-WSW, strong", smk:"possible", conf:"firm"},
+      {d:"Tue 4 Aug", c:"🌨️ › 🌨️ › ☁️", cm:"0–1 cm", lvl:"Above 1400-1500m - molsty during the morning", lk:"likely", w:"WSW-SSW, mod", smk:"possible", conf:"firm"},
+      {d:"Wed 5 Aug", c:"☁️ › ☁️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SW-S, light", smk:"possible", conf:"firm"},
+      {d:"Thu 6 Aug", c:"☁️ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SE, light", smk:"possible", conf:"low"},
+      {d:"Fri 7 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SE, light", smk:"possible", conf:"low"},
+      {d:"Sat 8 Aug", c:"☀️ › ☀️ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"N-NNW, light", smk:"unlikely", conf:"low"},
+      {d:"Sun 9 Aug", c:"☁️ › 🌦️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-NNW, light", smk:"unlikely", conf:"low"},
+      {d:"Mon 10 Aug", c:"🌨️ › 🌨️ › 🌨️", cm:"1–3 cm", lvl:"Above around 1500-1600m", lk:"likely", w:"NW, mod", smk:"possible", conf:"low"},
+      {d:"Tue 11 Aug", c:"🌨️ › 🌨️ › ☁️", cm:"0–1 cm", lvl:"Above 1500m", lk:"likely", w:"NW-WNW, mod", smk:"unlikely", conf:"low"},
+      {d:"Wed 12 Aug", c:"☁️ › ☁️ › ☁️", cm:"0 cm", lvl:"Above 1600m", lk:"possible", w:"NW, strong", smk:"unlikely", conf:"low"},
+      {d:"Thu 13 Aug", c:"☁️ › ☁️ › 🌨️", cm:"0–2 cm", lvl:"—", lk:"likely", w:"NW, strong", smk:"unlikely", conf:"low"}
     ]
   }
 };
