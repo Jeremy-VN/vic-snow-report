@@ -171,7 +171,7 @@ tr.past td { opacity: 0.45; }
 
 <script>
 const ISSUED_GLOBAL = "24 June 2026"; // build date
-const BUILT = "2 August 2026, 9:28 AM AEST";
+const BUILT = "2 August 2026, 2:21 PM AEST";
 const CMP = {"falls":{"elev":"1770","days":[{"label":"Sun 2","sw":"0 cm","mw":0.2},{"label":"Mon 3","sw":"7–12 cm","mw":3.1},{"label":"Tue 4","sw":"1–2 cm","mw":2},{"label":"Wed 5","sw":"0–1 cm","mw":0},{"label":"Thu 6","sw":"0 cm","mw":0},{"label":"Fri 7","sw":"0 cm","mw":0},{"label":"Sat 8","sw":"0–1 cm","mw":0.6}],"mw7":6},"hotham":{"elev":"1850","days":[{"label":"Sun 2","sw":"0 cm","mw":0},{"label":"Mon 3","sw":"7–12 cm","mw":4.1},{"label":"Tue 4","sw":"1–2 cm","mw":3.7},{"label":"Wed 5","sw":"0–1 cm","mw":0},{"label":"Thu 6","sw":"0 cm","mw":0},{"label":"Fri 7","sw":"0 cm","mw":0},{"label":"Sat 8","sw":"0–1 cm","mw":1.2}],"mw7":9},"buller":{"elev":"1710","days":[{"label":"Sun 2","sw":"0 cm","mw":0},{"label":"Mon 3","sw":"5–8 cm","mw":4.8},{"label":"Tue 4","sw":"2–3 cm","mw":4.2},{"label":"Wed 5","sw":"0 cm","mw":0},{"label":"Thu 6","sw":"0 cm","mw":0},{"label":"Fri 7","sw":"0 cm","mw":0},{"label":"Sat 8","sw":"0 cm","mw":0}],"mw7":9}};  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
 
 const SCORE = {"built":"2 Aug 2026","nAll":31,"swMaeAll":2.5,"mwMaeAll":2.8,"nSnow":9,"swMaeSnow":5.5,"mwMaeSnow":5.8,"events":[{"d":"3 Jul","a":14,"sw":10.5,"mw":25.8},{"d":"4 Jul","a":15,"sw":0,"mw":0},{"d":"12 Jul","a":14,"sw":9,"mw":25.3},{"d":"13 Jul","a":12,"sw":5,"mw":15.5},{"d":"15 Jul","a":1,"sw":0,"mw":0},{"d":"23 Jul","a":3,"sw":1.5,"mw":2},{"d":"24 Jul","a":3,"sw":0,"mw":0.9},{"d":"29 Jul","a":11,"sw":3.5,"mw":10.7},{"d":"30 Jul","a":6,"sw":0,"mw":0}]};  // SCORE — Snowatch-vs-Mountainwatch accuracy scorecard; populated by the GitHub Action
@@ -183,9 +183,9 @@ const M = {
     issued: "2 Aug 2026, 6:52 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "0.1°C",
+    liveTemp: "0.9°C",
     p5: "8–15 cm", p10: "13–26 cm", p15: "19–43 cm",
-    cond: {"base":"50 cm","last24":"0 cm","last7":"17 cm","season":"127 cm","lifts":"10","snowmaking":"—","note":"Cloudy + snow on the way! We re looking good for another great Sunday at Falls Creek. Expect a mix of blue skies and cloud drifting through, with temperatures ranging from -2°C to a top of 5°C. · On-mountain now 0.1°C, wind 33 km/h N (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Sun 02 August, 07:19AM"},
+    cond: {"base":"50 cm","last24":"0 cm","last7":"17 cm","season":"127 cm","lifts":"12","snowmaking":"—","note":"Cloudy + snow on the way! We re looking good for another great Sunday at Falls Creek. Expect a mix of blue skies and cloud drifting through, with temperatures ranging from -2°C to a top of 5°C. · On-mountain now 0.9°C, wind 41 km/h N (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Sun 02 August, 07:19AM"},
     days: [
       {d:"Sun 2 Aug", c:"☀️ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"N-NNW, strong", smk:"unlikely", conf:"firm"},
       {d:"Mon 3 Aug", c:"☁️ › 🌨️ › 🌨️", cm:"7–12 cm", lvl:"About the peaks", lk:"high", w:"NW-WNW, strong", smk:"likely", conf:"firm"},
@@ -210,9 +210,9 @@ const M = {
     issued: "2 Aug 2026, 6:52 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "−0.3°C",
+    liveTemp: "0.5°C",
     p5: "8–15 cm", p10: "13–26 cm", p15: "19–43 cm",
-    cond: {"auto":true,"source":"mthotham.com.au","sourceUrl":"https://www.mthotham.com.au/mountain/conditions/snow-reports","asAt":"Sun 2 August, 06:51AM","depthAsAt":null,"base":"52 cm","last24":"0 cm","last7":"18 cm","season":"119 cm","lifts":"See report","trails":"—","snowmaking":"—","note":"it'll be a mostly fine day with plenty of good turns to be had. · Natural snow — 24 h 0 cm, 7 d 18 cm, season 119 cm, depth 52 cm."},
+    cond: {"auto":true,"source":"mthotham.com.au","sourceUrl":"https://www.mthotham.com.au/mountain/conditions/snow-reports","asAt":"Sun 2 August, 01:14PM","depthAsAt":null,"base":"52 cm","last24":"0 cm","last7":"18 cm","season":"119 cm","lifts":"See report","trails":"—","snowmaking":"—","note":"it'll be a mostly fine day with plenty of good turns to be had. · On-mountain now 0.5°C, wind 50 km/h N (WeatherZone) · Natural snow — 24 h 0 cm, 7 d 18 cm, season 119 cm, depth 52 cm."},
     days: [
       {d:"Sun 2 Aug", c:"☀️ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"N-NNW, strong", smk:"unlikely", conf:"firm"},
       {d:"Mon 3 Aug", c:"☁️ › 🌨️ › 🌨️", cm:"7–12 cm", lvl:"About the peaks", lk:"high", w:"NW-WNW, strong", smk:"likely", conf:"firm"},
@@ -237,7 +237,7 @@ const M = {
     issued: "2 Aug 2026, 6:52 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "0.2°C",
+    liveTemp: "1.6°C",
     p5: "7–11 cm", p10: "8–16 cm", p15: "13–26 cm",
     cond: {"auto":true,"source":"mtbuller.com.au","sourceUrl":"https://www.mtbuller.com.au/winter/snow-weather/snow-report","asAt":"Sunday 2nd August 07:12am","depthAsAt":null,"base":"32 cm","last24":"0 cm","last7":"—","season":"67 cm <small>made</small>","lifts":"Fair","trails":"—","snowmaking":"—","note":"Resort cover: Fair. Average natural 32 cm on the ground; 67 cm machine-made (the 'made' figure, NOT snow currently on the ground). Snow last 24 h 0 cm; last snowfall 30 July 2026. Ski Patrol: Sunday 2nd August 07:12am: Another mostly sunny day ahead of us before the precipitation sets in tomorrow. Live on-mountain temp/wind isn't exposed to an automated fetch; see Snowatch live temp above."},
     days: [
