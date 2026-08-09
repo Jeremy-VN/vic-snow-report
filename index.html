@@ -171,7 +171,7 @@ tr.past td { opacity: 0.45; }
 
 <script>
 const ISSUED_GLOBAL = "24 June 2026"; // build date
-const BUILT = "10 August 2026, 7:02 AM AEST";
+const BUILT = "10 August 2026, 8:59 AM AEST";
 const CMP = {"falls":{"elev":"1770","days":[{"label":"Mon 10","sw":"15–25 cm","mw":26.1},{"label":"Tue 11","sw":"0–2 cm","mw":3.1},{"label":"Wed 12","sw":"3–6 cm","mw":6.5},{"label":"Thu 13","sw":"0 cm","mw":0.8},{"label":"Fri 14","sw":"0 cm","mw":0},{"label":"Sat 15","sw":"0 cm","mw":0.2},{"label":"Sun 16","sw":"0 cm","mw":0.2}],"mw7":37},"hotham":{"elev":"1850","days":[{"label":"Mon 10","sw":"15–25 cm","mw":24.4},{"label":"Tue 11","sw":"0–2 cm","mw":3.1},{"label":"Wed 12","sw":"3–6 cm","mw":6.3},{"label":"Thu 13","sw":"0 cm","mw":1},{"label":"Fri 14","sw":"0 cm","mw":0},{"label":"Sat 15","sw":"0 cm","mw":0.2},{"label":"Sun 16","sw":"0 cm","mw":0}],"mw7":35},"buller":{"elev":"1710","days":[{"label":"Mon 10","sw":"15–25 cm","mw":21.8},{"label":"Tue 11","sw":"0–2 cm","mw":3.8},{"label":"Wed 12","sw":"3–7 cm","mw":6.6},{"label":"Thu 13","sw":"0 cm","mw":2.5},{"label":"Fri 14","sw":"0 cm","mw":0.2},{"label":"Sat 15","sw":"0 cm","mw":0},{"label":"Sun 16","sw":"0 cm","mw":0}],"mw7":35}};  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
 
 const SCORE = {"built":"10 Aug 2026","nAll":39,"swMaeAll":3.4,"mwMaeAll":3.7,"nSnow":14,"swMaeSnow":5.2,"mwMaeSnow":6.8,"events":[{"d":"3 Jul","a":14,"sw":10.5,"mw":25.8},{"d":"4 Jul","a":15,"sw":0,"mw":0},{"d":"12 Jul","a":14,"sw":9,"mw":25.3},{"d":"13 Jul","a":12,"sw":5,"mw":15.5},{"d":"15 Jul","a":1,"sw":0,"mw":0},{"d":"23 Jul","a":3,"sw":1.5,"mw":2},{"d":"24 Jul","a":3,"sw":0,"mw":0.9},{"d":"29 Jul","a":11,"sw":3.5,"mw":10.7},{"d":"30 Jul","a":6,"sw":0,"mw":0},{"d":"4 Aug","a":3,"sw":6,"mw":3.7},{"d":"5 Aug","a":6,"sw":3.5,"mw":3},{"d":"6 Aug","a":4,"sw":0,"mw":0.2},{"d":"7 Aug","a":2,"sw":0,"mw":0.8},{"d":"10 Aug","a":2,"sw":13.5,"mw":37.1}]};  // SCORE — Snowatch-vs-Mountainwatch accuracy scorecard; populated by the GitHub Action
@@ -183,9 +183,9 @@ const M = {
     issued: "10 Aug 2026, 6:48 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "−1.8°C",
+    liveTemp: "−2.5°C",
     p5: "18–33 cm", p10: "19–37 cm", p15: "25–55 cm",
-    cond: {"base":"49 cm","last24":"2 cm","last7":"17 cm","season":"144 cm","lifts":"—","snowmaking":"—","note":"Wintry weather on the way! As a result of extreme wind conditions today, all lifts has been placed on hold, except Gully chair. Guest safety is of the highest priority at Falls Creek, therefore this lift will not load guests until weather conditions improve. · On-mountain now 2.0°C, wind 46 km/h N (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Sun 09 August, 11:30AM"},
+    cond: {"base":"49 cm","last24":"2 cm","last7":"17 cm","season":"144 cm","lifts":"7","snowmaking":"—","note":"Wintry weather + a dusting of snow! We ve had a wintry mix overnight at Falls Creek! It s a cloudy and windy start to Monday, with strong winds and a chilly top of -1°C today. · On-mountain now 2.5°C, wind 50 km/h N (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Mon 10 August, 07:18AM"},
     days: [
       {d:"Mon 10 Aug", c:"🌨️ › ❄️ › 🌨️", cm:"15–25 cm", lvl:"Lowering to around 1200m", lk:"high", w:"NW-WSW, strong", smk:"unlikely", conf:"firm"},
       {d:"Tue 11 Aug", c:"☁️ › 🌨️ › 🌨️", cm:"0–2 cm", lvl:"Above 1500-1600m", lk:"likely", w:"WNW-NW, strong", smk:"unlikely", conf:"firm"},
@@ -210,7 +210,7 @@ const M = {
     issued: "10 Aug 2026, 6:48 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "−2°C",
+    liveTemp: "−2.8°C",
     p5: "18–33 cm", p10: "19–37 cm", p15: "25–55 cm",
     cond: {"auto":true,"source":"mthotham.com.au","sourceUrl":"https://www.mthotham.com.au/mountain/conditions/snow-reports","asAt":"Mon 10 August, 06:44AM","depthAsAt":null,"base":"57 cm","last24":"4 cm","last7":"21 cm","season":"140 cm","lifts":"See report","trails":"—","snowmaking":"—","note":"Natural snow — 24 h 4 cm, 7 d 21 cm, season 140 cm, depth 57 cm."},
     days: [
@@ -237,9 +237,9 @@ const M = {
     issued: "10 Aug 2026, 6:48 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "−1.3°C",
+    liveTemp: "−1.9°C",
     p5: "18–34 cm", p10: "19–37 cm", p15: "24–51 cm",
-    cond: {"auto":true,"source":"mtbuller.com.au","sourceUrl":"https://www.mtbuller.com.au/winter/snow-weather/snow-report","asAt":"Sunday 9th August 07:25am","depthAsAt":null,"base":"36 cm","last24":"0 cm","last7":"—","season":"71 cm <small>made</small>","lifts":"Fair","trails":"—","snowmaking":"—","note":"Resort cover: Fair. Average natural 36 cm on the ground; 71 cm machine-made (the 'made' figure, NOT snow currently on the ground). Snow last 24 h 0 cm; last snowfall 07 Aug 2026. Ski Patrol: Sunday 9th August 07:25am: ADVERSE WEATHER WARNING. Live on-mountain temp/wind isn't exposed to an automated fetch; see Snowatch live temp above."},
+    cond: {"auto":true,"source":"mtbuller.com.au","sourceUrl":"https://www.mtbuller.com.au/winter/snow-weather/snow-report","asAt":"Monday 10th August 07:18am","depthAsAt":null,"base":"35 cm","last24":"1 cm","last7":"—","season":"70 cm <small>made</small>","lifts":"Fair","trails":"—","snowmaking":"—","note":"Resort cover: Fair. Average natural 35 cm on the ground; 70 cm machine-made (the 'made' figure, NOT snow currently on the ground). Snow last 24 h 1 cm; last snowfall 10 Aug 2026. Ski Patrol: Monday 10th August 07:18am - ADVERSE WEATHER WARNING: Here comes the snow. Live on-mountain temp/wind isn't exposed to an automated fetch; see Snowatch live temp above."},
     days: [
       {d:"Mon 10 Aug", c:"🌨️ › ❄️ › 🌨️", cm:"15–25 cm", lvl:"Lowering to around 1200m", lk:"high", w:"NW-WSW, strong", smk:"unlikely", conf:"firm"},
       {d:"Tue 11 Aug", c:"☁️ › 🌨️ › 🌨️", cm:"0–2 cm", lvl:"Above 1500-1600m", lk:"likely", w:"WNW-NW, strong", smk:"unlikely", conf:"firm"},
