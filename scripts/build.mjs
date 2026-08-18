@@ -144,7 +144,15 @@ function parseMW(text){
   const labels = [...text.matchAll(/\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(\d{1,2})\b/g)].slice(0,7).map(m=>`${m[1]} ${parseInt(m[2],10)}`);
   const snows = [...text.matchAll(/Snow:\s*([\d.]+)\s*cm/g)].map(m=>parseFloat(m[1])).slice(0,7);
   if(labels.length<5 || snows.length<5) return null;
-  const days = labels.map((lab,i)=>({label:lab, cm: snows[i] ?? 0}));
+  // 7-day high/low temps from the weather graph. Slice to the graph block (before the detailed
+  // strip) and take bare-degree numbers that are NOT followed by C (the detailed strip uses "11°C").
+  let temps = [];
+  const gStart = text.search(/For\s*\d{3,4}\s*m/);
+  const gEnd = text.search(/Detailed Forecast|Video Forecast|SNOW FALL CHART|Next Snow/i);
+  const gSlice = (gStart >= 0 && gEnd > gStart) ? text.slice(gStart, gEnd) : text;
+  const degs = [...gSlice.matchAll(/(-?\d{1,2})\s*°(?!\s*C)/g)].map(m => parseInt(m[1], 10));
+  if(degs.length >= 14){ for(let i = 0; i < 7; i++) temps.push([degs[i*2], degs[i*2+1]]); }
+  const days = labels.map((lab,i)=>({ label:lab, cm: snows[i] ?? 0, hi: temps[i]?temps[i][0]:null, lo: temps[i]?temps[i][1]:null }));
   return { elev, days, total7: Math.round(snows.reduce((a,b)=>a+b,0)) };
 }
 async function getText(u){
@@ -265,7 +273,7 @@ for(const key of ["falls","hotham","buller"]){
     if(mw){
       const days = mw.days.map(d=>{
         const sw = fc[key].days.find(s=> s.d.startsWith(d.label));   // "Tue 30 Jun".startsWith("Tue 30")
-        return { label:d.label, sw: sw? sw.cm : "—", mw: d.cm };
+        return { label:d.label, sw: sw? sw.cm : "—", mw: d.cm, hi: d.hi, lo: d.lo };
       });
       cmpAll[key] = { elev:mw.elev, days, mw7:mw.total7 };
       if(key==="falls") mwData = mw;

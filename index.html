@@ -172,7 +172,7 @@ tr.past td { opacity: 0.45; }
 <script>
 const ISSUED_GLOBAL = "24 June 2026"; // build date
 const BUILT = "18 August 2026, 12:13 PM AEST";
-const CMP = {"falls":{"elev":"1770","days":[{"label":"Tue 18","sw":"0 cm","mw":0},{"label":"Wed 19","sw":"0 cm","mw":0},{"label":"Thu 20","sw":"0 cm","mw":0.3},{"label":"Fri 21","sw":"0 cm","mw":0},{"label":"Sat 22","sw":"0 cm","mw":1.7},{"label":"Sun 23","sw":"0 cm","mw":0},{"label":"Mon 24","sw":"0 cm","mw":0}],"mw7":2},"hotham":{"elev":"1850","days":[{"label":"Tue 18","sw":"0 cm","mw":0},{"label":"Wed 19","sw":"0 cm","mw":2.6},{"label":"Thu 20","sw":"0 cm","mw":1.5},{"label":"Fri 21","sw":"0 cm","mw":0},{"label":"Sat 22","sw":"0 cm","mw":2.4},{"label":"Sun 23","sw":"0 cm","mw":0},{"label":"Mon 24","sw":"0 cm","mw":0}],"mw7":7},"buller":{"elev":"1710","days":[{"label":"Tue 18","sw":"0 cm","mw":0},{"label":"Wed 19","sw":"0 cm","mw":0},{"label":"Thu 20","sw":"0 cm","mw":0.4},{"label":"Fri 21","sw":"0 cm","mw":0.2},{"label":"Sat 22","sw":"0 cm","mw":3.7},{"label":"Sun 23","sw":"0 cm","mw":0.3},{"label":"Mon 24","sw":"0 cm","mw":0}],"mw7":5}};  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
+const CMP = {"falls":{"elev":"1770","days":[{"label":"Tue 18","sw":"0 cm","mw":0,"hi":7,"lo":0},{"label":"Wed 19","sw":"0 cm","mw":0,"hi":5,"lo":3},{"label":"Thu 20","sw":"0 cm","mw":0.3,"hi":4,"lo":0},{"label":"Fri 21","sw":"0 cm","mw":0,"hi":3,"lo":-2},{"label":"Sat 22","sw":"0 cm","mw":1.7,"hi":4,"lo":-2},{"label":"Sun 23","sw":"0 cm","mw":0,"hi":8,"lo":-2},{"label":"Mon 24","sw":"0 cm","mw":0,"hi":5,"lo":1}],"mw7":2},"hotham":{"elev":"1850","days":[{"label":"Tue 18","sw":"0 cm","mw":0,"hi":7,"lo":-1},{"label":"Wed 19","sw":"0 cm","mw":2.6,"hi":3,"lo":0},{"label":"Thu 20","sw":"0 cm","mw":1.5,"hi":5,"lo":-3},{"label":"Fri 21","sw":"0 cm","mw":0,"hi":6,"lo":-2},{"label":"Sat 22","sw":"0 cm","mw":2.4,"hi":3,"lo":-4},{"label":"Sun 23","sw":"0 cm","mw":0,"hi":5,"lo":-4},{"label":"Mon 24","sw":"0 cm","mw":0,"hi":4,"lo":-4}],"mw7":7},"buller":{"elev":"1710","days":[{"label":"Tue 18","sw":"0 cm","mw":0,"hi":8,"lo":2},{"label":"Wed 19","sw":"0 cm","mw":0,"hi":3,"lo":2},{"label":"Thu 20","sw":"0 cm","mw":0.4,"hi":6,"lo":0},{"label":"Fri 21","sw":"0 cm","mw":0.2,"hi":3,"lo":-3},{"label":"Sat 22","sw":"0 cm","mw":3.7,"hi":3,"lo":-4},{"label":"Sun 23","sw":"0 cm","mw":0.3,"hi":6,"lo":-3},{"label":"Mon 24","sw":"0 cm","mw":0,"hi":4,"lo":1}],"mw7":5}};  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
 
 const SCORE = {"built":"18 Aug 2026","nAll":47,"swMaeAll":3.1,"mwMaeAll":3.3,"nSnow":17,"swMaeSnow":5,"mwMaeSnow":6.3,"events":[{"d":"3 Jul","a":14,"sw":10.5,"mw":25.8},{"d":"4 Jul","a":15,"sw":0,"mw":0},{"d":"12 Jul","a":14,"sw":9,"mw":25.3},{"d":"13 Jul","a":12,"sw":5,"mw":15.5},{"d":"15 Jul","a":1,"sw":0,"mw":0},{"d":"23 Jul","a":3,"sw":1.5,"mw":2},{"d":"24 Jul","a":3,"sw":0,"mw":0.9},{"d":"29 Jul","a":11,"sw":3.5,"mw":10.7},{"d":"30 Jul","a":6,"sw":0,"mw":0},{"d":"4 Aug","a":3,"sw":6,"mw":3.7},{"d":"5 Aug","a":6,"sw":3.5,"mw":3},{"d":"6 Aug","a":4,"sw":0,"mw":0.2},{"d":"7 Aug","a":2,"sw":0,"mw":0.8},{"d":"10 Aug","a":2,"sw":13.5,"mw":37.1},{"d":"11 Aug","a":10,"sw":1,"mw":3.1},{"d":"12 Aug","a":4,"sw":3,"mw":5.7},{"d":"13 Aug","a":3,"sw":0,"mw":0.3}]};  // SCORE — Snowatch-vs-Mountainwatch accuracy scorecard; populated by the GitHub Action
 
@@ -749,6 +749,24 @@ function quickLinks(key){
     + `</div>`;
 }
 
+// ---- 7-day temperature strip (Mountainwatch, upper mountain). Data rides along in CMP[key].days. ----
+function tempStrip(key){
+  const c = (typeof CMP!=='undefined' && CMP && CMP[key]) ? CMP[key] : null;
+  if(!c || !c.days) return "";
+  const has = c.days.some(d=> d.hi!=null || d.lo!=null);
+  if(!has) return "";
+  const lc = n => (n!=null && n<=0) ? "#1b6ca8" : "#c2710f";   // freezing lows in blue, above-zero in orange
+  const cell = d => '<div style="flex:1;min-width:56px;text-align:center;padding:8px 3px;border-right:1px solid #eef1f4">'
+    + '<div style="font-size:10px;color:#6b7785;font-weight:600">'+d.label+'</div>'
+    + '<div style="font-size:17px;font-weight:700;color:#16202b;margin-top:5px">'+(d.hi!=null?d.hi+'°':'—')+'</div>'
+    + '<div style="font-size:13px;font-weight:600;color:'+lc(d.lo)+'">'+(d.lo!=null?d.lo+'°':'—')+'</div></div>';
+  return '<div style="background:#fff;border:1px solid #e3e8ee;border-radius:12px;padding:12px 14px;margin:14px 0 4px">'
+    + '<div style="font-weight:700;font-size:14px;color:#16202b">7-day temperature <span style="font-weight:400;color:#6b7785;font-size:12px">— high / overnight low</span></div>'
+    + '<div style="font-size:12px;color:#6b7785;margin:2px 0 8px">Upper mountain ('+(c.elev||'1770')+' m) via <b style="color:#c2710f">Mountainwatch</b> — a few degrees colder than the village. Freezing overnight lows shown in blue.</div>'
+    + '<div style="display:flex;border:1px solid #eef1f4;border-radius:8px;overflow-x:auto;-webkit-overflow-scrolling:touch">'+c.days.map(cell).join("")+'</div>'
+    + '<div style="font-size:11.5px;color:#9aa6b2;margin-top:8px">Temperature forecasts run 7 days; the 14-day table below is snowfall only.</div></div>';
+}
+
 function render(key){
   var _cb=document.getElementById("cmpbox");   // comparison strip: forecast tabs only, per mountain
   var _panelKey = (key==='outlook'||key==='score');
@@ -795,6 +813,7 @@ function render(key){
       <div class="card"><div class="lbl">Next 10 days</div><div class="val">${m.p10.replace(' cm','')}<span class="unit"> cm</span></div></div>
       <div class="card"><div class="lbl">Next 15 days</div><div class="val">${m.p15.replace(' cm','')}<span class="unit"> cm</span></div></div>
     </div>
+    ${tempStrip(key)}
     <h2>14-day forecast</h2>
     <table>
       <thead><tr><th>Day</th><th>Conditions (AM › Mid › Night)</th><th>Snow</th><th>Snow level</th><th>Likelihood</th><th>Snowmaking</th><th>Wind</th></tr></thead>
