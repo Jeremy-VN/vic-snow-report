@@ -171,91 +171,91 @@ tr.past td { opacity: 0.45; }
 
 <script>
 const ISSUED_GLOBAL = "24 June 2026"; // build date
-const BUILT = "23 August 2026, 12:21 PM AEST";
-const CMP = {"falls":{"elev":"1770","days":[{"label":"Sun 23","sw":"0 cm","mw":0,"hi":8,"lo":-2},{"label":"Mon 24","sw":"0 cm","mw":0,"hi":7,"lo":1},{"label":"Tue 25","sw":"0 cm","mw":0,"hi":6,"lo":2},{"label":"Wed 26","sw":"0 cm","mw":0,"hi":10,"lo":-1},{"label":"Thu 27","sw":"0 cm","mw":0,"hi":8,"lo":-4},{"label":"Fri 28","sw":"0 cm","mw":0,"hi":7,"lo":-1},{"label":"Sat 29","sw":"0 cm","mw":0,"hi":9,"lo":1}],"mw7":0},"hotham":{"elev":"1850","days":[{"label":"Sun 23","sw":"0 cm","mw":0,"hi":6,"lo":-3},{"label":"Mon 24","sw":"0 cm","mw":0,"hi":6,"lo":0},{"label":"Tue 25","sw":"0 cm","mw":0,"hi":5,"lo":1},{"label":"Wed 26","sw":"0 cm","mw":0,"hi":8,"lo":-2},{"label":"Thu 27","sw":"0 cm","mw":0,"hi":7,"lo":-4},{"label":"Fri 28","sw":"0 cm","mw":0,"hi":6,"lo":-2},{"label":"Sat 29","sw":"0 cm","mw":0,"hi":8,"lo":-1}],"mw7":0},"buller":{"elev":"1710","days":[{"label":"Sun 23","sw":"0 cm","mw":0,"hi":7,"lo":-3},{"label":"Mon 24","sw":"0 cm","mw":0,"hi":7,"lo":1},{"label":"Tue 25","sw":"0 cm","mw":0,"hi":6,"lo":2},{"label":"Wed 26","sw":"0 cm","mw":0,"hi":9,"lo":-3},{"label":"Thu 27","sw":"0 cm","mw":0,"hi":7,"lo":-4},{"label":"Fri 28","sw":"0 cm","mw":0,"hi":5,"lo":-2},{"label":"Sat 29","sw":"0 cm","mw":0,"hi":7,"lo":-3}],"mw7":0}};  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
+const BUILT = "24 August 2026, 6:49 AM AEST";
+const CMP = {"falls":{"elev":"1770","days":[{"label":"Mon 24","sw":"0 cm","mw":0,"hi":7,"lo":1},{"label":"Tue 25","sw":"0 cm","mw":0,"hi":7,"lo":1},{"label":"Wed 26","sw":"0 cm","mw":0,"hi":9,"lo":-1},{"label":"Thu 27","sw":"0 cm","mw":0,"hi":9,"lo":-2},{"label":"Fri 28","sw":"0 cm","mw":0,"hi":8,"lo":-1},{"label":"Sat 29","sw":"0 cm","mw":0,"hi":11,"lo":-1},{"label":"Sun 30","sw":"0 cm","mw":0,"hi":11,"lo":1}],"mw7":0},"hotham":{"elev":"1850","days":[{"label":"Mon 24","sw":"0 cm","mw":0,"hi":6,"lo":1},{"label":"Tue 25","sw":"0 cm","mw":0,"hi":6,"lo":0},{"label":"Wed 26","sw":"0 cm","mw":0,"hi":7,"lo":-3},{"label":"Thu 27","sw":"0 cm","mw":0,"hi":7,"lo":-3},{"label":"Fri 28","sw":"0 cm","mw":0,"hi":8,"lo":-3},{"label":"Sat 29","sw":"0 cm","mw":0,"hi":10,"lo":-3},{"label":"Sun 30","sw":"0 cm","mw":0,"hi":10,"lo":0}],"mw7":0},"buller":{"elev":"1710","days":[{"label":"Mon 24","sw":"0 cm","mw":0,"hi":7,"lo":2},{"label":"Tue 25","sw":"0 cm","mw":0,"hi":6,"lo":0},{"label":"Wed 26","sw":"0 cm","mw":0,"hi":6,"lo":-6},{"label":"Thu 27","sw":"0 cm","mw":0,"hi":7,"lo":-4},{"label":"Fri 28","sw":"0 cm","mw":0,"hi":6,"lo":-2},{"label":"Sat 29","sw":"0 cm","mw":0,"hi":9,"lo":-4},{"label":"Sun 30","sw":"0 cm","mw":0,"hi":10,"lo":0}],"mw7":0}};  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
 
-const SCORE = {"built":"23 Aug 2026","nAll":52,"swMaeAll":2.8,"mwMaeAll":3,"nSnow":17,"swMaeSnow":5,"mwMaeSnow":6.3,"events":[{"d":"3 Jul","a":14,"sw":10.5,"mw":25.8},{"d":"4 Jul","a":15,"sw":0,"mw":0},{"d":"12 Jul","a":14,"sw":9,"mw":25.3},{"d":"13 Jul","a":12,"sw":5,"mw":15.5},{"d":"15 Jul","a":1,"sw":0,"mw":0},{"d":"23 Jul","a":3,"sw":1.5,"mw":2},{"d":"24 Jul","a":3,"sw":0,"mw":0.9},{"d":"29 Jul","a":11,"sw":3.5,"mw":10.7},{"d":"30 Jul","a":6,"sw":0,"mw":0},{"d":"4 Aug","a":3,"sw":6,"mw":3.7},{"d":"5 Aug","a":6,"sw":3.5,"mw":3},{"d":"6 Aug","a":4,"sw":0,"mw":0.2},{"d":"7 Aug","a":2,"sw":0,"mw":0.8},{"d":"10 Aug","a":2,"sw":13.5,"mw":37.1},{"d":"11 Aug","a":10,"sw":1,"mw":3.1},{"d":"12 Aug","a":4,"sw":3,"mw":5.7},{"d":"13 Aug","a":3,"sw":0,"mw":0.3}]};  // SCORE — Snowatch-vs-Mountainwatch accuracy scorecard; populated by the GitHub Action
+const SCORE = {"built":"24 Aug 2026","nAll":53,"swMaeAll":2.8,"mwMaeAll":3,"nSnow":17,"swMaeSnow":5,"mwMaeSnow":6.3,"events":[{"d":"3 Jul","a":14,"sw":10.5,"mw":25.8},{"d":"4 Jul","a":15,"sw":0,"mw":0},{"d":"12 Jul","a":14,"sw":9,"mw":25.3},{"d":"13 Jul","a":12,"sw":5,"mw":15.5},{"d":"15 Jul","a":1,"sw":0,"mw":0},{"d":"23 Jul","a":3,"sw":1.5,"mw":2},{"d":"24 Jul","a":3,"sw":0,"mw":0.9},{"d":"29 Jul","a":11,"sw":3.5,"mw":10.7},{"d":"30 Jul","a":6,"sw":0,"mw":0},{"d":"4 Aug","a":3,"sw":6,"mw":3.7},{"d":"5 Aug","a":6,"sw":3.5,"mw":3},{"d":"6 Aug","a":4,"sw":0,"mw":0.2},{"d":"7 Aug","a":2,"sw":0,"mw":0.8},{"d":"10 Aug","a":2,"sw":13.5,"mw":37.1},{"d":"11 Aug","a":10,"sw":1,"mw":3.1},{"d":"12 Aug","a":4,"sw":3,"mw":5.7},{"d":"13 Aug","a":3,"sw":0,"mw":0.3}]};  // SCORE — Snowatch-vs-Mountainwatch accuracy scorecard; populated by the GitHub Action
 
 const M = {
   falls: {
     name: "Falls Creek",
     sub: "Village 1600 m · Summit 1842 m · 14 lifts",
-    issued: "23 Aug 2026, 5:35 AM",
+    issued: "24 Aug 2026, 6:20 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "5.2°C",
+    liveTemp: "2.1°C",
     p5: "0 cm", p10: "0 cm", p15: "0 cm",
-    cond: {"base":"37 cm","last24":"0 cm","last7":"0 cm","season":"161 cm","lifts":"11","snowmaking":"—","note":"Mostly Sunny + Snowmaking! A stunning Sunday morning here at Falls Creek, with the sun starting to poke over the horizon and a beautiful day ahead. We re expecting sunny skies and a top of 6°C today. · On-mountain now 5.2°C, wind 13 km/h N (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Sun 23 August, 07:24AM"},
+    cond: {"base":"37 cm","last24":"0 cm","last7":"0 cm","season":"161 cm","lifts":"—","snowmaking":"—","note":"Mostly Sunny + Snowmaking! A stunning Sunday morning here at Falls Creek, with the sun starting to poke over the horizon and a beautiful day ahead. We re expecting sunny skies and a top of 6°C today. · On-mountain now 1.7°C, wind 28 km/h NW (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Sun 23 August, 07:24AM"},
     days: [
-      {d:"Sun 23 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"N-NW, light", smk:"unlikely", conf:"firm"},
-      {d:"Mon 24 Aug", c:"⛅ › ⛅ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NNE, light", smk:"unlikely", conf:"firm"},
-      {d:"Tue 25 Aug", c:"🌧️ › 🌧️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NNE-S, mod", smk:"unlikely", conf:"firm"},
-      {d:"Wed 26 Aug", c:"🌤️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"S-N, mod", smk:"unlikely", conf:"firm"},
-      {d:"Thu 27 Aug", c:"☁️ › ☁️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"NW, light", smk:"unlikely", conf:"firm"},
-      {d:"Fri 28 Aug", c:"🌦️ › 🌦️ › 🌦️", cm:"0 cm", lvl:"About the peaks", lk:"possible", w:"NW-S, mod", smk:"unlikely", conf:"firm"},
-      {d:"Sat 29 Aug", c:"⛅ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"S-SSE, strong", smk:"unlikely", conf:"firm"},
-      {d:"Sun 30 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SSE-SSW, light", smk:"unlikely", conf:"low"},
-      {d:"Mon 31 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"W-SW, light", smk:"unlikely", conf:"low"},
-      {d:"Tue 1 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-SSE, light", smk:"unlikely", conf:"low"},
-      {d:"Wed 2 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-N, light", smk:"unlikely", conf:"low"},
-      {d:"Thu 3 Sep", c:"☀️ › ☀️ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"NW, mod", smk:"unlikely", conf:"low"},
-      {d:"Fri 4 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"N, light", smk:"unlikely", conf:"low"},
-      {d:"Sat 5 Sep", c:"☀️ › 🌥️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NW, strong", smk:"unlikely", conf:"low"},
-      {d:"Sun 6 Sep", c:"☁️ › ☁️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NNW, mod", smk:"unlikely", conf:"low"}
+      {d:"Mon 24 Aug", c:"⛅ › ⛅ › 🌧️", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-N, strong", smk:"unlikely", conf:"firm"},
+      {d:"Tue 25 Aug", c:"🌧️ › 🌦️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"N-SSW, strong", smk:"unlikely", conf:"firm"},
+      {d:"Wed 26 Aug", c:"☁️ › ⛅ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"SSW-SSE, strong", smk:"unlikely", conf:"firm"},
+      {d:"Thu 27 Aug", c:"☀️ › ☀️ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"W, light", smk:"unlikely", conf:"firm"},
+      {d:"Fri 28 Aug", c:"⛅ › ⛅ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"S-SE, light", smk:"unlikely", conf:"firm"},
+      {d:"Sat 29 Aug", c:"⛅ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SE-SE, light", smk:"unlikely", conf:"firm"},
+      {d:"Sun 30 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SE, light", smk:"unlikely", conf:"firm"},
+      {d:"Mon 31 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SE-N, light", smk:"unlikely", conf:"low"},
+      {d:"Tue 1 Sep", c:"🌥️ › 🌦️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"W-NW, mod", smk:"unlikely", conf:"low"},
+      {d:"Wed 2 Sep", c:"🌦️ › 🌦️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NW, mod", smk:"unlikely", conf:"low"},
+      {d:"Thu 3 Sep", c:"🌦️ › 🌧️ › 🌧️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-WNW, mod", smk:"unlikely", conf:"low"},
+      {d:"Fri 4 Sep", c:"⛅ › ⛅ › 🌤️", cm:"0 cm", lvl:"—", lk:"none", w:"WNW-NNW, strong", smk:"unlikely", conf:"low"},
+      {d:"Sat 5 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-NNW, light", smk:"unlikely", conf:"low"},
+      {d:"Sun 6 Sep", c:"🌥️ › 🌦️ › 🌧️", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-WNW, strong", smk:"unlikely", conf:"low"},
+      {d:"Mon 7 Sep", c:"☁️ › ☁️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"WNW, strong", smk:"unlikely", conf:"low"}
     ]
   },
   hotham: {
     name: "Mount Hotham",
     sub: "Village 1750 m · Summit 1861 m · 13 lifts (incl. Dinner Plain)",
-    issued: "23 Aug 2026, 5:35 AM",
+    issued: "24 Aug 2026, 6:20 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "3.8°C",
+    liveTemp: "0.7°C",
     p5: "0 cm", p10: "0 cm", p15: "0 cm",
-    cond: {"auto":true,"source":"mthotham.com.au","sourceUrl":"https://www.mthotham.com.au/mountain/conditions/snow-reports","asAt":"Sun 23 August, 06:56AM","depthAsAt":null,"base":"36 cm","last24":"0 cm","last7":"0 cm","season":"160 cm","lifts":"See report","trails":"—","snowmaking":"—","note":"On-mountain now 4.6°C, wind 20 km/h N (WeatherZone) · Natural snow — 24 h 0 cm, 7 d 0 cm, season 160 cm, depth 36 cm."},
+    cond: {"auto":true,"source":"mthotham.com.au","sourceUrl":"https://www.mthotham.com.au/mountain/conditions/snow-reports","asAt":"Sun 23 August, 06:56AM","depthAsAt":null,"base":"35 cm","last24":"0 cm","last7":"0 cm","season":"160 cm","lifts":"See report","trails":"—","snowmaking":"—","note":"On-mountain now 0.7°C, wind 37 km/h N (WeatherZone) · Natural snow — 24 h 0 cm, 7 d 0 cm, season 160 cm, depth 35 cm."},
     days: [
-      {d:"Sun 23 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"N-NW, light", smk:"unlikely", conf:"firm"},
-      {d:"Mon 24 Aug", c:"⛅ › ⛅ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NNE, light", smk:"unlikely", conf:"firm"},
-      {d:"Tue 25 Aug", c:"🌧️ › 🌧️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NNE-S, mod", smk:"unlikely", conf:"firm"},
-      {d:"Wed 26 Aug", c:"🌤️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"S-N, mod", smk:"unlikely", conf:"firm"},
-      {d:"Thu 27 Aug", c:"☁️ › ☁️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"NW, light", smk:"unlikely", conf:"firm"},
-      {d:"Fri 28 Aug", c:"🌦️ › 🌦️ › 🌦️", cm:"0 cm", lvl:"About the peaks", lk:"possible", w:"NW-S, mod", smk:"unlikely", conf:"firm"},
-      {d:"Sat 29 Aug", c:"⛅ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"S-SSE, strong", smk:"unlikely", conf:"firm"},
-      {d:"Sun 30 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SSE-SSW, light", smk:"unlikely", conf:"low"},
-      {d:"Mon 31 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"W-SW, light", smk:"unlikely", conf:"low"},
-      {d:"Tue 1 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-SSE, light", smk:"unlikely", conf:"low"},
-      {d:"Wed 2 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-N, light", smk:"unlikely", conf:"low"},
-      {d:"Thu 3 Sep", c:"☀️ › ☀️ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"NW, mod", smk:"unlikely", conf:"low"},
-      {d:"Fri 4 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"N, light", smk:"unlikely", conf:"low"},
-      {d:"Sat 5 Sep", c:"☀️ › 🌥️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NW, strong", smk:"unlikely", conf:"low"},
-      {d:"Sun 6 Sep", c:"☁️ › ☁️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NNW, mod", smk:"unlikely", conf:"low"}
+      {d:"Mon 24 Aug", c:"⛅ › ⛅ › 🌧️", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-N, strong", smk:"unlikely", conf:"firm"},
+      {d:"Tue 25 Aug", c:"🌧️ › 🌦️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"N-SSW, strong", smk:"unlikely", conf:"firm"},
+      {d:"Wed 26 Aug", c:"☁️ › ⛅ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"SSW-SSE, strong", smk:"unlikely", conf:"firm"},
+      {d:"Thu 27 Aug", c:"☀️ › ☀️ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"W, light", smk:"unlikely", conf:"firm"},
+      {d:"Fri 28 Aug", c:"⛅ › ⛅ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"S-SE, light", smk:"unlikely", conf:"firm"},
+      {d:"Sat 29 Aug", c:"⛅ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SE-SE, light", smk:"unlikely", conf:"firm"},
+      {d:"Sun 30 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SE, light", smk:"unlikely", conf:"firm"},
+      {d:"Mon 31 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SE-N, light", smk:"unlikely", conf:"low"},
+      {d:"Tue 1 Sep", c:"🌥️ › 🌦️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"W-NW, mod", smk:"unlikely", conf:"low"},
+      {d:"Wed 2 Sep", c:"🌦️ › 🌦️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NW, mod", smk:"unlikely", conf:"low"},
+      {d:"Thu 3 Sep", c:"🌦️ › 🌧️ › 🌧️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-WNW, mod", smk:"unlikely", conf:"low"},
+      {d:"Fri 4 Sep", c:"⛅ › ⛅ › 🌤️", cm:"0 cm", lvl:"—", lk:"none", w:"WNW-NNW, strong", smk:"unlikely", conf:"low"},
+      {d:"Sat 5 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-NNW, light", smk:"unlikely", conf:"low"},
+      {d:"Sun 6 Sep", c:"🌥️ › 🌦️ › 🌧️", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-WNW, strong", smk:"unlikely", conf:"low"},
+      {d:"Mon 7 Sep", c:"☁️ › ☁️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"WNW, strong", smk:"unlikely", conf:"low"}
     ]
   },
   buller: {
     name: "Mount Buller",
     sub: "Village 1600 m · Summit 1805 m · 22 lifts",
-    issued: "23 Aug 2026, 5:35 AM",
+    issued: "24 Aug 2026, 6:20 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "5.2°C",
+    liveTemp: "−0.1°C",
     p5: "0 cm", p10: "0 cm", p15: "0 cm",
     cond: {"auto":true,"source":"mtbuller.com.au","sourceUrl":"https://www.mtbuller.com.au/winter/snow-weather/snow-report","asAt":"Sunday 23rd August 07:12am","depthAsAt":null,"base":"10 cm","last24":"0 cm","last7":"—","season":"56 cm <small>made</small>","lifts":"Fair","trails":"—","snowmaking":"—","note":"Resort cover: Fair. Average natural 10 cm on the ground; 56 cm machine-made (the 'made' figure, NOT snow currently on the ground). Snow last 24 h 0 cm; last snowfall 12 Aug 2026. Ski Patrol: Sunday 23rd August 07:12am: With a light freeze and drop in humidity overnight from yesterdays warmer temperatures, we should see a firmer start to today. Live on-mountain temp/wind isn't exposed to an automated fetch; see Snowatch live temp above."},
     days: [
-      {d:"Sun 23 Aug", c:"☀️ › ☀️ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"N-NW, light", smk:"unlikely", conf:"firm"},
-      {d:"Mon 24 Aug", c:"⛅ › ☁️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NNE, light", smk:"unlikely", conf:"firm"},
-      {d:"Tue 25 Aug", c:"🌦️ › 🌦️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NNE-S, mod", smk:"unlikely", conf:"firm"},
-      {d:"Wed 26 Aug", c:"🌤️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"S-N, mod", smk:"unlikely", conf:"firm"},
-      {d:"Thu 27 Aug", c:"☁️ › ☁️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"NW, light", smk:"unlikely", conf:"firm"},
-      {d:"Fri 28 Aug", c:"🌦️ › 🌦️ › 🌦️", cm:"0 cm", lvl:"About the peaks", lk:"possible", w:"NW-S, mod", smk:"unlikely", conf:"firm"},
-      {d:"Sat 29 Aug", c:"⛅ › ⛅ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"S-SSE, strong", smk:"unlikely", conf:"firm"},
-      {d:"Sun 30 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SSE-SSW, light", smk:"unlikely", conf:"low"},
-      {d:"Mon 31 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"W-SW, light", smk:"unlikely", conf:"low"},
-      {d:"Tue 1 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-SSE, light", smk:"unlikely", conf:"low"},
-      {d:"Wed 2 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-N, light", smk:"unlikely", conf:"low"},
-      {d:"Thu 3 Sep", c:"☀️ › ☀️ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"NW, mod", smk:"unlikely", conf:"low"},
-      {d:"Fri 4 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"N, light", smk:"unlikely", conf:"low"},
-      {d:"Sat 5 Sep", c:"☀️ › 🌥️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NW, strong", smk:"unlikely", conf:"low"},
-      {d:"Sun 6 Sep", c:"☁️ › ☁️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NNW, mod", smk:"unlikely", conf:"low"}
+      {d:"Mon 24 Aug", c:"⛅ › ☁️ › 🌧️", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-N, strong", smk:"unlikely", conf:"firm"},
+      {d:"Tue 25 Aug", c:"🌧️ › 🌦️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"N-SSW, strong", smk:"unlikely", conf:"firm"},
+      {d:"Wed 26 Aug", c:"⛅ › ⛅ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"SSW-SSE, strong", smk:"unlikely", conf:"firm"},
+      {d:"Thu 27 Aug", c:"☀️ › ☀️ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"W, light", smk:"unlikely", conf:"firm"},
+      {d:"Fri 28 Aug", c:"⛅ › ⛅ › ⛅", cm:"0 cm", lvl:"—", lk:"none", w:"S-SE, light", smk:"unlikely", conf:"firm"},
+      {d:"Sat 29 Aug", c:"⛅ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SE-SE, light", smk:"unlikely", conf:"firm"},
+      {d:"Sun 30 Aug", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SE, light", smk:"unlikely", conf:"firm"},
+      {d:"Mon 31 Aug", c:"☀️ › ☀️ › 🌥️", cm:"0 cm", lvl:"—", lk:"none", w:"SE-N, light", smk:"unlikely", conf:"low"},
+      {d:"Tue 1 Sep", c:"☁️ › 🌦️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"W-NW, mod", smk:"unlikely", conf:"low"},
+      {d:"Wed 2 Sep", c:"🌦️ › 🌦️ › 🌧️", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NW, mod", smk:"unlikely", conf:"low"},
+      {d:"Thu 3 Sep", c:"🌦️ › 🌧️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-WNW, mod", smk:"unlikely", conf:"low"},
+      {d:"Fri 4 Sep", c:"☁️ › ☁️ › 🌤️", cm:"0 cm", lvl:"—", lk:"none", w:"WNW-NNW, strong", smk:"unlikely", conf:"low"},
+      {d:"Sat 5 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-NNW, light", smk:"unlikely", conf:"low"},
+      {d:"Sun 6 Sep", c:"🌥️ › 🌦️ › 🌧️", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-WNW, strong", smk:"unlikely", conf:"low"},
+      {d:"Mon 7 Sep", c:"🌦️ › ☁️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"WNW, strong", smk:"unlikely", conf:"low"}
     ]
   }
 };
