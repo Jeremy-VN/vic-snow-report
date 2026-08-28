@@ -1891,7 +1891,7 @@
   "date": "2026-08-28",
   "issued": "28 Aug 2026, 6:44 AM",
   "actual24h": 0,
-  "mw7": 2,
+  "mw7": 8,
   "swDaily": {
    "Fri 28 Aug": "0 cm",
    "Sat 29 Aug": "0 cm",
@@ -1916,7 +1916,7 @@
    "Mon 31": 0,
    "Tue 1": 0,
    "Wed 2": 0,
-   "Thu 3": 2
+   "Thu 3": 7.7
   }
  }
 ]
