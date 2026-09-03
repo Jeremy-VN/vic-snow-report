@@ -171,7 +171,7 @@ tr.past td { opacity: 0.45; }
 
 <script>
 const ISSUED_GLOBAL = "24 June 2026"; // build date
-const BUILT = "3 September 2026, 8:46 AM AEST";
+const BUILT = "3 September 2026, 10:29 AM AEST";
 const CMP = {"falls":{"elev":"1770","days":[{"label":"Thu 3","sw":"0 cm","mw":0.5,"hi":5,"lo":-1},{"label":"Fri 4","sw":"0 cm","mw":0.5,"hi":5,"lo":2},{"label":"Sat 5","sw":"0 cm","mw":6.3,"hi":5,"lo":-1},{"label":"Sun 6","sw":"0 cm","mw":0.9,"hi":9,"lo":-1},{"label":"Mon 7","sw":"0 cm","mw":0,"hi":7,"lo":-4},{"label":"Tue 8","sw":"0 cm","mw":0,"hi":7,"lo":-5},{"label":"Wed 9","sw":"0 cm","mw":0,"hi":6,"lo":-4}],"mw7":8},"hotham":{"elev":"1850","days":[{"label":"Thu 3","sw":"0 cm","mw":3.3,"hi":4,"lo":-2},{"label":"Fri 4","sw":"0 cm","mw":0.6,"hi":5,"lo":0},{"label":"Sat 5","sw":"0 cm","mw":14.1,"hi":4,"lo":-2},{"label":"Sun 6","sw":"0 cm","mw":1.8,"hi":8,"lo":-3},{"label":"Mon 7","sw":"0 cm","mw":0,"hi":5,"lo":-5},{"label":"Tue 8","sw":"0 cm","mw":0,"hi":6,"lo":-5},{"label":"Wed 9","sw":"0 cm","mw":0.2,"hi":5,"lo":-6}],"mw7":20},"buller":{"elev":"1710","days":[{"label":"Thu 3","sw":"0 cm","mw":0.8,"hi":4,"lo":-2},{"label":"Fri 4","sw":"0 cm","mw":0,"hi":5,"lo":1},{"label":"Sat 5","sw":"0 cm","mw":13.4,"hi":5,"lo":-1},{"label":"Sun 6","sw":"0 cm","mw":1.6,"hi":6,"lo":-2},{"label":"Mon 7","sw":"0 cm","mw":1.1,"hi":4,"lo":-6},{"label":"Tue 8","sw":"0 cm","mw":0,"hi":7,"lo":-4},{"label":"Wed 9","sw":"0 cm","mw":0,"hi":7,"lo":-7}],"mw7":17}};  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
 
 const SCORE = {"built":"3 Sept 2026","nAll":63,"swMaeAll":2.3,"mwMaeAll":2.6,"nSnow":17,"swMaeSnow":5,"mwMaeSnow":6.3,"events":[{"d":"3 Jul","a":14,"sw":10.5,"mw":25.8},{"d":"4 Jul","a":15,"sw":0,"mw":0},{"d":"12 Jul","a":14,"sw":9,"mw":25.3},{"d":"13 Jul","a":12,"sw":5,"mw":15.5},{"d":"15 Jul","a":1,"sw":0,"mw":0},{"d":"23 Jul","a":3,"sw":1.5,"mw":2},{"d":"24 Jul","a":3,"sw":0,"mw":0.9},{"d":"29 Jul","a":11,"sw":3.5,"mw":10.7},{"d":"30 Jul","a":6,"sw":0,"mw":0},{"d":"4 Aug","a":3,"sw":6,"mw":3.7},{"d":"5 Aug","a":6,"sw":3.5,"mw":3},{"d":"6 Aug","a":4,"sw":0,"mw":0.2},{"d":"7 Aug","a":2,"sw":0,"mw":0.8},{"d":"10 Aug","a":2,"sw":13.5,"mw":37.1},{"d":"11 Aug","a":10,"sw":1,"mw":3.1},{"d":"12 Aug","a":4,"sw":3,"mw":5.7},{"d":"13 Aug","a":3,"sw":0,"mw":0.3}]};  // SCORE — Snowatch-vs-Mountainwatch accuracy scorecard; populated by the GitHub Action
@@ -183,9 +183,9 @@ const M = {
     issued: "3 Sep 2026, 5:56 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "0.5°C",
+    liveTemp: "0.9°C",
     p5: "0 cm", p10: "0 cm", p15: "0 cm",
-    cond: {"base":"11 cm","last24":"0 cm","last7":"0 cm","season":"161 cm","lifts":"4","snowmaking":"—","note":"Mostly cloudy Thursday at Falls Creek Good morning from Falls Creek! We re in for a mostly cloudy day, with fresh north-westerly winds and a forecast top of 2°C. Temperatures dropped to around 1°C early this morning and, combined with the brisk north-westerly wind, have delivered a modest freeze. · On-mountain now 0.5°C, wind 28 km/h NW (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Thu 03 September, 07:30AM"},
+    cond: {"base":"11 cm","last24":"0 cm","last7":"0 cm","season":"161 cm","lifts":"0","snowmaking":"—","note":"Mostly cloudy Thursday at Falls Creek Good morning from Falls Creek! We re in for a mostly cloudy day, with fresh north-westerly winds and a forecast top of 2°C. Temperatures dropped to around 1°C early this morning and, combined with the brisk north-westerly wind, have delivered a modest freeze. · On-mountain now 0.8°C, wind 22 km/h NW (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Thu 03 September, 07:30AM"},
     days: [
       {d:"Thu 3 Sep", c:"☁️ › 🌦️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-NNW, strong", smk:"unlikely", conf:"firm"},
       {d:"Fri 4 Sep", c:"☀️ › 🌥️ › 🌧️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-NNW, strong", smk:"unlikely", conf:"firm"},
@@ -210,9 +210,9 @@ const M = {
     issued: "3 Sep 2026, 5:56 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "−0.2°C",
+    liveTemp: "0.5°C",
     p5: "0 cm", p10: "0 cm", p15: "0 cm",
-    cond: {"auto":true,"source":"mthotham.com.au","sourceUrl":"https://www.mthotham.com.au/mountain/conditions/snow-reports","asAt":"Thu 3 September, 06:43AM","depthAsAt":null,"base":"6 cm","last24":"0 cm","last7":"0 cm","season":"160 cm","lifts":"See report","trails":"—","snowmaking":"—","note":"Natural snow — 24 h 0 cm, 7 d 0 cm, season 160 cm, depth 6 cm."},
+    cond: {"auto":true,"source":"mthotham.com.au","sourceUrl":"https://www.mthotham.com.au/mountain/conditions/snow-reports","asAt":"Thu 3 September, 06:43AM","depthAsAt":null,"base":"6 cm","last24":"0 cm","last7":"0 cm","season":"160 cm","lifts":"See report","trails":"—","snowmaking":"—","note":"On-mountain now 0.6°C, wind 39 km/h NW (WeatherZone) · Natural snow — 24 h 0 cm, 7 d 0 cm, season 160 cm, depth 6 cm."},
     days: [
       {d:"Thu 3 Sep", c:"☁️ › 🌦️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-NNW, strong", smk:"unlikely", conf:"firm"},
       {d:"Fri 4 Sep", c:"☀️ › 🌥️ › 🌧️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-NNW, strong", smk:"unlikely", conf:"firm"},
