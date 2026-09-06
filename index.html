@@ -171,7 +171,7 @@ tr.past td { opacity: 0.45; }
 
 <script>
 const ISSUED_GLOBAL = "24 June 2026"; // build date
-const BUILT = "6 September 2026, 8:09 AM AEST";
+const BUILT = "6 September 2026, 10:06 AM AEST";
 const CMP = {"falls":{"elev":"1770","days":[{"label":"Sun 6","sw":"0 cm","mw":2.5,"hi":11,"lo":0},{"label":"Mon 7","sw":"0 cm","mw":0.1,"hi":7,"lo":-3},{"label":"Tue 8","sw":"0 cm","mw":0,"hi":9,"lo":-2},{"label":"Wed 9","sw":"0 cm","mw":0,"hi":6,"lo":-4},{"label":"Thu 10","sw":"0 cm","mw":0,"hi":10,"lo":0},{"label":"Fri 11","sw":"0 cm","mw":0,"hi":11,"lo":0},{"label":"Sat 12","sw":"0 cm","mw":0,"hi":8,"lo":2}],"mw7":3},"hotham":{"elev":"1850","days":[{"label":"Sun 6","sw":"0 cm","mw":2.6,"hi":10,"lo":-1},{"label":"Mon 7","sw":"0 cm","mw":0,"hi":6,"lo":-6},{"label":"Tue 8","sw":"0 cm","mw":0,"hi":8,"lo":-3},{"label":"Wed 9","sw":"0 cm","mw":0.1,"hi":4,"lo":-5},{"label":"Thu 10","sw":"0 cm","mw":0,"hi":9,"lo":-2},{"label":"Fri 11","sw":"0 cm","mw":0,"hi":10,"lo":-1},{"label":"Sat 12","sw":"0 cm","mw":0,"hi":8,"lo":1}],"mw7":3},"buller":{"elev":"1710","days":[{"label":"Sun 6","sw":"0 cm","mw":4,"hi":9,"lo":-3},{"label":"Mon 7","sw":"0 cm","mw":0.5,"hi":6,"lo":-7},{"label":"Tue 8","sw":"0 cm","mw":0,"hi":8,"lo":-4},{"label":"Wed 9","sw":"0 cm","mw":0,"hi":5,"lo":-5},{"label":"Thu 10","sw":"0 cm","mw":0,"hi":10,"lo":-2},{"label":"Fri 11","sw":"0 cm","mw":0,"hi":11,"lo":-1},{"label":"Sat 12","sw":"0 cm","mw":0,"hi":9,"lo":2}],"mw7":5}};  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
 
 const SCORE = {"built":"6 Sept 2026","nAll":66,"swMaeAll":2.3,"mwMaeAll":2.6,"nSnow":18,"swMaeSnow":4.9,"mwMaeSnow":6,"events":[{"d":"3 Jul","a":14,"sw":10.5,"mw":25.8},{"d":"4 Jul","a":15,"sw":0,"mw":0},{"d":"12 Jul","a":14,"sw":9,"mw":25.3},{"d":"13 Jul","a":12,"sw":5,"mw":15.5},{"d":"15 Jul","a":1,"sw":0,"mw":0},{"d":"23 Jul","a":3,"sw":1.5,"mw":2},{"d":"24 Jul","a":3,"sw":0,"mw":0.9},{"d":"29 Jul","a":11,"sw":3.5,"mw":10.7},{"d":"30 Jul","a":6,"sw":0,"mw":0},{"d":"4 Aug","a":3,"sw":6,"mw":3.7},{"d":"5 Aug","a":6,"sw":3.5,"mw":3},{"d":"6 Aug","a":4,"sw":0,"mw":0.2},{"d":"7 Aug","a":2,"sw":0,"mw":0.8},{"d":"10 Aug","a":2,"sw":13.5,"mw":37.1},{"d":"11 Aug","a":10,"sw":1,"mw":3.1},{"d":"12 Aug","a":4,"sw":3,"mw":5.7},{"d":"13 Aug","a":3,"sw":0,"mw":0.3},{"d":"6 Sep","a":3,"sw":0,"mw":2.4}]};  // SCORE — Snowatch-vs-Mountainwatch accuracy scorecard; populated by the GitHub Action
@@ -183,9 +183,9 @@ const M = {
     issued: "6 Sep 2026, 6:04 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "1.1°C",
+    liveTemp: "3.8°C",
     p5: "0 cm", p10: "0 cm", p15: "0 cm",
-    cond: {"base":"8 cm","last24":"3 cm","last7":"3 cm","season":"164 cm","lifts":"—","snowmaking":"—","note":"Final day of the season! A light 3cm dusting of snow overnight , with flakes drifting into the village late last night, what a treat for our final day of lift operations for the season! The storm has cleared, setting us up for a beautiful last day on the mountain with a top of 9°C. · On-mountain now 1.2°C, wind 30 km/h S (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Sun 06 September, 07:32AM"},
+    cond: {"base":"8 cm","last24":"3 cm","last7":"3 cm","season":"164 cm","lifts":"4","snowmaking":"—","note":"Final day of the season! A light 3cm dusting of snow overnight , with flakes drifting into the village late last night, what a treat for our final day of lift operations for the season! The storm has cleared, setting us up for a beautiful last day on the mountain with a top of 9°C. · On-mountain now 4.7°C, wind 28 km/h S (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Sun 06 September, 07:32AM"},
     days: [
       {d:"Sun 6 Sep", c:"☁️ › 🌤️ › ⛅", cm:"0 cm", lvl:"Above 1700-1800m", lk:"possible", w:"SW-S, strong", smk:"unlikely", conf:"firm"},
       {d:"Mon 7 Sep", c:"☁️ › 🌦️ › 🌤️", cm:"0 cm", lvl:"—", lk:"none", w:"SSW-SSE, strong", smk:"unlikely", conf:"firm"},
@@ -210,9 +210,9 @@ const M = {
     issued: "6 Sep 2026, 6:04 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "0.5°C",
+    liveTemp: "2.1°C",
     p5: "0 cm", p10: "0 cm", p15: "0 cm",
-    cond: {"auto":true,"source":"mthotham.com.au","sourceUrl":"https://www.mthotham.com.au/mountain/conditions/snow-reports","asAt":"Sun 6 September, 07:14AM","depthAsAt":null,"base":"2 cm","last24":"2 cm","last7":"2 cm","season":"160 cm","lifts":"See report","trails":"—","snowmaking":"—","note":"On-mountain now 0.7°C, wind 37 km/h S (WeatherZone) · Natural snow — 24 h 2 cm, 7 d 2 cm, season 160 cm, depth 2 cm."},
+    cond: {"auto":true,"source":"mthotham.com.au","sourceUrl":"https://www.mthotham.com.au/mountain/conditions/snow-reports","asAt":"Sun 6 September, 07:14AM","depthAsAt":null,"base":"2 cm","last24":"2 cm","last7":"2 cm","season":"160 cm","lifts":"See report","trails":"—","snowmaking":"—","note":"On-mountain now 2.2°C, wind 32 km/h S (WeatherZone) · Natural snow — 24 h 2 cm, 7 d 2 cm, season 160 cm, depth 2 cm."},
     days: [
       {d:"Sun 6 Sep", c:"☁️ › 🌤️ › ⛅", cm:"0 cm", lvl:"Above 1700-1800m", lk:"possible", w:"SW-S, strong", smk:"unlikely", conf:"firm"},
       {d:"Mon 7 Sep", c:"☁️ › 🌦️ › 🌤️", cm:"0 cm", lvl:"—", lk:"none", w:"SSW-SSE, strong", smk:"unlikely", conf:"firm"},
@@ -237,7 +237,7 @@ const M = {
     issued: "6 Sep 2026, 6:04 AM",
     stale: false,
     staleNote: "",
-    liveTemp: "1.4°C",
+    liveTemp: "2.8°C",
     p5: "0 cm", p10: "0 cm", p15: "0 cm",
     cond: {"auto":true,"source":"mtbuller.com.au","sourceUrl":"https://www.mtbuller.com.au/winter/snow-weather/snow-report","asAt":"Sunday 6th September 07:12am","depthAsAt":null,"base":"0 cm","last24":"0 cm","last7":"—","season":"25 cm <small>made</small>","lifts":"Poor","trails":"—","snowmaking":"—","note":"Resort cover: Poor. Average natural 0 cm on the ground; 25 cm machine-made (the 'made' figure, NOT snow currently on the ground). Snow last 24 h 0 cm; last snowfall 12 Aug 2026. Ski Patrol: Sunday 6th September 07:12am: A cool southwesterly wind to start off, with skies forecast to clear through the day. Live on-mountain temp/wind isn't exposed to an automated fetch; see Snowatch live temp above."},
     days: [
