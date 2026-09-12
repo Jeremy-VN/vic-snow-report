@@ -171,10 +171,10 @@ tr.past td { opacity: 0.45; }
 
 <script>
 const ISSUED_GLOBAL = "24 June 2026"; // build date
-const BUILT = "12 September 2026, 3:19 PM AEST";
-const CMP = {"falls":{"elev":"1770","days":[{"label":"Sat 12","sw":"0 cm","mw":0,"hi":12,"lo":1},{"label":"Sun 13","sw":"0 cm","mw":0,"hi":10,"lo":3},{"label":"Mon 14","sw":"0 cm","mw":0,"hi":9,"lo":1},{"label":"Tue 15","sw":"0 cm","mw":0,"hi":5,"lo":-5},{"label":"Wed 16","sw":"0 cm","mw":0,"hi":3,"lo":-4},{"label":"Thu 17","sw":"0 cm","mw":0,"hi":10,"lo":0},{"label":"Fri 18","sw":"0 cm","mw":0,"hi":10,"lo":2}],"mw7":0},"hotham":{"elev":"1850","days":[{"label":"Sat 12","sw":"0 cm","mw":0,"hi":11,"lo":0},{"label":"Sun 13","sw":"0 cm","mw":0,"hi":9,"lo":3},{"label":"Mon 14","sw":"0 cm","mw":0,"hi":9,"lo":0},{"label":"Tue 15","sw":"0 cm","mw":0.7,"hi":3,"lo":-6},{"label":"Wed 16","sw":"0 cm","mw":0.2,"hi":2,"lo":-6},{"label":"Thu 17","sw":"0 cm","mw":0,"hi":10,"lo":-1},{"label":"Fri 18","sw":"0 cm","mw":0,"hi":9,"lo":1}],"mw7":1},"buller":{"elev":"1710","days":[{"label":"Sat 12","sw":"0 cm","mw":0,"hi":12,"lo":1},{"label":"Sun 13","sw":"0 cm","mw":0,"hi":11,"lo":3},{"label":"Mon 14","sw":"0 cm","mw":0,"hi":9,"lo":0},{"label":"Tue 15","sw":"0 cm","mw":0.9,"hi":3,"lo":-4},{"label":"Wed 16","sw":"0 cm","mw":0.2,"hi":4,"lo":-5},{"label":"Thu 17","sw":"0 cm","mw":0,"hi":9,"lo":-2},{"label":"Fri 18","sw":"0 cm","mw":0,"hi":9,"lo":0}],"mw7":1}};  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
+const BUILT = "13 September 2026, 8:28 AM AEST";
+const CMP = {"falls":{"elev":"1770","days":[{"label":"Sun 13","sw":"0 cm","mw":0,"hi":11,"lo":3},{"label":"Mon 14","sw":"0 cm","mw":0,"hi":8,"lo":2},{"label":"Tue 15","sw":"0 cm","mw":0,"hi":6,"lo":-5},{"label":"Wed 16","sw":"0 cm","mw":0.2,"hi":2,"lo":-5},{"label":"Thu 17","sw":"0 cm","mw":0,"hi":9,"lo":0},{"label":"Fri 18","sw":"0 cm","mw":0,"hi":13,"lo":1},{"label":"Sat 19","sw":"0 cm","mw":0,"hi":13,"lo":2}],"mw7":0},"hotham":{"elev":"1850","days":[{"label":"Sun 13","sw":"0 cm","mw":0,"hi":10,"lo":3},{"label":"Mon 14","sw":"0 cm","mw":0,"hi":7,"lo":1},{"label":"Tue 15","sw":"0 cm","mw":0.9,"hi":5,"lo":-6},{"label":"Wed 16","sw":"0 cm","mw":0.4,"hi":0,"lo":-5},{"label":"Thu 17","sw":"0 cm","mw":0,"hi":9,"lo":-1},{"label":"Fri 18","sw":"0 cm","mw":0,"hi":11,"lo":1},{"label":"Sat 19","sw":"0 cm","mw":0,"hi":12,"lo":2}],"mw7":1},"buller":{"elev":"1710","days":[{"label":"Sun 13","sw":"0 cm","mw":0,"hi":12,"lo":4},{"label":"Mon 14","sw":"0 cm","mw":0,"hi":8,"lo":1},{"label":"Tue 15","sw":"0 cm","mw":1.1,"hi":4,"lo":-4},{"label":"Wed 16","sw":"0 cm","mw":0.3,"hi":2,"lo":-6},{"label":"Thu 17","sw":"0 cm","mw":0,"hi":9,"lo":-2},{"label":"Fri 18","sw":"0 cm","mw":0,"hi":11,"lo":-1},{"label":"Sat 19","sw":"0 cm","mw":0,"hi":12,"lo":2}],"mw7":1}};  // CMP — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action — Snowatch-vs-Mountainwatch strip; populated by the GitHub Action
 
-const SCORE = {"built":"12 Sept 2026","nAll":72,"swMaeAll":2.1,"mwMaeAll":2.4,"nSnow":18,"swMaeSnow":4.9,"mwMaeSnow":6,"events":[{"d":"3 Jul","a":14,"sw":10.5,"mw":25.8},{"d":"4 Jul","a":15,"sw":0,"mw":0},{"d":"12 Jul","a":14,"sw":9,"mw":25.3},{"d":"13 Jul","a":12,"sw":5,"mw":15.5},{"d":"15 Jul","a":1,"sw":0,"mw":0},{"d":"23 Jul","a":3,"sw":1.5,"mw":2},{"d":"24 Jul","a":3,"sw":0,"mw":0.9},{"d":"29 Jul","a":11,"sw":3.5,"mw":10.7},{"d":"30 Jul","a":6,"sw":0,"mw":0},{"d":"4 Aug","a":3,"sw":6,"mw":3.7},{"d":"5 Aug","a":6,"sw":3.5,"mw":3},{"d":"6 Aug","a":4,"sw":0,"mw":0.2},{"d":"7 Aug","a":2,"sw":0,"mw":0.8},{"d":"10 Aug","a":2,"sw":13.5,"mw":37.1},{"d":"11 Aug","a":10,"sw":1,"mw":3.1},{"d":"12 Aug","a":4,"sw":3,"mw":5.7},{"d":"13 Aug","a":3,"sw":0,"mw":0.3},{"d":"6 Sep","a":3,"sw":0,"mw":2.4}]};  // SCORE — Snowatch-vs-Mountainwatch accuracy scorecard; populated by the GitHub Action
+const SCORE = {"built":"13 Sept 2026","nAll":73,"swMaeAll":2,"mwMaeAll":2.3,"nSnow":18,"swMaeSnow":4.9,"mwMaeSnow":6,"events":[{"d":"3 Jul","a":14,"sw":10.5,"mw":25.8},{"d":"4 Jul","a":15,"sw":0,"mw":0},{"d":"12 Jul","a":14,"sw":9,"mw":25.3},{"d":"13 Jul","a":12,"sw":5,"mw":15.5},{"d":"15 Jul","a":1,"sw":0,"mw":0},{"d":"23 Jul","a":3,"sw":1.5,"mw":2},{"d":"24 Jul","a":3,"sw":0,"mw":0.9},{"d":"29 Jul","a":11,"sw":3.5,"mw":10.7},{"d":"30 Jul","a":6,"sw":0,"mw":0},{"d":"4 Aug","a":3,"sw":6,"mw":3.7},{"d":"5 Aug","a":6,"sw":3.5,"mw":3},{"d":"6 Aug","a":4,"sw":0,"mw":0.2},{"d":"7 Aug","a":2,"sw":0,"mw":0.8},{"d":"10 Aug","a":2,"sw":13.5,"mw":37.1},{"d":"11 Aug","a":10,"sw":1,"mw":3.1},{"d":"12 Aug","a":4,"sw":3,"mw":5.7},{"d":"13 Aug","a":3,"sw":0,"mw":0.3},{"d":"6 Sep","a":3,"sw":0,"mw":2.4}]};  // SCORE — Snowatch-vs-Mountainwatch accuracy scorecard; populated by the GitHub Action
 
 const M = {
   falls: {
@@ -182,17 +182,17 @@ const M = {
     sub: "Village 1600 m · Summit 1842 m · 14 lifts",
     issued: "7 Sep 2026, 7:31 AM",
     stale: true,
-    staleNote: "Snowatch last refreshed this forecast on 7 Sep 2026 — 5 days old. Elapsed days are dropped so the table starts on today's date. The conditions strip below shows each report's own date.",
-    liveTemp: "10°C",
+    staleNote: "Snowatch last refreshed this forecast on 7 Sep 2026 — 6 days old. Elapsed days are dropped so the table starts on today's date. The conditions strip below shows each report's own date.",
+    liveTemp: "4.6°C",
     p5: "0 cm", p10: "0 cm", p15: "0 cm",
-    cond: {"base":"8 cm","last24":"0 cm","last7":"3 cm","season":"164 cm","lifts":"0","snowmaking":"—","note":"Farewell to the 2026 winter season! And just like that, winter 2026 comes to a close at Falls Creek! A huge thank you to our staff and everyone who joined us on the mountain this season, from first turns and sunny laps to terrain park sessions, events and plenty of good times around the village. · On-mountain now 10.0°C, wind 17 km/h N (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Mon 07 September, 09:26AM"},
+    cond: {"base":"8 cm","last24":"0 cm","last7":"3 cm","season":"164 cm","lifts":"—","snowmaking":"—","note":"Farewell to the 2026 winter season! And just like that, winter 2026 comes to a close at Falls Creek! A huge thank you to our staff and everyone who joined us on the mountain this season, from first turns and sunny laps to terrain park sessions, events and plenty of good times around the village. · On-mountain now 4.7°C, wind 32 km/h N (WeatherZone)","source":"Falls Creek official report","sourceUrl":"https://www.skifalls.com.au/discover-falls-creek/conditions-maps/snow-weather-report","asAt":"Mon 07 September, 09:26AM"},
     days: [
       {d:"Mon 7 Sep", c:"☁️ › 🌦️ › 🌤️", cm:"0 cm", lvl:"—", lk:"none", w:"SSW-SSE, strong", smk:"unlikely", conf:"firm", past:true},
       {d:"Tue 8 Sep", c:"☀️ › ☀️ › 🌥️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-SSW, light", smk:"unlikely", conf:"firm", past:true},
       {d:"Wed 9 Sep", c:"🌨️ › 🌨️ › ☀️", cm:"0 cm", lvl:"Above 1600m", lk:"possible", w:"S, strong", smk:"unlikely", conf:"firm", past:true},
       {d:"Thu 10 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SSW-S, mod", smk:"unlikely", conf:"firm", past:true},
       {d:"Fri 11 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"S-SE, mod", smk:"unlikely", conf:"firm", past:true},
-      {d:"Sat 12 Sep", c:"☀️ › ☀️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"SE-NNW, light", smk:"unlikely", conf:"firm"},
+      {d:"Sat 12 Sep", c:"☀️ › ☀️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"SE-NNW, light", smk:"unlikely", conf:"firm", past:true},
       {d:"Sun 13 Sep", c:"☁️ › ☁️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NW, strong", smk:"unlikely", conf:"firm"},
       {d:"Mon 14 Sep", c:"🌦️ › 🌧️ › 🌤️", cm:"0 cm", lvl:"—", lk:"none", w:"SW-S, strong", smk:"unlikely", conf:"low"},
       {d:"Tue 15 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"", smk:"unlikely", conf:"low"},
@@ -209,17 +209,17 @@ const M = {
     sub: "Village 1750 m · Summit 1861 m · 13 lifts (incl. Dinner Plain)",
     issued: "7 Sep 2026, 7:31 AM",
     stale: true,
-    staleNote: "Snowatch last refreshed this forecast on 7 Sep 2026 — 5 days old. Elapsed days are dropped so the table starts on today's date. The conditions strip below shows each report's own date.",
-    liveTemp: "8.5°C",
+    staleNote: "Snowatch last refreshed this forecast on 7 Sep 2026 — 6 days old. Elapsed days are dropped so the table starts on today's date. The conditions strip below shows each report's own date.",
+    liveTemp: "4.6°C",
     p5: "0 cm", p10: "0 cm", p15: "0 cm",
-    cond: {"auto":true,"source":"mthotham.com.au","sourceUrl":"https://www.mthotham.com.au/mountain/conditions/snow-reports","asAt":"Sun 6 September, 07:14AM","depthAsAt":null,"base":"0 cm","last24":"0 cm","last7":"2 cm","season":"160 cm","lifts":"See report","trails":"—","snowmaking":"—","note":"On-mountain now 8.5°C, wind 22 km/h N (WeatherZone) · Natural snow — 24 h 0 cm, 7 d 2 cm, season 160 cm, depth 0 cm."},
+    cond: {"auto":true,"source":"mthotham.com.au","sourceUrl":"https://www.mthotham.com.au/mountain/conditions/snow-reports","asAt":"Sun 6 September, 07:14AM","depthAsAt":null,"base":"0 cm","last24":"0 cm","last7":"2 cm","season":"160 cm","lifts":"See report","trails":"—","snowmaking":"—","note":"On-mountain now 4.8°C, wind 44 km/h N (WeatherZone) · Natural snow — 24 h 0 cm, 7 d 2 cm, season 160 cm, depth 0 cm."},
     days: [
       {d:"Mon 7 Sep", c:"☁️ › 🌦️ › 🌤️", cm:"0 cm", lvl:"—", lk:"none", w:"SSW-SSE, strong", smk:"unlikely", conf:"firm", past:true},
       {d:"Tue 8 Sep", c:"☀️ › ☀️ › 🌥️", cm:"0 cm", lvl:"—", lk:"none", w:"NW-SSW, light", smk:"unlikely", conf:"firm", past:true},
       {d:"Wed 9 Sep", c:"🌨️ › 🌨️ › ☀️", cm:"0 cm", lvl:"Above 1600m", lk:"possible", w:"S, strong", smk:"unlikely", conf:"firm", past:true},
       {d:"Thu 10 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SSW-S, mod", smk:"unlikely", conf:"firm", past:true},
       {d:"Fri 11 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"S-SE, mod", smk:"unlikely", conf:"firm", past:true},
-      {d:"Sat 12 Sep", c:"☀️ › ☀️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"SE-NNW, light", smk:"unlikely", conf:"firm"},
+      {d:"Sat 12 Sep", c:"☀️ › ☀️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"SE-NNW, light", smk:"unlikely", conf:"firm", past:true},
       {d:"Sun 13 Sep", c:"☁️ › ☁️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NW, strong", smk:"unlikely", conf:"firm"},
       {d:"Mon 14 Sep", c:"🌦️ › 🌧️ › 🌤️", cm:"0 cm", lvl:"—", lk:"none", w:"SW-S, strong", smk:"unlikely", conf:"low"},
       {d:"Tue 15 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"", smk:"unlikely", conf:"low"},
@@ -236,8 +236,8 @@ const M = {
     sub: "Village 1600 m · Summit 1805 m · 22 lifts",
     issued: "7 Sep 2026, 7:31 AM",
     stale: true,
-    staleNote: "Snowatch last refreshed this forecast on 7 Sep 2026 — 5 days old. Elapsed days are dropped so the table starts on today's date. The conditions strip below shows each report's own date.",
-    liveTemp: "9.5°C",
+    staleNote: "Snowatch last refreshed this forecast on 7 Sep 2026 — 6 days old. Elapsed days are dropped so the table starts on today's date. The conditions strip below shows each report's own date.",
+    liveTemp: "6.3°C",
     p5: "0 cm", p10: "0 cm", p15: "0 cm",
     cond: {"auto":true,"source":"mtbuller.com.au","sourceUrl":"https://www.mtbuller.com.au/winter/snow-weather/snow-report","asAt":"Sunday 6th September 07:12am","depthAsAt":null,"base":"0 cm","last24":"0 cm","last7":"—","season":"5 cm <small>made</small>","lifts":"Patchy","trails":"—","snowmaking":"—","note":"Resort cover: Patchy. Average natural 0 cm on the ground; 5 cm machine-made (the 'made' figure, NOT snow currently on the ground). Snow last 24 h 0 cm; last snowfall 12 Aug 2026. Ski Patrol: Sunday 6th September 07:12am: A cool southwesterly wind to start off, with skies forecast to clear through the day. Live on-mountain temp/wind isn't exposed to an automated fetch; see Snowatch live temp above."},
     days: [
@@ -246,7 +246,7 @@ const M = {
       {d:"Wed 9 Sep", c:"☁️ › 🌤️ › ⛅", cm:"0 cm", lvl:"Above 1600m", lk:"possible", w:"S, strong", smk:"unlikely", conf:"firm", past:true},
       {d:"Thu 10 Sep", c:"⛅ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"SSW-S, mod", smk:"unlikely", conf:"firm", past:true},
       {d:"Fri 11 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"S-SE, mod", smk:"unlikely", conf:"firm", past:true},
-      {d:"Sat 12 Sep", c:"☀️ › ☀️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"SE-NNW, light", smk:"unlikely", conf:"firm"},
+      {d:"Sat 12 Sep", c:"☀️ › ☀️ › ☁️", cm:"0 cm", lvl:"—", lk:"none", w:"SE-NNW, light", smk:"unlikely", conf:"firm", past:true},
       {d:"Sun 13 Sep", c:"☁️ › ☁️ › 🌦️", cm:"0 cm", lvl:"—", lk:"none", w:"NNW-NW, strong", smk:"unlikely", conf:"firm"},
       {d:"Mon 14 Sep", c:"🌧️ › 🌦️ › 🌤️", cm:"0 cm", lvl:"—", lk:"none", w:"SW-S, strong", smk:"unlikely", conf:"low"},
       {d:"Tue 15 Sep", c:"☀️ › ☀️ › ☀️", cm:"0 cm", lvl:"—", lk:"none", w:"", smk:"unlikely", conf:"low"},
