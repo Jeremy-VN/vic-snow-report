@@ -2593,11 +2593,10 @@
  },
  {
   "date": "2026-09-19",
-  "issued": "18 Sep 2026, 6:42 AM",
+  "issued": "19 Sep 2026, 9:53 AM",
   "actual24h": 0,
   "mw7": 0,
   "swDaily": {
-   "Fri 18 Sep": "0 cm",
    "Sat 19 Sep": "0 cm",
    "Sun 20 Sep": "0 cm",
    "Mon 21 Sep": "0 cm",
@@ -2611,7 +2610,8 @@
    "Tue 29 Sep": "0 cm",
    "Wed 30 Sep": "0 cm",
    "Thu 1 Oct": "0 cm",
-   "Fri 2 Oct": "0 cm"
+   "Fri 2 Oct": "0 cm",
+   "Sat 3 Oct": "0 cm"
   },
   "mwDaily": {
    "Sat 19": 0,
