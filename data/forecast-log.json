@@ -3806,5 +3806,37 @@
    "Sat 30": 0,
    "Sun 31": 0
   }
+ },
+ {
+  "date": "2026-10-27",
+  "issued": "25 Sep 2026, 6:47 AM",
+  "actual24h": 0,
+  "mw7": 0,
+  "swDaily": {
+   "Fri 25 Sep": "0 cm",
+   "Sat 26 Sep": "0 cm",
+   "Sun 27 Sep": "0 cm",
+   "Mon 28 Sep": "0 cm",
+   "Tue 29 Sep": "0 cm",
+   "Wed 30 Sep": "0 cm",
+   "Thu 1 Oct": "0 cm",
+   "Fri 2 Oct": "0 cm",
+   "Sat 3 Oct": "0 cm",
+   "Sun 4 Oct": "0 cm",
+   "Mon 5 Oct": "0 cm",
+   "Tue 6 Oct": "0 cm",
+   "Wed 7 Oct": "0 cm",
+   "Thu 8 Oct": "0 cm",
+   "Fri 9 Oct": "0 cm"
+  },
+  "mwDaily": {
+   "Tue 26": 0,
+   "Wed 27": 0.2,
+   "Thu 28": 0,
+   "Fri 29": 0,
+   "Sat 30": 0,
+   "Sun 31": 0,
+   "Mon 1": 0
+  }
  }
 ]
