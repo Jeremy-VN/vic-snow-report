@@ -3939,7 +3939,7 @@
   "date": "2026-10-31",
   "issued": "25 Sep 2026, 6:47 AM",
   "actual24h": 0,
-  "mw7": 3,
+  "mw7": 8,
   "swDaily": {
    "Fri 25 Sep": "0 cm",
    "Sat 26 Sep": "0 cm",
@@ -3963,7 +3963,7 @@
    "Mon 1": 0,
    "Tue 2": 0,
    "Wed 3": 0,
-   "Thu 4": 3.4,
+   "Thu 4": 7.8,
    "Fri 5": 0
   }
  }
